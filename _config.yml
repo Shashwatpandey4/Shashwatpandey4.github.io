@@ -21,12 +21,12 @@ timezone:
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy                          # the main title
+title: Shashwat Pandey                          # the main title
 
-tagline: A text-focused Jekyll theme   # it will display as the sub-title
+tagline:    # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-  A minimal, responsive, and powerful Jekyll theme for presenting professional writing.
+  
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: 'https://shashwatpandey4.github.io/'
@@ -73,7 +73,7 @@ google_analytics:
 #     light  - Use the light color scheme
 #     dark   - Use the dark color scheme
 #
-theme_mode:   # [light|dark]
+theme_mode:  [dark] # [light|dark]
 
 # The CDN endpoint for images.
 # Notice that once it is assigned, the CDN url
