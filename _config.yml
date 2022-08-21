@@ -23,7 +23,7 @@ timezone: Asia/Kolkata
 
 title: Shashwat Pandey                          # the main title
 
-tagline: Learning ...   # it will display as the sub-title
+tagline: # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   
@@ -40,7 +40,7 @@ twitter:
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: Shashwat_pandey
+  name: Shashwat Pandey
   email: shashwatpandeym.v@gmail.com             # change to your email address
   links:
     # The first element serves as the copyright owner's link
