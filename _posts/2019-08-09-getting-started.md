@@ -150,7 +150,7 @@ Unless you specified the output path, the generated site files will be placed in
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<div id="my-plot"></div>
+<div id="my-plot">a</div>
 
 <script>
   // JavaScript code to create Plotly visualization
