@@ -145,3 +145,26 @@ Unless you specified the output path, the generated site files will be placed in
 [starter]: https://github.com/cotes2020/chirpy-starter
 [pages-workflow-src]: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
 [latest-tag]: https://github.com/cotes2020/jekyll-theme-chirpy/tags
+
+
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<div id="my-plot"></div>
+
+<script>
+  // JavaScript code to create Plotly visualization
+  var data = [{
+    x: [1, 2, 3, 4, 5],
+    y: [1, 4, 9, 16, 25],
+    type: 'scatter'
+  }];
+  
+  var layout = {
+    title: 'My Plot',
+    xaxis: { title: 'X-axis' },
+    yaxis: { title: 'Y-axis' }
+  };
+  
+  Plotly.newPlot('my-plot', data, layout);
+</script>
