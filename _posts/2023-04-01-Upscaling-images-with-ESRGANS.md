@@ -8,6 +8,6 @@ pin: true
 math: true
 mermaid: true
 image:
-  path: assets/img/esrgan_output.png
+  path: /assets/img/esrgan_output.png
   
 ---
