@@ -8,7 +8,7 @@ pin: true
 math: true
 mermaid: true
 image:
-  path: /assets/img/hr/6.png
+  path: /assets/img/hr/2.png
   
 ---
 
