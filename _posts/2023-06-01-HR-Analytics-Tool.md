@@ -95,7 +95,7 @@ I won't spend much time fine-tuning these models, but as long as we get a fairly
 
 ![](/assets/img/hr/8.png)
 
-# Implementing SMOTE¶
+# Implementing SMOTE
 SMOTE is a technique that helps deal with imbalanced data sets.
 
 A great introductory article can be found here:
