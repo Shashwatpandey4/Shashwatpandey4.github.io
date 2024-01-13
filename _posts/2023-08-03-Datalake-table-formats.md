@@ -26,7 +26,7 @@ Data lakes and their associated table formats have become a necessity due to the
 
 ## Key Features Comparison of these Table Formats
 
-![](/assets/img/keyfeat.png)
+![Data Lake table formats](/assets/img/keyfeat.png )
 
 <br>
 
