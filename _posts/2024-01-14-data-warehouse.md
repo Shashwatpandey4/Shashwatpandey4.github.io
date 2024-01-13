@@ -8,7 +8,7 @@ pin: true
 math: true
 mermaid: true
 image:
-  path: /assets/img/datawarehouse.jpg
+  path: /assets/img/datawarehouse.jpeg
 ---
 
 # Data Warehousing
