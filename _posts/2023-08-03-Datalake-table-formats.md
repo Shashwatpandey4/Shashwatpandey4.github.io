@@ -8,7 +8,7 @@ pin: true
 math: true
 mermaid: true
 image:
-  path: /assets/img/tableformats.png
+  path: /assets/img/tableformat.png
   
 ---
 
