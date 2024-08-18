@@ -4,8 +4,7 @@ author: Shashwat Pandey
 date: 2024-08-17 17:00:00 +0800
 categories: [Network, Security]
 tags: [Data Engineering, SSH, GCP]
-image:
-  path: /assets/img/ssh.png
+
 ---
 
 
