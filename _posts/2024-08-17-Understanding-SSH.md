@@ -79,20 +79,20 @@ see below :
 
 - first let's give a name to our VM
 
-![](/assets/img/vm_1.png)
+![alt](/assets/img/vm_1.png)
 
 - now we'll select the machine type, i'm going with micro, just for demonstration purposes. 
 
-![](/assets/img/vm_2.png)
+![alt](/assets/img/vm_2.png)
 
 - Now in the securities tab, add your ssh key, remember to add `id_rsa.pub`
 
-![](/assets/img/vm_3.png)
+![alt](/assets/img/vm_3.png)
 
 
 now hit the create button, within few minutes our vm will be up and running
 
-![](/assets/img/vm_4.png)
+![alt](/assets/img/vm_4.png)
 
 
 now let's test our connection, to do that we will use the following command in our local terminal :
@@ -103,11 +103,11 @@ ssh user@external_ip
 
 now if you'' see we have established the connection with our vm
 
-![](/assets/img/ssh_1.png)
+![alt](/assets/img/ssh_1.png)
 
 also if you wish to open the VM's terminal you can do that here :
 
-![](/assets/img/ssh_2.png)
+![alt](/assets/img/ssh_2.png)
 
 
 ### Secure Data Transfer
@@ -121,7 +121,7 @@ In this step, we'll securely transfer data from our local machine to the remote 
     scp Desktop/Shashwat/ssh.md shashwat002347@34.94.213.73:~
     ```
 
-    ![](/assets/img/scp_1.png)
+    ![alt](/assets/img/scp_1.png)
 
     You can also transfer entire directories using the -r (recursive) option with SCP.
 
@@ -148,7 +148,7 @@ In this step, we'll cover three types of SSH tunneling:
 
     Suppose you have a Jupyter Notebook server running on the remote server at http://localhost:8888, and you want to access it on your local machine at http://localhost:8888.
 
-    ![](/assets/img/localport_forwarding_1.png)
+    ![alt](/assets/img/localport_forwarding_1.png)
 
     in the above image, on the left terminal if you'll see, I've ssh into the vm and started the jupyter notebook server without opening a browser, on port 8888
 
@@ -172,7 +172,7 @@ In this step, we'll cover three types of SSH tunneling:
     
     This will securely forward traffic to the remote Jupyter Notebook server.
 
-    ![](/assets/img/localport_forwarding_2.png)
+    ![alt](/assets/img/localport_forwarding_2.png)
 
     ----
 
