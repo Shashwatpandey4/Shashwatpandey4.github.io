@@ -1,18 +1,17 @@
 ---
 layout: default
 ---
+<div class="container">
+  <article class="post">
+    <h1 class="post-title">{{ page.title }}</h1>
+    <p class="post-meta">{{ page.date | date: "%B %d, %Y" }}</p>
 
-<article class="post">
-  <h1>{{ blog.title }}</h1>
-  <p class="post-meta">
-    Posted on {{ blog.date | date: "%B %d, %Y" }}
-  </p>
+    <div class="post-content">
+      {{ content }}
+    </div>
 
-  <div class="post-content">
-    {{ content }}
-  </div>
-
-  <footer>
-    <p>&copy; {{ site.year }} {{ site.title }}</p>
-  </footer>
-</article>
+    {% if site.disqus.shortname %}
+      {% include disqus_comments.html %}
+    {% endif %}
+  </article>
+</div>
