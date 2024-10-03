@@ -1,4 +1,56 @@
 ---
-layout: home
-# Index page
+layout: default
 ---
+
+<div class="home">
+  <img src="{{ '/assets/images/avatar.jpg' | relative_url }}" alt="{{ site.title }}" class="avatar">
+  <h1>{{ site.title }}</h1>
+  
+  <p class="about-me">"Passionate data scientist and machine learning enthusiast. Always exploring new technologies and seeking innovative solutions to complex problems."</p>
+  
+  <div class="social-links">
+    <a href="https://www.kaggle.com/yourusername" target="_blank" rel="noopener noreferrer">Kaggle</a>
+    <a href="https://www.linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="mailto:{{ site.email }}">Email</a>
+    <a href="https://twitter.com/{{ site.twitter_username }}" target="_blank" rel="noopener noreferrer">Twitter</a>
+    <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://scholar.google.com/citations?user=your-id" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+  </div>
+
+  <section>
+    <h2>Latest Blog Posts</h2>
+    <ul class="post-list">
+      {% for post in site.posts limit:5 %}
+        <li>
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <a href="{{ '/blog.html' | relative_url }}" class="see-more">See More</a>
+  </section>
+
+  <section>
+    <h2>Featured Projects</h2>
+    <ul class="project-list">
+      {% for project in site.projects limit:5 %}
+        <li class="project-item">
+          <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" class="project-image">
+          <a href="{{ project.url | relative_url }}">{{ project.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <a href="{{ '/projects.html' | relative_url }}" class="see-more">See More</a>
+  </section>
+
+  <section>
+    <h2>Research Interests</h2>
+    <ul class="research-list">
+      {% for research in site.research limit:5 %}
+        <li>
+          <a href="{{ research.url | relative_url }}">{{ research.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <a href="{{ '/research.html' | relative_url }}" class="see-more">See More</a>
+  </section>
+</div>
