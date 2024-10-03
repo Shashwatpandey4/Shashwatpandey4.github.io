@@ -80,6 +80,7 @@ a::before {
     position: absolute;
     left: 0;
     color: #0066cc;
+    gap: 5px;
 }
 
 .project-item {
@@ -190,8 +191,7 @@ a::before {
   }
   
   .see-more:hover {
-    background-color: #004080;
-    text-decoration: none;
+    text-decoration: underline;
   }
   
   .see-more::before {
