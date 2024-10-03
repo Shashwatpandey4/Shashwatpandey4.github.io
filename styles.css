@@ -119,7 +119,7 @@ a::before {
     display: block;
     text-align: center;
     margin-top: 20px;
-    font-weight: bold;
+    
 }
 
 .see-more::before {
