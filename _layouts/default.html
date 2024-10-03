@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} - {{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
+</head>
+<body>
+  <header>
+    <h1>{{ site.title }}</h1>
+    <nav>
+      <ul>
+        <li><a href="{{ '/' | relative_url }}">Home</a></li>
+        <li><a href="{{ '/blog.html' | relative_url }}">Blog</a></li>
+        <li><a href="{{ '/projects.html' | relative_url }}">Projects</a></li>
+        <li><a href="{{ '/research.html' | relative_url }}">Research</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    {{ content }} <!-- This is where the content of individual pages will be inserted -->
+  </main>
+
+  <footer>
+    <p>&copy; {{ site.year }} {{ site.title }}. All rights reserved.</p>
+  </footer>
+</body>
+</html>
