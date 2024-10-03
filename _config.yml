@@ -1,9 +1,10 @@
+# Site settings
 title: Shashwat Pandey
 email: your.email@example.com
 description: >-
-  Personal website of Your Name - Data Scientist and Machine Learning Enthusiast
-baseurl: ""
-url: "https://yourusername.github.io"
+  Your site description here.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: yourtwitterhandle
 github_username:  yourgithubhandle
 
@@ -13,8 +14,26 @@ theme: minima
 plugins:
   - jekyll-feed
 
+# Collections
 collections:
-  projects:
+  posts:
     output: true
-  research:
-    output: true
+    permalink: /blog/:year/:month/:day/:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/

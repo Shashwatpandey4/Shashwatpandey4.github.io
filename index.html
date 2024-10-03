@@ -19,14 +19,15 @@ layout: default
 
   <section>
     <h2>Blog Posts</h2>
-    <ul class="post-list">
-      {% for post in site.posts limit:5 %}
+    <ul>
+      {% for post in site.posts limit:3 %}
         <li>
           <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
         </li>
       {% endfor %}
     </ul>
-    <a href="{{ '/blog.html' | relative_url }}" class="post-list">See More</a>
+    <a href="{{ '/blog.html' | relative_url }}" class="see-more">See More</a>
   </section>
   
 
