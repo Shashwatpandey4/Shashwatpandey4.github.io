@@ -30,12 +30,11 @@ layout: default
     <a href="{{ '/blog.html' | relative_url }}" class="see-more">See More</a>
   </section>
   
-
   <section>
     <h2>Projects</h2>
-    <ul class="project-list">
-      {% for project in site.projects limit:5 %}
-        <li class="project-item">
+    <ul>
+      {% for project in site.data.projects limit:3 %}
+        <li>
           <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" class="project-image">
           <a href="{{ project.url | relative_url }}">{{ project.title }}</a>
         </li>
@@ -43,14 +42,12 @@ layout: default
     </ul>
     <a href="{{ '/projects.html' | relative_url }}" class="see-more">See More</a>
   </section>
-
+  
   <section>
     <h2>Research Interests</h2>
-    <ul class="research-list">
-      {% for research in site.research limit:5 %}
-        <li>
-          <a href="{{ research.url | relative_url }}">{{ research.title }}</a>
-        </li>
+    <ul>
+      {% for research in site.data.research limit:3 %}
+        <li><a href="{{ research.url | relative_url }}">{{ research.title }}</a></li>
       {% endfor %}
     </ul>
     <a href="{{ '/research.html' | relative_url }}" class="see-more">See More</a>
