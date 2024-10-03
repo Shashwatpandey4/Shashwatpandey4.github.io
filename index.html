@@ -22,7 +22,7 @@ layout: default
     <ul class="post-list">
       {% for post in site.blog limit:5 %}
         <li>
-          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <a href="{{ blog.url | relative_url }}">{{ blog.title }}</a>
         </li>
       {% endfor %}
     </ul>
