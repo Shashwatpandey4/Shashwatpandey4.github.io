@@ -47,7 +47,7 @@ layout: default
   <section>
     <h2>Research Interests</h2>
     <ul>
-      {% for research in site.data.research limit:5 %}
+      {% for research in site.research limit:5 %}
         <li><a href="{{ research.url | relative_url }}">{{ research.title }}</a></li>
       {% endfor %}
     </ul>

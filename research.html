@@ -8,13 +8,10 @@ title: Research Interests
   <ul class="post-list">
     {% for post in site.research %}
       <li>
-        <h2><a href="{{ research.url | relative_url }}">{{ research.title }}</a></h2>
-        <p class="post-meta">{{ research.date | date: "%b %-d, %Y" }}</p>
-        <p>{{ research.excerpt }}</p>
+        <h2><a href="{{ research.url | relative_url }}">{{ post.title }}</a></h2>
+        <p class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</p>
+        <p>{{ post.excerpt }}</p>
       </li>
     {% endfor %}
   </ul>
 </div>
-
-<!-- Create similar files for projects.html and research.html, 
-     replacing 'site.posts' with 'site.projects' or 'site.research' respectively -->
