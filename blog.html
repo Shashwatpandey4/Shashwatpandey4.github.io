@@ -10,11 +10,9 @@ title: Blog Posts
     <ul class="post-list">
       {% for post in site.posts %}
         <li>
-          <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-          <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}</p>
-          {% if post.description %}
-            <p class="post-description">{{ post.description }}</p>
-          {% endif %}
+          <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+            <span class="circle"></span>
+            <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
         </li>
       {% endfor %}
     </ul>

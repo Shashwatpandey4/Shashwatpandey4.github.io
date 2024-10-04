@@ -302,3 +302,12 @@ a::before {
       font-size: 1.8em;
     }
   }
+
+  .circle {
+    width: 4px;
+    height: 4px;
+    background-color: #666;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 10px;
+  }
