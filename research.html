@@ -3,15 +3,17 @@ layout: default
 title: Research Interests
 ---
 
-<div class="blog-posts">
-  <h1>{{ research.title }}</h1>
-  <ul class="post-list">
-    {% for post in site.research %}
+<div class="container"></div>
+  <div class="blog-list">
+    <h1>{{ research.title }}</h1>
+
+    <ul class="post-list">
+      {% for post in site.research %}
       <li>
-        <h2><a href="{{ research.url | relative_url }}">{{ post.title }}</a></h2>
-        <p class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</p>
-        <p>{{ post.excerpt }}</p>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
       </li>
-    {% endfor %}
-  </ul>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
