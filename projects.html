@@ -11,7 +11,7 @@ title: Projects
       {% for post in site.projects %}
       <li>
         <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="project-image">
-        <a href="{{ post.url | relative_url }}" class="project-name">{{ project.title }}</a>
+        <a href="{{ post.url | relative_url }}" class="project-name">{{ post.title }}</a>
       </li>
       {% endfor %}
     </ul>
