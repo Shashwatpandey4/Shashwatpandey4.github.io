@@ -9,13 +9,38 @@ layout: default
   <p class="about-me">"Passionate data scientist and machine learning enthusiast. Always exploring new technologies and seeking innovative solutions to complex problems."</p>
   
   <div class="social-links">
-    <a href="https://www.kaggle.com/yourusername" target="_blank" rel="noopener noreferrer">Kaggle</a>
-    <a href="https://www.linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="https://www.kaggle.com/shashwat90" target="_blank" rel="noopener noreferrer">Kaggle</a>
+    <a href="https://www.linkedin.com/in/shashwat023" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     <a href="mailto:{{ site.email }}">Email</a>
-    <a href="https://twitter.com/{{ site.twitter_username }}" target="_blank" rel="noopener noreferrer">Twitter</a>
+    <a href="https://x.com/{{ site.twitter_username }}" target="_blank" rel="noopener noreferrer">Twitter</a>
     <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener noreferrer">GitHub</a>
     <a href="https://scholar.google.com/citations?user=your-id" target="_blank" rel="noopener noreferrer">Google Scholar</a>
   </div>
+
+  <section>
+    <h2>Research Interests</h2>
+    <ul>
+      {% for research in site.research limit:5 %}
+        <li><a href="{{ research.url | relative_url }}" >{{ research.title }}</a></li>
+      {% endfor %}
+    </ul>
+    <br>
+    <a href="{{ '/research.html' | relative_url }}" class="see-more">See More</a>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+    <ul>
+      {% for project in site.projects limit:5 %}
+        <li>
+          <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" class="project-image">
+          <a href="{{ project.url | relative_url }}" class="project-name">{{ project.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <br>
+    <a href="{{ '/projects.html' | relative_url }}" class="see-more">See More</a>
+  </section>
 
   <section>
     <h2>Blog Posts</h2>
@@ -31,31 +56,6 @@ layout: default
     <a href="{{ '/blog.html' | relative_url }}" class="see-more">See More</a>
   </section>
   
-  <section>
-    <h2>Projects</h2>
-    <ul>
-      {% for project in site.projects limit:5 %}
-        <li>
-          <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" class="project-image">
-          <a href="{{ project.url | relative_url }}" class="project-name">{{ project.title }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-    <br>
-    <a href="{{ '/projects.html' | relative_url }}" class="see-more">See More</a>
-  </section>
-  
-  <section>
-    <h2>Research Interests</h2>
-    <ul>
-      {% for research in site.research limit:5 %}
-        <li><a href="{{ research.url | relative_url }}" >{{ research.title }}</a></li>
-      {% endfor %}
-    </ul>
-    <br>
-    <a href="{{ '/research.html' | relative_url }}" class="see-more">See More</a>
-  </section>
-
   <hr>
 
   <section>

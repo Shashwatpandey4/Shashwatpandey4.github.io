@@ -1,12 +1,12 @@
 # Site settings
 title: Shashwat Pandey
-email: your.email@example.com
+email: shashwatpandeym.v@gmail.com
 description: >-
   Your site description here.
 baseurl: "" 
 url: "" 
-twitter_username: yourtwitterhandle
-github_username:  yourgithubhandle
+twitter_username: shashwat023
+github_username:  Shashwatpandey4
 
 # Build settings
 markdown: kramdown
@@ -25,7 +25,7 @@ collections:
   projects:
     output: true
     permalink: /projects/:title/
-    
+
 # Defaults
 defaults:
   - scope:
