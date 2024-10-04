@@ -57,7 +57,7 @@ ul {
     list-style-type: none;
     padding: 0;
     display: inline-block;
-    text-align: left;
+    text-align: center;
 }
 
 li {
@@ -88,9 +88,14 @@ a::before {
     justify-content: center;
 }
 
+.project-name {
+    bottom: 35px;
+    left: 15px;
+}
+
 .project-image {
-    width: 100px;
-    height: 100px;
+    width: 10%;
+    height: 10%;
     object-fit: cover;
     border-radius: 5px;
 }
@@ -111,6 +116,10 @@ a::before {
         width: 100%;
         height: auto;
         max-height: 200px;
+    }
+    .project-name {
+        bottom: 0px;
+        left: 0px;
     }
 }
 
