@@ -10,8 +10,8 @@ title: Projects
     <ul class="post-list">
       {% for post in site.projects %}
       <li>
-        <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" class="project-image">
-        <a href="{{ project.url | relative_url }}" class="project-name">{{ project.title }}</a>
+        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="project-image">
+        <a href="{{ post.url | relative_url }}" class="project-name">{{ project.title }}</a>
       </li>
       {% endfor %}
     </ul>
