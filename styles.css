@@ -68,7 +68,7 @@ a {
     color: #0066cc;
     text-decoration: none;
     position: relative;
-    padding-left: 20px;
+
 }
 
 a:hover {
@@ -76,8 +76,6 @@ a:hover {
 }
 
 a::before {
-    content: '→';
-    position: absolute;
     left: 0;
     color: #0066cc;
     gap: 5px;
