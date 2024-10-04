@@ -37,7 +37,7 @@ layout: default
       {% for project in site.projects limit:5 %}
         <li>
           <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" class="project-image">
-          <a href="{{ project.url | relative_url }}">{{ project.title }}</a>
+          <a href="{{ project.url | relative_url }}" class="project-name">{{ project.title }}</a>
         </li>
       {% endfor %}
     </ul>
@@ -49,7 +49,7 @@ layout: default
     <h2>Research Interests</h2>
     <ul>
       {% for research in site.research limit:5 %}
-        <li><a href="{{ research.url | relative_url }}" class="project-name">{{ research.title }}</a></li>
+        <li><a href="{{ research.url | relative_url }}" >{{ research.title }}</a></li>
       {% endfor %}
     </ul>
     <br>
