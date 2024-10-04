@@ -1,20 +1,19 @@
 ---
 layout: default
-title: Blog Posts
+title: Projects 
 ---
 
-<div class="blog-posts">
-  <h1>{{ page.title }}</h1>
-  <ul class="post-list">
-    {% for post in site.projects %}
-      <li>
-        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <p class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</p>
-        <p>{{ post.excerpt }}</p>
-      </li>
-    {% endfor %}
-  </ul>
-</div>
+<div class="container"></div>
+  <div class="blog-list">
+    <h1>{{ projects.title }}</h1>
 
-<!-- Create similar files for projects.html and research.html, 
-     replacing 'site.posts' with 'site.projects' or 'site.research' respectively -->
+    <ul class="post-list">
+      {% for post in site.projects %}
+      <li>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

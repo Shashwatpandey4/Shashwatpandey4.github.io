@@ -22,7 +22,10 @@ collections:
   research:
     output: true
     permalink: /research/:title/
-
+  projects:
+    output: true
+    permalink: /projects/:title/
+    
 # Defaults
 defaults:
   - scope:

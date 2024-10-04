@@ -34,7 +34,7 @@ layout: default
   <section>
     <h2>Projects</h2>
     <ul>
-      {% for project in site.data.projects limit:5 %}
+      {% for project in site.projects limit:5 %}
         <li>
           <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" class="project-image">
           <a href="{{ project.url | relative_url }}">{{ project.title }}</a>
