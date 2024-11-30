@@ -6,15 +6,15 @@ layout: default
   <img src="{{ '/images/avatar.jpg' | relative_url }}" alt="{{ site.title }}" class="avatar">
   <h1>{{ site.title }}</h1>
   
-  <p class="about-me">"Passionate data scientist and machine learning enthusiast. Always exploring new technologies and seeking innovative solutions to complex problems."</p>
+  <p class="about-me">"Hi I'm Shashwat Pandey, currently a grad student @ ASU, I've worked 2 years as a data engineer @ Novo Nordisk & Zocket Tech. recalibrating towards my core Interests i.e. Machine learing here @ ASU"</p>
   
   <div class="social-links">
-    <a href="https://www.kaggle.com/shashwat90" target="_blank" rel="noopener noreferrer">Kaggle</a>
+     <!----<a href="https://www.kaggle.com/shashwat90" target="_blank" rel="noopener noreferrer">Kaggle</a>-->
     <a href="https://www.linkedin.com/in/shashwat023" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     <a href="mailto:{{ site.email }}">Email</a>
     <a href="https://x.com/{{ site.twitter_username }}" target="_blank" rel="noopener noreferrer">Twitter</a>
     <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener noreferrer">GitHub</a>
-    <a href="https://scholar.google.com/citations?user=your-id" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+    <!----<a href="https://scholar.google.com/citations?user=your-id" target="_blank" rel="noopener noreferrer">Google Scholar</a>-->
   </div>
 <!------------------------------------
   <section>
@@ -29,20 +29,6 @@ layout: default
   </section>
 ---------------------------------->
   <section>
-    <h2>Projects</h2>
-    <ul>
-      {% for project in site.projects limit:5 %}
-        <li>
-          <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" class="project-image">
-          <a href="{{ project.url | relative_url }}" class="project-name">{{ project.title }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-    <br>
-    <a href="{{ '/projects.html' | relative_url }}" class="see-more">See More</a>
-  </section>
-
-  <section>
     <h2>Blog Posts</h2>
     <ul>
       {% for post in site.posts limit:5 %}
@@ -55,7 +41,21 @@ layout: default
     <br>
     <a href="{{ '/blog.html' | relative_url }}" class="see-more">See More</a>
   </section>
-  
+  <!-----
+  <section>
+    <h2>Projects</h2>
+    <ul>
+      {% for project in site.projects limit:5 %}
+        <li>
+          <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" class="project-image">
+          <a href="{{ project.url | relative_url }}" class="project-name">{{ project.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <br>
+    <a href="{{ '/projects.html' | relative_url }}" class="see-more">See More</a>
+  </section>
+-->
   <hr>
 
   <section>
