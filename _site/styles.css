@@ -12,7 +12,6 @@ body {
   margin: 0 auto;
   padding: 20px;
   background-color: #fff;
-
 }
 
 .avatar {
@@ -69,18 +68,10 @@ li {
 a {
   color: #0066cc;
   text-decoration: none;
-  position: relative;
-
 }
 
 a:hover {
   text-decoration: underline;
-}
-
-a::before {
-  left: 0;
-  color: #0066cc;
-  gap: 5px;
 }
 
 .project-item {
@@ -90,11 +81,6 @@ a::before {
   justify-content: center;
 }
 
-.project-name {
-  bottom: 25px;
-  left: 15px;
-}
-
 .project-image {
   width: 10%;
   height: 10%;
@@ -102,48 +88,7 @@ a::before {
   border-radius: 5px;
 }
 
-@media (max-width: 600px) {
-  .container {
-    padding: 10px;
-  }
-
-  .avatar {
-    width: 100px;
-    height: 100px;
-  }
-
-  .project-item {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .project-image {
-    width: 100%;
-    height: auto;
-    max-height: 200px;
-  }
-
-  .project-name {
-    bottom: 0px;
-    left: 0px;
-  }
-}
-
-.see-more {
-  display: block;
-  text-align: center;
-  margin-top: 20px;
-
-}
-
-.see-more::before {
-  content: none;
-}
-
-
-/* Blog list styles */
 .blog-list {
-  text-align: center;
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -159,29 +104,6 @@ a::before {
   padding: 0;
 }
 
-.post-list li {
-  margin-bottom: 30px;
-
-}
-
-.post-list li:last-child {
-  border-bottom: none;
-}
-
-.post-list h2 {
-  margin-bottom: 10px;
-}
-
-.post-list h2 a {
-  color: #0066cc;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.post-list h2 a:hover {
-  color: #004080;
-}
-
 .post-meta {
   font-size: 0.9em;
   color: #666;
@@ -193,59 +115,22 @@ a::before {
   line-height: 1.6;
 }
 
-/* Ensure all "See More" links have the same style */
 .see-more {
   display: inline-block;
   margin-top: 20px;
   color: #0066cc;
-  transition: background-color 0.3s ease;
   text-decoration: none;
 }
 
-.see-more:hover {
-  text-decoration: underline;
-}
-
-.see-more::before {
-  content: none;
-}
-
-/* Center align section titles */
-section h2 {
-  text-align: center;
-  font-weight: normal;
-  margin: 30px 0 20px 0;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .blog-list {
-    padding: 10px;
-  }
-
-  .post-list h2 {
-    font-size: 1.5em;
-  }
-}
-
-
-/* Individual blog post styles */
 .post {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  text-align: center;
 }
 
 .post-title {
   color: #0066cc;
   margin-bottom: 10px;
-}
-
-.post-meta {
-  font-size: 0.9em;
-  color: #666;
-
 }
 
 .post-content {
@@ -261,18 +146,7 @@ section h2 {
 .post-content h5,
 .post-content h6 {
   color: #0066cc;
-  margin-top: 30px;
-  margin-bottom: 15px;
-}
-
-.post-content p {
-  margin-bottom: 20px;
-}
-
-.post-content ul,
-.post-content ol {
-  margin-bottom: 20px;
-  padding-left: 30px;
+  margin: 30px 0 15px;
 }
 
 .post-content img {
@@ -309,17 +183,6 @@ section h2 {
   padding: 0;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .post {
-    padding: 10px;
-  }
-
-  .post-title {
-    font-size: 1.8em;
-  }
-}
-
 .circle {
   width: 4px;
   height: 4px;
@@ -329,25 +192,18 @@ section h2 {
   margin: 0 10px;
 }
 
-/* ------ */
-
 .post-card {
   display: flex;
   margin-bottom: 20px;
-
-  overflow: hidden;
-
-  transition: transform 0.2s ease;
   padding: 5px;
-  /* Added padding inside the card */
   background-color: white;
+  transition: transform 0.2s ease;
 }
 
 .post-card-image {
   width: 30%;
   min-height: 200px;
   padding: 10px;
-  /* Added padding around image */
 }
 
 .post-card-image img {
@@ -355,7 +211,6 @@ section h2 {
   height: 100%;
   object-fit: cover;
   border-radius: 6px;
-  /* Optional: rounds the image corners */
 }
 
 .post-card-content {
@@ -364,9 +219,7 @@ section h2 {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* Changed to align content to top */
   text-align: left;
-  /* Added explicit left alignment */
 }
 
 .post-card-title {
@@ -374,23 +227,47 @@ section h2 {
   font-size: 1.4em;
   text-align: left;
   font-weight: normal;
-  /* or font-weight: 400 */
 }
 
 .post-card-description {
   color: #666;
   margin: 0 0 15px 0;
   line-height: 1.5;
-  text-align: left;
 }
 
 .post-card-date {
   color: #888;
   font-size: 0.9em;
-  text-align: left;
 }
 
 @media (max-width: 600px) {
+
+  .container,
+  .blog-list,
+  .post {
+    padding: 10px;
+  }
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  .project-item {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .project-image {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+  }
+
+  .post-title {
+    font-size: 1.8em;
+  }
+
   .post-card {
     flex-direction: column;
     padding: 10px;
