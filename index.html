@@ -2,63 +2,52 @@
 layout: default
 ---
 <div class="container">
-<div class="home">
-  <img src="{{ '/images/avatar.jpg' | relative_url }}" alt="{{ site.title }}" class="avatar">
-  <h1>{{ site.title }}</h1>
-  
-  <p class="about-me">Hi I'm Shashwat Pandey, currently a grad student @ ASU, I've worked 2 years as a data engineer @ Novo Nordisk & Zocket Tech. recalibrating towards my core Interests i.e. Machine learing here @ ASU</p>
-  
-  <div class="social-links">
-     <!----<a href="https://www.kaggle.com/shashwat90" target="_blank" rel="noopener noreferrer">Kaggle</a>-->
-    <a href="https://www.linkedin.com/in/shashwat023" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    <a href="mailto:{{ site.email }}">Email</a>
-    <a href="https://x.com/{{ site.twitter_username }}" target="_blank" rel="noopener noreferrer">Twitter</a>
-    <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener noreferrer">GitHub</a>
-    <!----<a href="https://scholar.google.com/citations?user=your-id" target="_blank" rel="noopener noreferrer">Google Scholar</a>-->
+  <div class="home">
+    <img src="{{ '/images/avatar.jpg' | relative_url }}" alt="{{ site.title }}" class="avatar">
+    <h1>{{ site.title }}</h1>
+
+    <p class="about-me">Hi I'm Shashwat Pandey, currently a grad student @ ASU...</p>
+
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/shashwat023" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="mailto:{{ site.email }}">Email</a>
+      <a href="https://x.com/{{ site.twitter_username }}" target="_blank" rel="noopener noreferrer">Twitter</a>
+      <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+
+    {% assign categories = site.posts | map: "category" | flatten | uniq %}
+    {% for category in categories %}
+    {% if category %}
+    <section>
+      <h2>{{ category | capitalize }}</h2>
+      <ul class="post-cards">
+        {% for post in site.posts %}
+        {% if post.category == category or post.category contains category %}
+        <li class="post-card">
+          <div class="post-card-image">
+            {% if post.image %}
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+            {% else %}
+            <img src="/assets/images/default-post.jpg" alt="Default thumbnail">
+            {% endif %}
+          </div>
+          <div class="post-card-content">
+            <h3 class="post-card-title">
+              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            </h3>
+            <p class="post-card-description">
+              {{ post.description | default: post.excerpt | strip_html | truncatewords: 30 }}
+            </p>
+            <div class="post-card-date">
+              {{ post.date | date: "%B %d, %Y" }}
+            </div>
+          </div>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+    {% endfor %}
   </div>
-<!------------------------------------
-  <section>
-    <h2>Research Interests</h2>
-    <ul>
-      {% for research in site.research limit:5 %}
-        <li><a href="{{ research.url | relative_url }}" >{{ research.title }}</a></li>
-      {% endfor %}
-    </ul>
-    <br>
-    <a href="{{ '/research.html' | relative_url }}" class="see-more">See More</a>
-  </section>
----------------------------------->
-  <section>
-    <h2>Blog Posts</h2>
-    <ul>
-      {% for post in site.posts limit:5 %}
-        <li>
-          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
-        </li>
-      {% endfor %}
-    </ul>
-    <br>
-      <!-----<a href="{{ '/blog.html' | relative_url }}" class="see-more">See More</a>---------------------------------->
-  </section>
-  <!-----
-  <section>
-    <h2>Projects</h2>
-    <ul>
-      {% for project in site.projects limit:5 %}
-        <li>
-          <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" class="project-image">
-          <a href="{{ project.url | relative_url }}" class="project-name">{{ project.title }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-    <br>
-    <a href="{{ '/projects.html' | relative_url }}" class="see-more">See More</a>
-  </section>
--->
-
-
-
-</div>
-
 </div>
