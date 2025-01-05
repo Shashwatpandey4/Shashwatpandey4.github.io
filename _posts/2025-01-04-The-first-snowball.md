@@ -6,4 +6,3 @@ description : asidbfasjdas
 image: images/snake_ai.png
 ---
 
-Sample Post
