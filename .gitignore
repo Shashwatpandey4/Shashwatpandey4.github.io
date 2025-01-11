@@ -1,2 +1,45 @@
-./_posts/*-sample-post.md
-/vendor/
+# Jekyll build output
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+.bundle/
+vendor/
+
+# Ruby & Bundler
+*.gem
+.bundle/
+vendor/bundle/
+Gemfile.lock
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# Node modules if you're using any Node.js tools
+node_modules/
+package-lock.json
+yarn.lock
+
+# Local development
+.ruby-version
+.ruby-gemset

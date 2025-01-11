@@ -1,30 +1,16 @@
 # Site settings
 title: Shashwat Pandey
-email: shashwatpandeym.v@gmail.com
-description: >-
-  Your site description here.
-baseurl: "" 
-url: "" 
-twitter_username: shashwat023
-github_username:  Shashwatpandey4
+role: MS Computer Engineering @ ASU
+research_areas: Machine Learning • Statistical Learning Theory • Neural Networks
+
+# Social links
+github: https://github.com/shashwatpandey4
+twitter: https://x.com/shashwat023
+google_scholar: https://scholar.google.com/citations?user=yourid
 
 # Build settings
 markdown: kramdown
-theme: minima
-plugins:
-  - jekyll-feed
-
-# Collections
-collections:
-  posts:
-    output: true
-    permalink: /blog/:year/:month/:day/:title/
-  research:
-    output: true
-    permalink: /research/:title/
-  projects:
-    output: true
-    permalink: /projects/:title/
+permalink: /:year/:month/:day/:title/
 
 # Defaults
 defaults:
@@ -33,13 +19,3 @@ defaults:
       type: "posts"
     values:
       layout: "post"
-      
-# Exclude from processing
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/

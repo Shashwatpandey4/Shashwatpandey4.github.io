@@ -1,17 +1,48 @@
----
-layout: default
----
-<div class="container">
-  <article class="post">
-    <h1 class="post-title">{{ page.title }}</h1>
-    <p class="post-meta">{{ page.date | date: "%B %d, %Y" }}</p>
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="post-content">
-      {{ content }}
-    </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} - {{ site.title }}</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap">
+</head>
 
-    {% if site.disqus.shortname %}
-      {% include disqus_comments.html %}
-    {% endif %}
-  </article>
-</div>
+<body>
+  <main class="post-content">
+    <article class="post">
+      <div class="post-meta">
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
+        {% if page.type %}
+        <span>{{ page.type }}</span>
+        {% endif %}
+      </div>
+
+      <h1 class="post-title">{{ page.title }}</h1>
+
+      {% if page.abstract %}
+      <p class="post-abstract">{{ page.abstract }}</p>
+      {% endif %}
+
+      {% if page.tags %}
+      <div class="tags">
+        {% for tag in page.tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="post-body">
+        {{ content }}
+      </div>
+
+      <div class="post-footer">
+        <a href="/" class="back-link">&larr; Back to all posts</a>
+      </div>
+    </article>
+  </main>
+</body>
+
+</html>
