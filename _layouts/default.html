@@ -9,18 +9,32 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap">
   <script>
-    function filterPosts(type) {
+    function filterPosts(type, filterType) {
+      console.log('Filtering:', type, filterType);
       const posts = document.querySelectorAll('.post');
       const tabs = document.querySelectorAll('.nav a');
 
-      tabs.forEach(tab => tab.classList.remove('active'));
-      document.querySelector(`[data-type="${type}"]`).classList.add('active');
+      document.querySelectorAll(`[data-filter-type="${filterType}"]`).forEach(tab =>
+        tab.classList.remove('active')
+      );
+
+      document.querySelector(`[data-type="${type}"][data-filter-type="${filterType}"]`).classList.add('active');
 
       posts.forEach(post => {
-        if (type === 'all' || post.getAttribute('data-type') === type) {
-          post.style.display = 'block';
-        } else {
-          post.style.display = 'none';
+        if (filterType === 'category') {
+          if (type === 'all' || post.getAttribute('data-type') === type) {
+            post.style.display = 'block';
+          } else {
+            post.style.display = 'none';
+          }
+        } else if (filterType === 'tag') {
+          const postTags = post.getAttribute('data-tags')?.split(',') || [];
+          console.log('Post tags:', postTags, 'Looking for:', type);
+          if (type === 'all' || postTags.includes(type)) {
+            post.style.display = 'block';
+          } else {
+            post.style.display = 'none';
+          }
         }
       });
     }
@@ -66,16 +80,34 @@
   </header>
 
   <nav class="nav">
-    <ul>
-      <li><a href="/" onclick="filterPosts('all'); return false;" data-type="all" class="active">All</a></li>
-      {% assign types = site.posts | map: "type" | uniq | sort %}
-      {% for type in types %}
-      {% if type %}
-      <li><a href="#" onclick="filterPosts('{{ type | slugify }}'); return false;" data-type="{{ type | slugify }}">{{
-          type }}</a></li>
-      {% endif %}
-      {% endfor %}
-    </ul>
+    <div class="nav-section">
+      <h3>Categories</h3>
+      <ul>
+        <li><a href="/" onclick="filterPosts('all', 'category'); return false;" data-type="all"
+            data-filter-type="category" class="active">All</a></li>
+        {% assign types = site.posts | map: "type" | uniq | sort %}
+        {% for type in types %}
+        {% if type %}
+        <li><a href="#" onclick="filterPosts('{{ type | slugify }}', 'category'); return false;"
+            data-type="{{ type | slugify }}" data-filter-type="category">{{ type }}</a></li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <h3>Tags</h3>
+      <ul>
+        <li><a href="/" onclick="filterPosts('all', 'tag'); return false;" data-type="all" data-filter-type="tag"
+            class="active">All</a></li>
+        {% assign all_tags = site.posts | map: "tags" | compact | uniq | sort %}
+        {% for tag in all_tags %}
+        {% assign tag_slug = tag | slugify %}
+        <li><a href="#" onclick="filterPosts('{{ tag_slug }}', 'tag'); return false;" data-type="{{ tag_slug }}"
+            data-filter-type="tag">{{ tag }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
   </nav>
 
   <main>
@@ -84,8 +116,8 @@
 
   <footer class="footer">
     <p>This site contains my personal research notes and thoughts. All opinions are my own.</p>
-    <p>Built with Jekyll. Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC
-        BY-NC-SA 4.0</a></p>
+
+
   </footer>
 </body>
 
