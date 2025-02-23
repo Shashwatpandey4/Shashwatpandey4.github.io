@@ -1,34 +1,35 @@
-name: Jekyll site CI
+   name: Jekyll site CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+   on:
+     push:
+       branches: [ main ]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+   permissions:
+     contents: write  # Ensure this is set to write
 
-    steps:
-    - uses: actions/checkout@v3
+   jobs:
+     build:
+       runs-on: ubuntu-latest
 
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.2.3'
-        bundler-cache: true
+       steps:
+       - uses: actions/checkout@v3
 
-    - name: Install dependencies
-      run: |
-        gem install bundler
-        bundle install
+       - name: Set up Ruby
+         uses: ruby/setup-ruby@v1
+         with:
+           ruby-version: '3.2.3'
+           bundler-cache: true
 
-    - name: Build site
-      run: bundle exec jekyll build
+       - name: Install dependencies
+         run: |
+           gem install bundler
+           bundle install
 
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./_site 
+       - name: Build site
+         run: bundle exec jekyll build
+
+       - name: Deploy
+         uses: peaceiris/actions-gh-pages@v3
+         with:
+           github_token: ${{ secrets.GITHUB_TOKEN }}
+           publish_dir: ./_site
