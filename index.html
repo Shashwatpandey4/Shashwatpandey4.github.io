@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Shashwat Pandey</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+
+    <main>
+        <!-- Add Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+
+<!-- Add scripts at the top of the file -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+
+<script src="/assets/js/abstractImageGenerator.js"></script>
+
+<!-- Profile Section -->
+<div class="profile-section">
+    <div class="profile-photo-container">
+        <img src="/assets/images/profile.png" alt="Profile Photo" class="profile-photo" />
+    </div>
+    <div class="profile-text">
+        <div class="name-and-social">
+            <h1>Shashwat Pandey</h1>
+            <div class="social-icons">
+                <a href="https://github.com/yourusername" target="_blank" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://scholar.google.com/yourid" target="_blank" title="Google Scholar">
+                    <i class="fas fa-graduation-cap"></i>
+                </a>
+                <a href="https://www.kaggle.com/yourusername" target="_blank" title="Kaggle">
+                    <i class="fab fa-kaggle"></i>
+                </a>
+                <a href="mailto:your.email@example.com" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/yourusername" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://twitter.com/yourusername" target="_blank" title="X (Twitter)">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+            </div>
+        </div>
+        <p class="intro-text">
+Graduate student at ASU (M.S. in Computer Engineering, Computer Systems) researching compiler optimizations at MPS Lab. Interests: compilers, systems, reinforcement learning, deep learning, and LLMs. 2 years as a Data Engineer, specializing in data pipelines, performance tuning, and system design. Bridging AI-driven optimizations with system performance.
+        </p>
+    </div>
+</div>
+
+<!-- Focus Section -->
+<div class="focus-section">
+  <h2 class="section-title">Focus</h2>
+
+  <div class="focus-grid">
+    <div class="focus-item">
+        <div class="focus-thumbnail" data-title="Large Language Models">
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const placeholder = document.querySelector('[data-title="Large Language Models"]');
+                    if (placeholder) {
+                        const img = document.createElement('img');
+                        img.src = generateAbstractImage("LLM Focus");
+                        placeholder.appendChild(img);
+                    }
+                });
+            </script>
+        </div>
+        <h3>Large Language Models</h3>
+        <ul>
+            
+            
+                <li><a href="/llm/2025/02/01/alignment.html">Alignment &amp; Safety</a></li>
+            
+                <li><a href="/llm/2025/02/01/Reasoning.html">Reasoning</a></li>
+            
+                <li><a href="/llm/2025/02/01/Pretraining-copy.html">Pre-Training &amp; Model Architectures</a></li>
+            
+                <li><a href="/llm/2025/02/01/Inference.html">Inference &amp; Optimizations</a></li>
+            
+                <li><a href="/llm/2025/02/01/Finetuning.html">Fine-Tunining</a></li>
+            
+        </ul>
+    </div>
+
+    <div class="focus-item">
+        <div class="focus-thumbnail" data-title="Reinforcement Learning">
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const placeholder = document.querySelector('[data-title="Reinforcement Learning"]');
+                    if (placeholder) {
+                        const img = document.createElement('img');
+                        img.src = generateAbstractImage("RL Focus");
+                        placeholder.appendChild(img);
+                    }
+                });
+            </script>
+        </div>
+        <h3>Reinforcement Learning</h3>
+        <ul>
+            
+            
+        </ul>
+    </div>
+
+    <div class="focus-item">
+        <div class="focus-thumbnail" data-title="Compilers &amp; Systems">
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const placeholder = document.querySelector('[data-title="Compilers & Systems"]');
+                    if (placeholder) {
+                        const img = document.createElement('img');
+                        img.src = generateAbstractImage("Compilers Focus");
+                        placeholder.appendChild(img);
+                    }
+                });
+            </script>
+        </div>
+        <h3>Compilers &amp; Systems</h3>
+        <ul>
+            
+            
+        </ul>
+    </div>
+
+    <div class="focus-item">
+        <div class="focus-thumbnail" data-title="Deep Learning">
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const placeholder = document.querySelector('[data-title="Deep Learning"]');
+                    if (placeholder) {
+                        const img = document.createElement('img');
+                        img.src = generateAbstractImage("DL Focus");
+                        placeholder.appendChild(img);
+                    }
+                });
+            </script>
+        </div>
+        <h3>Deep Learning</h3>
+        <ul>
+            
+            
+        </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Pet Projects Section -->
+<h2 class="section-title">Pet Projects</h2>
+
+<div class="projects">
+    <div class="project-card">
+        <div class="project-image"></div>
+        <div class="project-description">
+            <h3>Project Name</h3>
+            <p>Short description about the project.</p>
+        </div>
+    </div>
+    <div class="project-card">
+        <div class="project-image"></div>
+        <div class="project-description">
+            <h3>Project Name</h3>
+            <p>Short description about the project.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Blog Posts Section -->
+<h2 class="section-title">Blog Posts</h2>
+
+<div class="blog-posts">
+    
+    
+    <div class="blog-card">
+        <div class="blog-card-inner">
+            <div class="blog-thumbnail" id="thumbnail-1">
+                
+                    <div class="thumbnail-placeholder" data-title="Your Blog Post 4"></div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const placeholder = document.querySelector(`[data-title="Your Blog Post 4"]`);
+                            if (placeholder) {
+                                const img = document.createElement('img');
+                                img.src = generateAbstractImage("Your Blog Post 4");
+                                placeholder.appendChild(img);
+                            }
+                        });
+                    </script>
+                
+            </div>
+            <div class="blog-content">
+                <h3 class="blog-title"><a href="/blog/2024/02/08/blognew.html">Your Blog Post 4</a></h3>
+                <div class="blog-date">February 08, 2024</div>
+                <p class="blog-excerpt">
+                    
+                        Optional custom excerpt here
+                    
+                </p>
+                <div class="blog-tags">
+                    
+                    <span class="tag">tag1</span>
+                    
+                    <span class="tag">tag2</span>
+                    
+                    <span class="tag">tag3</span>
+                    
+                </div>
+                <a href="/blog/2024/02/08/blognew.html" class="read-more">Read More →</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="blog-card">
+        <div class="blog-card-inner">
+            <div class="blog-thumbnail" id="thumbnail-2">
+                
+                    <div class="thumbnail-placeholder" data-title="Your Blog Post Title"></div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const placeholder = document.querySelector(`[data-title="Your Blog Post Title"]`);
+                            if (placeholder) {
+                                const img = document.createElement('img');
+                                img.src = generateAbstractImage("Your Blog Post Title");
+                                placeholder.appendChild(img);
+                            }
+                        });
+                    </script>
+                
+            </div>
+            <div class="blog-content">
+                <h3 class="blog-title"><a href="/blog/2024/02/08/blog-copy.html">Your Blog Post Title</a></h3>
+                <div class="blog-date">February 08, 2024</div>
+                <p class="blog-excerpt">
+                    
+                        Optional custom excerpt here
+                    
+                </p>
+                <div class="blog-tags">
+                    
+                    <span class="tag">tag1</span>
+                    
+                    <span class="tag">tag2</span>
+                    
+                    <span class="tag">tag3</span>
+                    
+                </div>
+                <a href="/blog/2024/02/08/blog-copy.html" class="read-more">Read More →</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="blog-card">
+        <div class="blog-card-inner">
+            <div class="blog-thumbnail" id="thumbnail-3">
+                
+                    <div class="thumbnail-placeholder" data-title="Your Blog Post Title 2"></div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const placeholder = document.querySelector(`[data-title="Your Blog Post Title 2"]`);
+                            if (placeholder) {
+                                const img = document.createElement('img');
+                                img.src = generateAbstractImage("Your Blog Post Title 2");
+                                placeholder.appendChild(img);
+                            }
+                        });
+                    </script>
+                
+            </div>
+            <div class="blog-content">
+                <h3 class="blog-title"><a href="/blog/2024/02/08/blog-copy-2.html">Your Blog Post Title 2</a></h3>
+                <div class="blog-date">February 08, 2024</div>
+                <p class="blog-excerpt">
+                    
+                        Optional custom excerpt here
+                    
+                </p>
+                <div class="blog-tags">
+                    
+                    <span class="tag">tag1</span>
+                    
+                    <span class="tag">tag2</span>
+                    
+                    <span class="tag">tag3</span>
+                    
+                </div>
+                <a href="/blog/2024/02/08/blog-copy-2.html" class="read-more">Read More →</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="blog-card">
+        <div class="blog-card-inner">
+            <div class="blog-thumbnail" id="thumbnail-4">
+                
+                    <div class="thumbnail-placeholder" data-title="Your Blog Post Title 1"></div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const placeholder = document.querySelector(`[data-title="Your Blog Post Title 1"]`);
+                            if (placeholder) {
+                                const img = document.createElement('img');
+                                img.src = generateAbstractImage("Your Blog Post Title 1");
+                                placeholder.appendChild(img);
+                            }
+                        });
+                    </script>
+                
+            </div>
+            <div class="blog-content">
+                <h3 class="blog-title"><a href="/blog/2024/02/08/Big-O.html">Your Blog Post Title 1</a></h3>
+                <div class="blog-date">February 08, 2024</div>
+                <p class="blog-excerpt">
+                    
+                        
+
+                    
+                </p>
+                <div class="blog-tags">
+                    
+                    <span class="tag">tag1</span>
+                    
+                    <span class="tag">tag2</span>
+                    
+                </div>
+                <a href="/blog/2024/02/08/Big-O.html" class="read-more">Read More →</a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <p>© 2025 Shashwat Pandey. All rights reserved.</p>
+</footer>
+
+<!-- Update Font Awesome to latest version -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+
+    </main>
+
+</body>
+
+</html>
