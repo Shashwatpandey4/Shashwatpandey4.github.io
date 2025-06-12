@@ -34,7 +34,7 @@ const content = {
         </div>
         <h3 style='margin-top:2rem;'>Projects</h3>
         <div class='de-projects' style='display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;'>
-            <a href=\"https://github.com/Shashwatpandey4/DataFlux\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"project-link\">
+            <a href="https://github.com/Shashwatpandey4/DataFlux" target="_blank" rel="noopener noreferrer" class="project-link">
                 <div class='project-card' style='background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 0.7rem 1rem; min-width: 220px; max-width: 400px; height: 80px; display: flex; align-items: center; gap: 1rem;'>
                     <img src='images/dataflux.png' alt='DataFlux' style='width: 64px; height: 64px; border-radius: 6px; object-fit: cover;'>
                     <div>
@@ -43,10 +43,16 @@ const content = {
                     </div>
                 </div>
             </a>
-            <div class='project-card' style='background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 0.7rem 1rem; min-width: 220px; max-width: 400px; height: 80px; display: flex; flex-direction: column; justify-content: center;'>
-                <h4 style='margin: 0 0 0.3rem 0;'>Project Two</h4>
-                <p style='margin: 0; font-size: 0.98rem; color: #444;'>A brief description of your second data engineering project goes here.</p>
-            </div>
+            <a href="https://github.com/Shashwatpandey4/Live-stream-prototype" target="_blank" rel="noopener noreferrer" class="project-link">
+                <div class='project-card' style='background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 0.7rem 1rem; min-width: 220px; max-width: 400px; height: 80px; display: flex; align-items: center; gap: 1rem;'>
+                    <img src='images/livestream.png' alt='Live Stream Prototype' style='width: 64px; height: 64px; border-radius: 6px; object-fit: cover;'>
+                    <div>
+                        <h4 style='margin: 0 0 0.3rem 0;'>Live Stream Prototype</h4>
+                        <p style='margin: 0; font-size: 0.98rem; color: #444;'>A modern, responsive video player with live streaming simulation, served by a Go backend and fully dockerized.</p>
+                    </div>
+                </div>
+            </a>
+            <!-- Project Three and Four cards commented out for now
             <div class='project-card' style='background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 0.7rem 1rem; min-width: 220px; max-width: 400px; height: 80px; display: flex; flex-direction: column; justify-content: center;'>
                 <h4 style='margin: 0 0 0.3rem 0;'>Project Three</h4>
                 <p style='margin: 0; font-size: 0.98rem; color: #444;'>A brief description of your third data engineering project goes here.</p>
@@ -55,6 +61,7 @@ const content = {
                 <h4 style='margin: 0 0 0.3rem 0;'>Project Four</h4>
                 <p style='margin: 0; font-size: 0.98rem; color: #444;'>A brief description of your fourth data engineering project goes here.</p>
             </div>
+            -->
         </div>
         <h3 style='margin-top:2rem;'>Blogs</h3>
         <ul class="blog-list" style="margin-top: 1rem; padding-left: 1.2rem;">
@@ -64,38 +71,12 @@ const content = {
             <li><a href="https://medium.com/@shashwat-pandey/apache-spark-vs-apache-beam-what-to-choose-when-94f938d0317f" target="_blank" rel="noopener noreferrer">Apache Spark vs Apache Beam: What to Choose When</a></li>
             <li><a href="https://medium.com/@shashwat-pandey/data-lake-table-formats-apache-iceberg-vs-apache-hudi-vs-delta-lake-10b67a1d587" target="_blank" rel="noopener noreferrer">Data Lake Table Formats: Apache Iceberg vs Apache Hudi vs Delta Lake</a></li>
         </ul>`,
-    'compiler': `<h3 style='margin-top:0;'>Compilers Experience</h3>
-        <div class='timeline' style='margin: 2rem 0;'>
-            <div class='timeline-item'>
-                <div style='width: 90px; min-width: 90px; text-align: right; color: #888; font-size: 1rem; padding-right: 10px;'>2023 - Present</div>
-                <div style='margin-right: 18px;'><span style='width: 0.4rem; height: 0.4rem; background: #fff; border: 2px solid #1a73e8; border-radius: 50%; display: inline-block; margin-right: 8px;'></span></div>
-                <div style='flex: 1;'>
-                    <strong>Research in MLIR and Compiler Technologies</strong><br>
-                    Working on compiler optimizations and intermediate representations.
-                </div>
-            </div>
-        </div>
-        <h3 style='margin-top:2rem;'>Projects</h3>
-        <div class='project-card' style='background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 0.7rem 1rem; min-width: 220px; max-width: 400px; height: 80px; display: flex; flex-direction: column; justify-content: center;'>
-            <h4 style='margin: 0 0 0.3rem 0;'>MLIR Pass Explorer</h4>
-            <p style='margin: 0; font-size: 0.98rem; color: #444;'>A tool to visualize and experiment with MLIR passes.</p>
-        </div>`,
-    'ml': `<h3 style='margin-top:0;'>Machine Learning Experience</h3>
-        <div class='timeline' style='margin: 2rem 0;'>
-            <div class='timeline-item'>
-                <div style='width: 90px; min-width: 90px; text-align: right; color: #888; font-size: 1rem; padding-right: 10px;'>2022 - Present</div>
-                <div style='margin-right: 18px;'><span style='width: 0.4rem; height: 0.4rem; background: #fff; border: 2px solid #1a73e8; border-radius: 50%; display: inline-block; margin-right: 8px;'></span></div>
-                <div style='flex: 1;'>
-                    <strong>Research in Large Language Models</strong><br>
-                    Exploring transformer architectures and training techniques.
-                </div>
-            </div>
-        </div>
-        <h3 style='margin-top:2rem;'>Projects</h3>
-        <div class='project-card' style='background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 0.7rem 1rem; min-width: 220px; max-width: 400px; height: 80px; display: flex; flex-direction: column; justify-content: center;'>
-            <h4 style='margin: 0 0 0.3rem 0;'>LLM Playground</h4>
-            <p style='margin: 0; font-size: 0.98rem; color: #444;'>A platform to experiment with and fine-tune LLMs.</p>
-        </div>`,
+    'compiler': `<div style="text-align: center; padding: 3rem 0; color: #666; font-size: 1.2rem;">
+        Coming Soon
+    </div>`,
+    'ml': `<div style="text-align: center; padding: 3rem 0; color: #666; font-size: 1.2rem;">
+        Coming Soon
+    </div>`,
     'rl': `<h3 style='margin-top:0;'>Papers</h3>
         <div class='papers-list' style='margin-top: 1rem;'>
             <div class='paper-item' style='margin-bottom: 1.5rem;'>
