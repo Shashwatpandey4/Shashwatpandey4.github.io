@@ -74,9 +74,30 @@ const content = {
     'compiler': `<div style="text-align: center; padding: 3rem 0; color: #666; font-size: 1.2rem;">
         Coming Soon
     </div>`,
-    'ml': `<div style="text-align: center; padding: 3rem 0; color: #666; font-size: 1.2rem;">
-        Coming Soon
-    </div>`,
+    'ml': `<h3 style='margin-top:2rem;'>Reinforcement Learning</h3>
+    <div class='papers-list' style='margin-top: 1rem;'>
+        <div class='paper-item' style='margin-bottom: 1.5rem;'>
+            <div style='display: flex; gap: 1rem; align-items: flex-start;'>
+                <div style='flex: 1;'>
+                    <h4 style='margin: 0 0 0.5rem 0;'>Interpretable Learning Dynamics in Unsupervised Reinforcement Learning</h4>
+                    <p style='margin: 0 0 0.5rem 0; color: #666;'>Authors: Shashwat Pandey</p>
+                    <p style='margin: 0 0 0.5rem 0;'>arXiv: <a href="https://arxiv.org/abs/2505.06279" target="_blank" rel="noopener noreferrer">2505.06279</a></p>
+                    <p style='margin: 0;'>We present an interpretability framework for unsupervised reinforcement learning (URL) agents, aimed at understanding how intrinsic motivation shapes attention, behavior, and representation learning. Our findings show that curiosity-driven agents display broader, more dynamic attention and exploratory behavior than their extrinsically motivated counterparts.</p>
+                </div>
+                <img src='images/transformer_rnd_attention_landscape.png' alt='Transformer-RND Attention Landscape' style='width: 200px; height: 150px; object-fit: cover; border-radius: 6px;'>
+            </div>
+        </div>
+    </div>
+    <h3 style='margin-top:2rem;'>Projects</h3>
+    <a href="https://github.com/Shashwatpandey4/unsupervised_rl_interp" target="_blank" rel="noopener noreferrer" class="project-link">
+        <div class='project-card' style='background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 0.7rem 1rem; min-width: 220px; max-width: 400px; height: 80px; display: flex; align-items: center; gap: 1rem;'>
+            <img src='images/transformer_rnd_attention_landscape.png' alt='Transformer-RND Attention Landscape' style='width: 64px; height: 64px; border-radius: 6px; object-fit: cover;'>
+            <div>
+                <h4 style='margin: 0 0 0.3rem 0;'>Unsupervised RL Interpretability</h4>
+                <p style='margin: 0; font-size: 0.9rem; color: #444;'>A comprehensive interpretability framework for understanding how curiosity-driven agents explore and represent the world in unsupervised RL settings.</p>
+            </div>
+        </div>
+    </a>`,
     'rl': `<h3 style='margin-top:0;'>Papers</h3>
         <div class='papers-list' style='margin-top: 1rem;'>
             <div class='paper-item' style='margin-bottom: 1.5rem;'>
@@ -165,9 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // IDs of all interest links and their keys
     const interestMap = {
         'de-link': 'de',
-        'compiler-link': 'compiler',
-        'ml-link': 'ml',
-        'rl-link': 'rl'
+        'ml-link': 'ml'
     };
     const links = Object.keys(interestMap).map(id => document.getElementById(id));
     const interestContent = document.getElementById('interest-content');
