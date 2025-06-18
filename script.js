@@ -71,9 +71,6 @@ const content = {
             <li><a href="https://medium.com/@shashwat-pandey/apache-spark-vs-apache-beam-what-to-choose-when-94f938d0317f" target="_blank" rel="noopener noreferrer">Apache Spark vs Apache Beam: What to Choose When</a></li>
             <li><a href="https://medium.com/@shashwat-pandey/data-lake-table-formats-apache-iceberg-vs-apache-hudi-vs-delta-lake-10b67a1d587" target="_blank" rel="noopener noreferrer">Data Lake Table Formats: Apache Iceberg vs Apache Hudi vs Delta Lake</a></li>
         </ul>`,
-    'compiler': `<div style="text-align: center; padding: 3rem 0; color: #666; font-size: 1.2rem;">
-        Coming Soon
-    </div>`,
     'ml': `<h3 style='margin-top:2rem;'>Reinforcement Learning</h3>
     <div class='papers-list' style='margin-top: 1rem;'>
         <div class='paper-item' style='margin-bottom: 1.5rem;'>
