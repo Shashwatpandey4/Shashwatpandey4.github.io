@@ -35,7 +35,7 @@ const content = {
         <h3 style='margin-top:2rem;'>Projects</h3>
         <div class='de-projects' style='display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;'>
             <a href="https://github.com/Shashwatpandey4/DataFlux" target="_blank" rel="noopener noreferrer" class="project-link">
-                <div class='project-card' style='background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 0.7rem 1rem; min-width: 220px; max-width: 400px; height: 80px; display: flex; align-items: center; gap: 1rem;'>
+                <div class='project-card'>
                     <img src='images/dataflux.png' alt='DataFlux' style='width: 64px; height: 64px; border-radius: 6px; object-fit: cover;'>
                     <div>
                         <h4 style='margin: 0 0 0.3rem 0;'>DataFlux</h4>
@@ -44,7 +44,7 @@ const content = {
                 </div>
             </a>
             <a href="https://github.com/Shashwatpandey4/Live-stream-prototype" target="_blank" rel="noopener noreferrer" class="project-link">
-                <div class='project-card' style='background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 0.7rem 1rem; min-width: 220px; max-width: 400px; height: 80px; display: flex; align-items: center; gap: 1rem;'>
+                <div class='project-card'>
                     <img src='images/livestream.png' alt='Live Stream Prototype' style='width: 64px; height: 64px; border-radius: 6px; object-fit: cover;'>
                     <div>
                         <h4 style='margin: 0 0 0.3rem 0;'>Live Stream Prototype</h4>
@@ -87,7 +87,7 @@ const content = {
     </div>
     <h3 style='margin-top:2rem;'>Projects</h3>
     <a href="https://github.com/Shashwatpandey4/unsupervised_rl_interp" target="_blank" rel="noopener noreferrer" class="project-link">
-        <div class='project-card' style='background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 0.7rem 1rem; min-width: 220px; max-width: 400px; height: 80px; display: flex; align-items: center; gap: 1rem;'>
+        <div class='project-card'>
             <img src='images/transformer_rnd_attention_landscape.png' alt='Transformer-RND Attention Landscape' style='width: 64px; height: 64px; border-radius: 6px; object-fit: cover;'>
             <div>
                 <h4 style='margin: 0 0 0.3rem 0;'>Unsupervised RL Interpretability</h4>
@@ -111,7 +111,7 @@ const content = {
         </div>
         <h3 style='margin-top:2rem;'>Projects</h3>
         <a href="https://github.com/Shashwatpandey4/unsupervised_rl_interp" target="_blank" rel="noopener noreferrer" class="project-link">
-            <div class='project-card' style='background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 0.7rem 1rem; min-width: 220px; max-width: 400px; height: 80px; display: flex; align-items: center; gap: 1rem;'>
+            <div class='project-card'>
                 <img src='images/transformer_rnd_attention_landscape.png' alt='Transformer-RND Attention Landscape' style='width: 64px; height: 64px; border-radius: 6px; object-fit: cover;'>
                 <div>
                     <h4 style='margin: 0 0 0.3rem 0;'>Unsupervised RL Interpretability</h4>

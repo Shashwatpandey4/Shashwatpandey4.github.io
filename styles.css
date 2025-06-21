@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700&display=swap');
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     height: 100vh;
-    background-color: #fff;
+    background-color: #FFFFF9;
 }
 
 .centered-div {
@@ -17,7 +17,7 @@ body {
     max-width: 100%;
     /* border: 2px solid #333; */
     border-radius: 8px;
-    background-color: white;
+    background-color: #FFFFF9;
     /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
     padding: 2rem;
     box-sizing: border-box;
@@ -58,7 +58,7 @@ body {
 #interest-content {
     margin-top: 1.5rem;
     padding: 1rem;
-    background: #f7f9fa;
+    background: #FFFFF9;
     border-radius: 6px;
     min-height: 60px;
     text-align: left;
@@ -110,6 +110,32 @@ body {
     background: rgba(0, 0, 255, 0.05);
     /* TEMP: for debugging grid area */
     justify-items: center;
+}
+
+/* Blog links styling - Google blue for all states */
+.blog-list a,
+.blog-list a:visited,
+.blog-list a:link {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+.blog-list a:hover {
+    color: #174ea6;
+    text-decoration: underline;
+}
+
+/* arXiv links styling - Google blue for all states */
+.papers-list a,
+.papers-list a:visited,
+.papers-list a:link {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+.papers-list a:hover {
+    color: #174ea6;
+    text-decoration: underline;
 }
 
 /* Blog card: fixed size, consistent look */
@@ -209,9 +235,17 @@ body {
 }
 
 .project-card {
+    background: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 0.7rem 1rem;
+    min-width: 220px;
+    max-width: 400px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
 }
 
