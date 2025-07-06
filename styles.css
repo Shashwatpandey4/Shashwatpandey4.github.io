@@ -7,6 +7,12 @@ body {
     background-color: #FFFFF9;
 }
 
+h2,
+h3,
+h4 {
+    font-weight: normal;
+}
+
 .centered-div {
     position: relative;
     top: unset;
@@ -67,7 +73,6 @@ body {
 
 .active-interest {
     border-bottom: 3px solid #1a73e8;
-    font-weight: bold;
     padding-bottom: 6px;
     text-underline-offset: 10px;
 }
@@ -172,7 +177,6 @@ body {
 .blog-card h4 {
     margin: 0 0 0.3rem 0;
     font-size: 1.1rem;
-    font-weight: bold;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
