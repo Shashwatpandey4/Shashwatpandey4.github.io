@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post Title - Shashwat Pandey</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .blog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            line-height: 1.7;
+            color: #333;
+        }
+
+        .sidebar {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #666;
+            height: fit-content;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari and Opera */
+        }
+
+        .main-content h1 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            font-weight: bold;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .main-content h2 {
+            color: #333;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .main-content h3 {
+            color: #444;
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .main-content p {
+            margin-bottom: 1.2rem;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        .main-content ul,
+        .main-content ol {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        .main-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .main-content code {
+            background: #f5f5f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .main-content pre {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #e0e0e0;
+        }
+
+        .main-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .main-content blockquote {
+            border-left: 4px solid #1a73e8;
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #666;
+        }
+
+        .blog-meta {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .blog-meta .date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .blog-meta .category {
+            background: #e8f0fe;
+            color: #1a73e8;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 1rem;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: #fafafa;
+            border-radius: 6px;
+        }
+
+        .sidebar-section h4 {
+            color: #333;
+            margin: 0 0 0.8rem 0;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .sidebar-section p {
+            margin: 0.5rem 0;
+            font-size: 0.85rem;
+        }
+
+        .sidebar-section .highlight {
+            color: #d32f2f;
+            font-weight: 500;
+        }
+
+        .sidebar-section .link {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        .sidebar-section .link:hover {
+            text-decoration: underline;
+        }
+
+        .reference-number {
+            color: #1a73e8;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .reference-number:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body style="padding-bottom: 5%;">
+    <div class="centered-div" style="margin-bottom: 10%;">
+        <!-- Navigation -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <a href="../index.html" style="color: #1a73e8; text-decoration: none; font-size: 1.1rem;">
+                ← Back to Home
+            </a>
+            <span style="margin: 0 1rem; color: #bbb;">|</span>
+            <a href="../blogs.html" style="color: #1a73e8; text-decoration: none; font-size: 1.1rem;">
+                ← Back to Blogs
+            </a>
+        </div>
+
+        <!-- Blog Container with Two Columns -->
+        <div class="blog-container">
+            <!-- Main Content Column -->
+            <div class="main-content">
+                <!-- Blog Meta Information -->
+                <div class="blog-meta">
+                    <h1>Your Blog Post Title</h1>
+                    <div>
+                        <span class="date">January 15, 2024</span>
+                        <span class="category">Data Engineering</span>
+                    </div>
+                </div>
+
+                <!-- Main Blog Content Goes Here -->
+                <p>This is where your main blog content will go. You can write in HTML format and include references
+                    like <span class="reference-number">[1]</span> which will automatically create supplementary
+                    information blocks.</p>
+
+                <h2>Headings</h2>
+                <p>Use different heading levels to structure your content. You can reference important concepts like
+                    <span class="reference-number">[2]</span> for additional explanations.
+                </p>
+
+                <h3>Subheadings</h3>
+                <p>For smaller sections within your main topics.</p>
+
+                <h2>Code Examples</h2>
+                <p>You can include inline code like <code>print("Hello World")</code> or code blocks:</p>
+
+                <pre><code>def hello_world():
+    print("Hello, World!")
+    return "Success"</code></pre>
+
+                <h2>Lists</h2>
+                <ul>
+                    <li>Unordered lists for bullet points</li>
+                    <li>Great for listing features or steps</li>
+                    <li>Easy to read and scan</li>
+                </ul>
+
+                <ol>
+                    <li>Ordered lists for numbered steps</li>
+                    <li>Perfect for tutorials</li>
+                    <li>Helps with sequential instructions</li>
+                </ol>
+
+                <h2>Blockquotes</h2>
+                <blockquote>
+                    Use blockquotes for important quotes, highlights, or callouts that you want to emphasize.
+                </blockquote>
+
+                <h2>Links</h2>
+                <p>You can include <a href="#" style="color: #1a73e8;">links to external resources</a> or references.
+                    For more information about this topic, see <span class="reference-number">[3]</span>.</p>
+
+                <h2>Images</h2>
+                <p>You can include images in your blog posts:</p>
+                <!-- <img src="../images/your-image.png" alt="Description" style="max-width: 100%; height: auto; border-radius: 6px;"> -->
+
+                <h2>Conclusion</h2>
+                <p>Wrap up your blog post with a conclusion that summarizes your main points and provides next steps for
+                    readers.</p>
+            </div>
+
+            <!-- Sidebar Column -->
+            <div class="sidebar" id="sidebar">
+                <!-- References will be dynamically populated here -->
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <hr style="margin: 2rem 0 1rem 0; border: none; border-top: 1px solid #e0e0e0;">
+        <div style="text-align: center; color: #888; font-size: 0.98rem; margin-top: 2.5rem; margin-bottom: 0;">
+            © 2025 Shashwat Pandey. Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"
+                target="_blank" style="color: #1a73e8; text-decoration: none;">CC BY 4.0</a>.
+        </div>
+    </div>
+
+    <script>
+        // Define your references here
+        const references = {
+            1: {
+                title: "Reference [1]",
+                content: "This is the explanation for reference [1]. You can include any supplementary information here, such as definitions, explanations, or additional context."
+            },
+            2: {
+                title: "Reference [2]",
+                content: "This is the explanation for reference [2]. You can include important concepts, definitions, or additional reading materials."
+            },
+            3: {
+                title: "Reference [3]",
+                content: "This is the explanation for reference [3]. You can include links to external resources, papers, or documentation."
+            }
+        };
+
+        // Function to populate sidebar with references positioned at corresponding content
+        function populateSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const referenceElements = document.querySelectorAll('.reference-number');
+
+            // Clear sidebar
+            sidebar.innerHTML = '';
+
+            // Calculate positions of references relative to main content
+            const referencePositions = [];
+            referenceElements.forEach(element => {
+                const text = element.textContent;
+                const match = text.match(/\[(\d+)\]/);
+                if (match) {
+                    const num = parseInt(match[1]);
+                    const rect = element.getBoundingClientRect();
+                    const mainContentRect = mainContent.getBoundingClientRect();
+                    const relativeTop = rect.top - mainContentRect.top;
+
+                    referencePositions.push({
+                        number: num,
+                        top: relativeTop,
+                        element: element
+                    });
+                }
+            });
+
+            // Sort by position (top to bottom)
+            referencePositions.sort((a, b) => a.top - b.top);
+
+            // Create reference blocks positioned at the exact same level as their mentions
+            let lastPosition = 0;
+            referencePositions.forEach((ref, index) => {
+                const num = ref.number;
+
+                if (references[num]) {
+                    // Create a temporary reference section to measure its padding
+                    const tempSection = document.createElement('div');
+                    tempSection.className = 'sidebar-section';
+                    tempSection.innerHTML = `
+                        <h4>${references[num].title}</h4>
+                        <p>${references[num].content}</p>
+                    `;
+                    tempSection.style.position = 'absolute';
+                    tempSection.style.visibility = 'hidden';
+                    document.body.appendChild(tempSection);
+
+                    // Get the computed styles to calculate the actual offset
+                    const computedStyle = window.getComputedStyle(tempSection);
+                    const paddingTop = parseFloat(computedStyle.paddingTop);
+                    const marginTop = parseFloat(computedStyle.marginTop);
+                    const borderTop = parseFloat(computedStyle.borderTopWidth);
+                    const totalOffset = paddingTop + marginTop + borderTop;
+
+                    // Remove the temporary element
+                    document.body.removeChild(tempSection);
+
+                    // Calculate the exact position where this reference should appear
+                    const targetPosition = ref.top - totalOffset;
+
+                    // Calculate spacer height needed to reach this position
+                    const spacerHeight = Math.max(0, targetPosition - lastPosition);
+
+                    // Create spacer if needed
+                    if (spacerHeight > 0) {
+                        const spacer = document.createElement('div');
+                        spacer.style.height = `${spacerHeight}px`;
+                        spacer.style.minHeight = '0';
+                        sidebar.appendChild(spacer);
+                    }
+
+                    // Create the reference section
+                    const section = document.createElement('div');
+                    section.className = 'sidebar-section';
+                    section.innerHTML = `
+                        <h4>${references[num].title}</h4>
+                        <p>${references[num].content}</p>
+                    `;
+                    sidebar.appendChild(section);
+
+                    // Update last position to include the reference block height
+                    const sectionHeight = section.offsetHeight;
+                    lastPosition = targetPosition + sectionHeight;
+                }
+            });
+
+            // If no references, show a message
+            if (referencePositions.length === 0) {
+                const section = document.createElement('div');
+                section.className = 'sidebar-section';
+                section.innerHTML = `
+                    <h4>No References</h4>
+                    <p>Add references like <span class="highlight">[1]</span> in your content to see supplementary information here.</p>
+                `;
+                sidebar.appendChild(section);
+            }
+        }
+
+        // Populate sidebar when page loads
+        document.addEventListener('DOMContentLoaded', populateSidebar);
+
+        // Repopulate on window resize to maintain positioning
+        window.addEventListener('resize', populateSidebar);
+
+        // Repopulate after a short delay to ensure all content is rendered
+        setTimeout(populateSidebar, 100);
+
+        // Function to get and display coordinates
+        function getCoordinates() {
+            const reference1 = document.querySelector('.reference-number');
+            const referenceBlock1 = document.querySelector('.sidebar-section h4');
+
+            if (reference1 && referenceBlock1) {
+                const ref1Rect = reference1.getBoundingClientRect();
+                const refBlock1Rect = referenceBlock1.getBoundingClientRect();
+
+                console.log('Reference [1] in blog:');
+                console.log('  Top:', ref1Rect.top, 'px');
+                console.log('  Left:', ref1Rect.left, 'px');
+                console.log('  Bottom:', ref1Rect.bottom, 'px');
+                console.log('  Right:', ref1Rect.right, 'px');
+
+                console.log('Reference [1] block in sidebar:');
+                console.log('  Top:', refBlock1Rect.top, 'px');
+                console.log('  Left:', refBlock1Rect.left, 'px');
+                console.log('  Bottom:', refBlock1Rect.bottom, 'px');
+                console.log('  Right:', refBlock1Rect.right, 'px');
+            }
+        }
+
+        // Get coordinates after page loads
+        setTimeout(getCoordinates, 200);
+    </script>
+</body>
+
+</html>
