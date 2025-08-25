@@ -7,33 +7,65 @@
     <title>Blogs - Shashwat Pandey</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Override global styles for blogs page */
+        body {
+            background: #FFFFF9 !important;
+            min-height: 100vh !important;
+        }
+
+        .centered-div {
+            background-color: transparent !important;
+        }
+
+        /* Ensure glass-morphism effects work */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+        }
+    </style>
 </head>
 
-<body style="padding-bottom: 5%;">
+<body style="padding-bottom: 5%; background: #FFFFF9; min-height: 100vh;">
     <div class="centered-div" style="margin-bottom: 10%;">
         <!-- Navigation -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <a href="index.html" style="color: #1a73e8; text-decoration: none; font-size: 1.1rem;">
-                ← Back to Home
+        <div style="text-align: left; margin-bottom: 2rem;">
+            <a href="index.html"
+                style="color: #1a73e8; text-decoration: none; font-size: 1.1rem; padding: 0.5rem 1rem; border-radius: 6px; transition: all 0.2s ease; display: inline-block;">
+                Shashwat Pandey
             </a>
         </div>
 
         <!-- Header -->
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <h1 style="color: #333; margin-bottom: 1rem;">Blog Posts</h1>
-            <p style="color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 4rem; padding: 2rem; background: #FFFFF9; border-radius: 16px;">
+            <h1 style="color: #333; margin-bottom: 1rem; font-size: 2.5rem; font-weight: 600;">Blog Posts</h1>
+            <p style="color: #666; font-size: 1.2rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">
                 Thoughts on distributed systems, AI, and data engineering
             </p>
+            <div style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                <span
+                    style="background: #e8f0fe; color: #1a73e8; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.9rem; font-weight: 500;">Data
+                    Engineering</span>
+                <span
+                    style="background: #f3e5f5; color: #7b1fa2; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.9rem; font-weight: 500;">Distributed
+                    Systems</span>
+                <span
+                    style="background: #e8f5e8; color: #2e7d32; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.9rem; font-weight: 500;">AI
+                    & ML</span>
+            </div>
         </div>
 
         <!-- Blog Posts Container -->
-        <div id="blogs-container" style="max-width: 800px; margin: 0 auto;">
+        <div id="blogs-container"
+            style="max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; background: #FFFFF9; padding: 2rem; border-radius: 16px;">
             <!-- Blog posts will be dynamically loaded here -->
         </div>
 
         <!-- Footer -->
-        <hr style="margin: 2rem 0 1rem 0; border: none; border-top: 1px solid #e0e0e0;">
-        <div style="text-align: center; color: #888; font-size: 0.98rem; margin-top: 2.5rem; margin-bottom: 0;">
+        <hr style="margin: 3rem 0 1rem 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+        <div class="glass-card"
+            style="text-align: center; color: #888; font-size: 0.98rem; margin-top: 2.5rem; margin-bottom: 0; padding: 1rem; background: rgba(255, 255, 255, 0.7); border-radius: 12px;">
             © 2025 Shashwat Pandey. Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"
                 target="_blank" style="color: #1a73e8; text-decoration: none;">CC BY 4.0</a>.
         </div>

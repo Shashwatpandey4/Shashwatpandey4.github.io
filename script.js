@@ -8,52 +8,61 @@ function createBlogCard(blog) {
     blogLink.style = 'text-decoration: none; color: inherit; display: block;';
 
     const blogCard = document.createElement('div');
-    blogCard.className = 'blog-card';
+    blogCard.className = 'blog-card glass-card';
     blogCard.style = `
-        background: #FFFFF9;
-        padding: 1.5rem;
-        border-radius: 8px;
-        margin-bottom: 1.5rem;
-        border: 1px solid #e0e0e0;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 2rem;
+        border-radius: 16px;
+        margin-bottom: 0;
+        border: 1px solid rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     `;
 
     // Add hover effect
     blogCard.addEventListener('mouseenter', () => {
-        blogCard.style.transform = 'translateY(-2px)';
-        blogCard.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+        blogCard.style.transform = 'translateY(-4px)';
+        blogCard.style.boxShadow = '0 8px 30px rgba(0,0,0,0.15)';
+        blogCard.style.borderColor = 'rgba(26, 115, 232, 0.3)';
     });
 
     blogCard.addEventListener('mouseleave', () => {
         blogCard.style.transform = 'translateY(0)';
-        blogCard.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+        blogCard.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+        blogCard.style.borderColor = 'rgba(0,0,0,0.08)';
     });
 
     const title = document.createElement('h3');
-    title.style = 'margin: 0 0 0.5rem 0; color: #1a73e8; font-size: 1.3rem;';
+    title.style = 'margin: 0 0 1rem 0; color: #1a73e8; font-size: 1.4rem; font-weight: 600; line-height: 1.3;';
     title.textContent = blog.title;
 
     const description = document.createElement('p');
-    description.style = 'margin: 0 0 1rem 0; color: #444; line-height: 1.5;';
+    description.style = 'margin: 0 0 1.5rem 0; color: #555; line-height: 1.6; font-size: 1rem; flex-grow: 1;';
     description.textContent = blog.description;
 
     const metaInfo = document.createElement('div');
-    metaInfo.style = 'display: flex; gap: 1rem; align-items: center; font-size: 0.9rem; color: #666;';
+    metaInfo.style = 'display: flex; gap: 1rem; align-items: center; font-size: 0.9rem; color: #666; flex-wrap: wrap; margin-top: auto;';
 
     const category = document.createElement('span');
-    category.style = 'background: #e8f0fe; color: #1a73e8; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem;';
+    category.style = 'background: #e8f0fe; color: #1a73e8; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500; white-space: nowrap;';
     category.textContent = blog.category;
 
     const date = document.createElement('span');
+    date.style = 'color: #888; font-size: 0.85rem;';
     date.textContent = new Date(blog.date).toLocaleDateString('en-US', {
         year: 'numeric',
-        month: 'long',
+        month: 'short',
         day: 'numeric'
     });
 
     const readTime = document.createElement('span');
-    readTime.textContent = blog.readTime;
+    readTime.style = 'color: #888; font-size: 0.85rem; display: flex; align-items: center; gap: 0.3rem;';
+    readTime.innerHTML = `<i class="fas fa-clock" style="font-size: 0.8rem;"></i>${blog.readTime}`;
 
     metaInfo.appendChild(category);
     metaInfo.appendChild(date);
@@ -136,16 +145,21 @@ function showStaticBlogs() {
     const emptyState = document.createElement('div');
     emptyState.style = `
         text-align: center;
-        padding: 3rem 1rem;
+        padding: 4rem 2rem;
         color: #666;
         font-size: 1.1rem;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        backdrop-filter: blur(10px);
+        grid-column: 1 / -1;
     `;
     emptyState.innerHTML = `
-        <div style="margin-bottom: 1rem;">
-            <i class="fas fa-pen-fancy" style="font-size: 2rem; color: #1a73e8; margin-bottom: 1rem;"></i>
+        <div style="margin-bottom: 1.5rem;">
+            <i class="fas fa-pen-fancy" style="font-size: 3rem; color: #1a73e8; margin-bottom: 1rem; opacity: 0.8;"></i>
         </div>
-        <h3 style="color: #333; margin-bottom: 1rem;">No blog posts yet</h3>
-        <p>I'm working on some interesting content. Check back soon!</p>
+        <h3 style="color: #333; margin-bottom: 1rem; font-size: 1.5rem;">No blog posts yet</h3>
+        <p style="margin: 0; line-height: 1.6;">I'm working on some interesting content. Check back soon!</p>
     `;
 
     blogsContainer.appendChild(emptyState);
