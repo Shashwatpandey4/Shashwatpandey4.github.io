@@ -5,23 +5,24 @@ function createBlogCard(blog) {
     blogLink.target = '_blank';
     blogLink.rel = 'noopener noreferrer';
     blogLink.className = 'blog-link';
-    blogLink.style = 'text-decoration: none; color: inherit; display: block;';
+    blogLink.style = 'text-decoration: none; color: inherit; display: block; border-bottom: 1px solid #e0e0e0; padding-bottom: 1.5rem; margin-bottom: 1.5rem; width: 800px; margin-left: auto; margin-right: auto;';
 
     const blogCard = document.createElement('div');
     blogCard.className = 'blog-card glass-card';
     blogCard.style = `
-        background: rgba(255, 255, 255, 0.95);
-        padding: 2rem;
-        border-radius: 16px;
+        background: #ffffff;
+        padding: 0;
+        border-radius: 0;
         margin-bottom: 0;
-        border: 1px solid rgba(0,0,0,0.08);
+        border: 1px solid rgba(0,0,0,0.1);
         transition: all 0.3s ease;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        height: 100%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        width: 800px !important;
+        height: 160px !important;
         display: flex;
-        flex-direction: column;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        flex-direction: row;
+        overflow: hidden;
+        flex-shrink: 0;
     `;
 
     // Add hover effect
@@ -34,43 +35,50 @@ function createBlogCard(blog) {
     blogCard.addEventListener('mouseleave', () => {
         blogCard.style.transform = 'translateY(0)';
         blogCard.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
-        blogCard.style.borderColor = 'rgba(0,0,0,0.08)';
+        blogCard.style.borderColor = 'rgba(0,0,0,0.15)';
     });
 
+    // Create image section
+    const imageSection = document.createElement('div');
+    imageSection.style = 'width: 200px; height: 160px; background: #f5f5f5; border-radius: 0; display: flex; align-items: center; justify-content: center; flex-shrink: 0;';
+
+    // Check if this is the first blog (Matrix Multiplication) to use matmul.png
+    if (blog.title === "Understanding Matrix Multiplication Performance") {
+        const blogImage = document.createElement('img');
+        blogImage.src = 'images/matmul.png';
+        blogImage.alt = blog.title;
+        blogImage.style = 'width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;';
+        imageSection.appendChild(blogImage);
+    } else {
+        const placeholderImage = document.createElement('div');
+        placeholderImage.style = 'width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: bold;';
+        placeholderImage.textContent = '📝';
+        imageSection.appendChild(placeholderImage);
+    }
+
+    // Create content section
+    const contentSection = document.createElement('div');
+    contentSection.style = 'flex: 1; padding: 1.2rem; display: flex; flex-direction: column; justify-content: space-between; height: 160px;';
+
     const title = document.createElement('h3');
-    title.style = 'margin: 0 0 1rem 0; color: #1a73e8; font-size: 1.4rem; font-weight: 600; line-height: 1.3;';
+    title.style = 'margin: 0 0 1rem 0; color: #333; font-size: 1.3rem; font-weight: 600; line-height: 1.3; max-height: 3.9rem; overflow: hidden;';
     title.textContent = blog.title;
 
-    const description = document.createElement('p');
-    description.style = 'margin: 0 0 1.5rem 0; color: #555; line-height: 1.6; font-size: 1rem; flex-grow: 1;';
-    description.textContent = blog.description;
 
     const metaInfo = document.createElement('div');
-    metaInfo.style = 'display: flex; gap: 1rem; align-items: center; font-size: 0.9rem; color: #666; flex-wrap: wrap; margin-top: auto;';
+    metaInfo.style = 'display: flex; gap: 1rem; align-items: center; font-size: 0.8rem; color: #888; flex-wrap: wrap; margin-top: auto;';
 
     const category = document.createElement('span');
     category.style = 'background: #e8f0fe; color: #1a73e8; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500; white-space: nowrap;';
     category.textContent = blog.category;
 
-    const date = document.createElement('span');
-    date.style = 'color: #888; font-size: 0.85rem;';
-    date.textContent = new Date(blog.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    });
-
-    const readTime = document.createElement('span');
-    readTime.style = 'color: #888; font-size: 0.85rem; display: flex; align-items: center; gap: 0.3rem;';
-    readTime.innerHTML = `<i class="fas fa-clock" style="font-size: 0.8rem;"></i>${blog.readTime}`;
-
     metaInfo.appendChild(category);
-    metaInfo.appendChild(date);
-    metaInfo.appendChild(readTime);
 
-    blogCard.appendChild(title);
-    blogCard.appendChild(description);
-    blogCard.appendChild(metaInfo);
+    contentSection.appendChild(title);
+    contentSection.appendChild(metaInfo);
+
+    blogCard.appendChild(imageSection);
+    blogCard.appendChild(contentSection);
     blogLink.appendChild(blogCard);
 
     return blogLink;
@@ -92,6 +100,14 @@ async function loadBlogs() {
                 const blogCard = createBlogCard(blog);
                 blogsContainer.appendChild(blogCard);
             });
+
+            // Remove border from last card
+            const blogLinks = document.querySelectorAll('.blog-link');
+            if (blogLinks.length > 0) {
+                const lastCard = blogLinks[blogLinks.length - 1];
+                lastCard.style.borderBottom = 'none';
+                lastCard.style.marginBottom = '0';
+            }
         }
     } catch (error) {
         console.error('Error loading blogs:', error);

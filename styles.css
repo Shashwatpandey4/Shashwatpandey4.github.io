@@ -105,17 +105,11 @@ h4 {
     margin-bottom: 1rem;
 }
 
-/* Blog container as grid: 2 columns */
+/* Blog container as list */
 #blogs-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
     width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
-    background: rgba(0, 0, 255, 0.05);
-    /* TEMP: for debugging grid area */
-    justify-items: center;
 }
 
 /* Blog links styling - Google blue for all states */
@@ -146,18 +140,18 @@ h4 {
 
 /* Blog card: fixed size, consistent look */
 .blog-card {
-    width: 100%;
-    max-width: 400px;
-    min-width: 0;
-    height: 180px;
+    width: 800px !important;
+    max-width: 800px !important;
+    min-width: 800px !important;
+    height: 160px !important;
     display: flex;
     align-items: flex-start;
     background: #fff;
     border: 1px solid #e0e0e0;
-    border-radius: 8px;
+    border-radius: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    padding: 1rem;
-    gap: 1rem;
+    padding: 0;
+    gap: 0;
     transition: box-shadow 0.2s;
     overflow: hidden;
     box-sizing: border-box;
