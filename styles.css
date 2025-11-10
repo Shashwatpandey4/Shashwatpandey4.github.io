@@ -5,6 +5,7 @@ body {
     margin: 0;
     height: 100vh;
     background-color: #FFFFF9;
+    padding-bottom: 5%;
 }
 
 h2,
@@ -19,6 +20,7 @@ h4 {
     left: unset;
     transform: unset;
     margin: 2rem auto;
+    margin-bottom: 10%;
     width: 1040px;
     max-width: 100%;
     /* border: 2px solid #333; */
@@ -47,6 +49,11 @@ h4 {
     flex-wrap: wrap;
 }
 
+.social-links span {
+    font-size: 1.2rem;
+    color: #bbb;
+}
+
 .social-links a {
     color: #1a73e8;
     font-size: 1.1rem;
@@ -64,12 +71,288 @@ h4 {
 }
 
 #interest-content {
-    margin-top: 1.5rem;
+    margin-top: 2rem;
     padding: 1rem;
     background: #FFFFF9;
     border-radius: 6px;
     min-height: 60px;
     text-align: left;
+}
+
+/* Profile image styles */
+.intro-row img {
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.intro-row p {
+    margin: 0;
+    font-size: 1.5rem !important;
+}
+
+.intro-row a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+/* Section dividers */
+.section-divider {
+    margin: 2rem 0 1rem 0;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+.section-divider-top {
+    margin: 0 0 1rem 0;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Section headings */
+.section-heading {
+    margin-top: 0;
+    color: #1a73e8;
+    font-weight: normal;
+}
+
+.section-heading a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+.section-heading-large {
+    margin-top: 3rem;
+    color: #1a73e8;
+    font-weight: normal;
+}
+
+/* Coming soon placeholder */
+.coming-soon {
+    margin-top: 1rem;
+    color: #888;
+    font-style: italic;
+}
+
+/* View blogs link */
+.view-blogs-link {
+    margin-top: 1rem;
+}
+
+.view-blogs-link a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Papers list */
+.papers-list {
+    margin-top: 1rem;
+}
+
+.paper-item {
+    margin-bottom: 1.5rem;
+}
+
+.paper-content {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.paper-text {
+    flex: 1;
+}
+
+.paper-text h4 {
+    margin: 0 0 0.5rem 0;
+}
+
+.paper-text p {
+    margin: 0 0 0.5rem 0;
+}
+
+.paper-text p:last-child {
+    margin: 0;
+}
+
+.paper-text .author {
+    color: #666;
+}
+
+.paper-image {
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* Projects section */
+.projects-heading {
+    margin-top: 2rem;
+}
+
+.project-card img {
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.project-card h4 {
+    margin: 0 0 0.3rem 0;
+}
+
+.project-card p {
+    margin: 0;
+    font-size: 0.98rem;
+    color: #444;
+}
+
+.project-card-small p {
+    font-size: 0.9rem;
+}
+
+/* Data engineering projects */
+.de-projects {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Blog list */
+.blog-list {
+    margin-top: 1rem;
+    padding-left: 1.2rem;
+}
+
+/* Open source section */
+.open-source-section {
+    background: #FFFFF9;
+    margin: 2rem 0 0 0;
+    padding: 2rem 1.5rem;
+    border-radius: 8px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.open-source-section h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.os-contributions-list {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-left: 1.2rem;
+    font-size: 1.08rem;
+    color: #222;
+}
+
+.os-contributions-list a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+/* Experience section */
+.experience-section {
+    background: #FFFFF9;
+    margin: 2rem 0 0 0;
+    padding: 2rem 1.5rem;
+    border-radius: 8px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.experience-section h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.timeline {
+    position: relative;
+    margin: 2rem 0 2rem 0;
+    padding-left: 0;
+    border-left: none;
+}
+
+.timeline-line {
+    position: absolute;
+    left: calc(90px + 10px + 0.2rem + 1px);
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e0e0e0;
+    z-index: 0;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.timeline-date {
+    width: 90px;
+    min-width: 90px;
+    text-align: right;
+    color: #888;
+    font-size: 1rem;
+    padding-right: 10px;
+}
+
+.timeline-marker {
+    display: flex;
+    align-items: center;
+    margin-right: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    background: #fff;
+    border: 2px solid #1a73e8;
+    border-radius: 50%;
+    display: block;
+    margin-right: 8px;
+}
+
+.timeline-logo {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 6px;
+}
+
+.timeline-content {
+    flex: 1;
+}
+
+.timeline-title {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    color: #888;
+    font-size: 0.98rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0;
+}
+
+.footer a {
+    color: #1a73e8;
+    text-decoration: none;
 }
 
 .active-interest {
@@ -236,7 +519,6 @@ h4 {
 
     /* Font size reductions for 900-1200px */
     .intro-row p {
-        font-size: 0.9rem;
         line-height: 1.5;
     }
 
@@ -308,7 +590,6 @@ h4 {
     }
 
     .intro-row p {
-        font-size: 0.95rem;
         line-height: 1.5;
     }
 
@@ -441,7 +722,6 @@ h4 {
     }
 
     .intro-row p {
-        font-size: 0.9rem;
         line-height: 1.6;
         text-align: center;
     }
@@ -629,7 +909,6 @@ h4 {
     }
 
     .intro-row p {
-        font-size: 0.6rem;
     }
 
     .social-links {
