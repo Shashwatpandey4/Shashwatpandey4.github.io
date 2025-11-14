@@ -1,5 +1,38 @@
 // Function to create a blog card element
 function createBlogCard(blog) {
+    // Check if we're on blogs.html page
+    const isBlogsPage = window.location.pathname.includes('blogs.html') || 
+                        window.location.pathname.endsWith('blogs.html') ||
+                        document.getElementById('blogs-container') !== null;
+    
+    // If on blogs.html, create a simple list item
+    if (isBlogsPage) {
+        const listItem = document.createElement('li');
+        listItem.style = 'margin-bottom: 0.8rem; list-style: none;';
+        
+        const blogLink = document.createElement('a');
+        blogLink.href = blog.url;
+        blogLink.target = '_blank';
+        blogLink.rel = 'noopener noreferrer';
+        blogLink.style = 'color: #1a73e8; text-decoration: none; font-size: 1.1rem;';
+        blogLink.textContent = blog.title;
+        
+        // Add hover effect
+        blogLink.addEventListener('mouseenter', () => {
+            blogLink.style.textDecoration = 'underline';
+            blogLink.style.color = '#174ea6';
+        });
+        
+        blogLink.addEventListener('mouseleave', () => {
+            blogLink.style.textDecoration = 'none';
+            blogLink.style.color = '#1a73e8';
+        });
+        
+        listItem.appendChild(blogLink);
+        return listItem;
+    }
+    
+    // Original card styling for other pages
     const blogLink = document.createElement('a');
     blogLink.href = blog.url;
     blogLink.target = '_blank';
@@ -96,17 +129,35 @@ async function loadBlogs() {
         const blogsContainer = document.getElementById('blogs-container');
 
         if (blogsContainer) {
-            blogsData.blogs.forEach(blog => {
-                const blogCard = createBlogCard(blog);
-                blogsContainer.appendChild(blogCard);
-            });
+            // Check if we're on blogs.html page
+            const isBlogsPage = window.location.pathname.includes('blogs.html') || 
+                                window.location.pathname.endsWith('blogs.html') ||
+                                document.getElementById('blogs-container') !== null;
+            
+            if (isBlogsPage) {
+                // Create a simple unordered list for blogs.html
+                const blogList = document.createElement('ul');
+                blogList.style = 'list-style: none; padding-left: 0; margin: 0;';
+                blogsContainer.appendChild(blogList);
+                
+                blogsData.blogs.forEach(blog => {
+                    const listItem = createBlogCard(blog);
+                    blogList.appendChild(listItem);
+                });
+            } else {
+                // Original card layout for other pages
+                blogsData.blogs.forEach(blog => {
+                    const blogCard = createBlogCard(blog);
+                    blogsContainer.appendChild(blogCard);
+                });
 
-            // Remove border from last card
-            const blogLinks = document.querySelectorAll('.blog-link');
-            if (blogLinks.length > 0) {
-                const lastCard = blogLinks[blogLinks.length - 1];
-                lastCard.style.borderBottom = 'none';
-                lastCard.style.marginBottom = '0';
+                // Remove border from last card
+                const blogLinks = document.querySelectorAll('.blog-link');
+                if (blogLinks.length > 0) {
+                    const lastCard = blogLinks[blogLinks.length - 1];
+                    lastCard.style.borderBottom = 'none';
+                    lastCard.style.marginBottom = '0';
+                }
             }
         }
     } catch (error) {

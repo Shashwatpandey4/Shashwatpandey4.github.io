@@ -12,24 +12,31 @@
         body {
             background: #FFFFF9 !important;
             min-height: 100vh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
         .centered-div {
-            background-color: transparent !important;
+            background-color: #FFFFF9 !important;
             margin-top: 0 !important;
+            margin-bottom: 0 !important;
             padding: 0 !important;
             width: 1040px !important;
             max-width: 100% !important;
             margin-left: auto !important;
             margin-right: auto !important;
+            height: 100vh !important;
+            display: flex !important;
+            flex-direction: column !important;
         }
 
         /* Desktop - full width */
         @media (min-width: 1201px) {
             #blogs-container {
-                max-width: none !important;
-                width: 100% !important;
-                margin: 0 !important;
+                width: 80% !important;
+                margin: 0 auto 1.5rem auto !important;
                 padding: 2rem !important;
             }
         }
@@ -42,8 +49,8 @@
             }
 
             #blogs-container {
-                max-width: none !important;
-                margin: 0 !important;
+                width: 80% !important;
+                margin: 0 auto 1.5rem auto !important;
                 padding: 1.5rem !important;
             }
         }
@@ -56,8 +63,8 @@
             }
 
             #blogs-container {
-                max-width: none !important;
-                margin: 0 !important;
+                width: 80% !important;
+                margin: 0 auto 1.5rem auto !important;
                 padding: 1rem !important;
             }
 
@@ -79,8 +86,8 @@
             }
 
             #blogs-container {
-                max-width: none !important;
-                margin: 0 !important;
+                width: 80% !important;
+                margin: 0 auto 1.5rem auto !important;
                 padding: 0.8rem !important;
                 border-radius: 0 !important;
             }
@@ -109,51 +116,58 @@
             backdrop-filter: blur(10px) !important;
             -webkit-backdrop-filter: blur(10px) !important;
         }
+
+        /* Remove all card styling for blogs.html */
+        #blogs-container .blog-card,
+        #blogs-container .blog-link {
+            display: none !important;
+        }
+
+        #blogs-container ul {
+            list-style: none !important;
+            padding-left: 0 !important;
+            margin: 0 !important;
+        }
+
+        #blogs-container li {
+            margin-bottom: 0.8rem !important;
+            list-style: none !important;
+        }
+
+        #blogs-container a {
+            color: #1a73e8 !important;
+            text-decoration: none !important;
+            font-size: 1.1rem !important;
+        }
+
+        #blogs-container a:hover {
+            text-decoration: underline !important;
+            color: #174ea6 !important;
+        }
+
+        .centered-div .glass-card {
+            background-color: #FFFFF9 !important;
+        }
+
     </style>
 </head>
 
-<body style="padding-bottom: 5%; background: #FFFFF9; min-height: 100vh;">
-    <div class="centered-div" style="margin-bottom: 10%;">
+<body style="background: #FFFFF9; min-height: 100vh;">
+    <div class="centered-div" style="padding: 2rem 0;">
         <!-- Navigation -->
-        <div style="text-align: left; margin-bottom: 1rem;">
-            <a href="index.html"
-                style="color: #1a73e8; text-decoration: none; font-size: 1.1rem; padding: 0.5rem 1rem; border-radius: 6px; transition: all 0.2s ease; display: inline-block;">
-                Shashwat Pandey
-            </a>
-        </div>
-
-        <!-- Header -->
-        <div style="text-align: center; margin-bottom: 3rem; padding: 2rem; background: #FFFFF9; border-radius: 16px;">
-            <h1 class="header-title" style="color: #333; margin-bottom: 1rem; font-size: 2.5rem; font-weight: 600;">Blog
-                Posts</h1>
-            <p class="header-subtitle"
-                style="color: #666; font-size: 1.2rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">
-                Thoughts on distributed systems, AI, and data engineering
-            </p>
-            <div class="header-tags"
-                style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-                <span
-                    style="background: #e8f0fe; color: #1a73e8; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.9rem; font-weight: 500;">Data
-                    Engineering</span>
-                <span
-                    style="background: #f3e5f5; color: #7b1fa2; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.9rem; font-weight: 500;">Distributed
-                    Systems</span>
-                <span
-                    style="background: #e8f5e8; color: #2e7d32; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.9rem; font-weight: 500;">AI
-                    & ML</span>
-            </div>
+        <div style="margin-top: 20px; margin-bottom: 1.5rem;">
+            <a href="index.html" style="color: #1a73e8; text-decoration: none; font-size: 1.65rem;">Shashwat</a> <span style="font-size: 1.65rem;">/</span> <span style="font-size: 1.65rem;">Blogs</span>
         </div>
 
         <!-- Blog Posts Container -->
         <div id="blogs-container"
-            style="max-width: 1000px; margin: 0 auto; background: #FFFFF9; padding: 2rem; border-radius: 16px;">
+            style="width: 80%; height: 80%; margin: 0 auto 1.5rem auto; background: #FFFFF9; padding: 2rem; border-radius: 16px;">
             <!-- Blog posts will be dynamically loaded here -->
         </div>
 
         <!-- Footer -->
-        <hr style="margin: 3rem 0 1rem 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
         <div class="glass-card"
-            style="text-align: center; color: #888; font-size: 0.98rem; margin-top: 2.5rem; margin-bottom: 0; padding: 1rem; background: rgba(255, 255, 255, 0.7); border-radius: 12px;">
+            style="text-align: center; color: #888; font-size: 0.98rem; margin-top: 0; margin-bottom: 0; padding: 1rem; background: rgba(255, 255, 255, 0.7); border-radius: 12px;">
             © 2025 Shashwat Pandey. Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"
                 target="_blank" style="color: #1a73e8; text-decoration: none;">CC BY 4.0</a>.
         </div>
