@@ -223,6 +223,13 @@ h4 {
     margin-top: 1.5rem;
 }
 
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
 /* Blog list */
 .blog-list {
     margin-top: 1rem;
@@ -637,7 +644,8 @@ h4 {
     }
 
     /* Projects grid adjustments */
-    .de-projects {
+    .de-projects,
+    .projects-grid {
         grid-template-columns: 1fr !important;
         gap: 0.8rem;
     }
@@ -908,8 +916,7 @@ h4 {
         height: 100px !important;
     }
 
-    .intro-row p {
-    }
+    .intro-row p {}
 
     .social-links {
         gap: 0.6rem;
