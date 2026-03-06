@@ -9,14 +9,21 @@ function createBlogCard(blog) {
     if (isBlogsPage) {
         const listItem = document.createElement('li');
         listItem.style = 'margin-bottom: 0.8rem; list-style: none;';
-        
+
+        const row = document.createElement('div');
+        row.style = 'display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;';
+
         const blogLink = document.createElement('a');
         blogLink.href = blog.url;
         blogLink.target = '_blank';
         blogLink.rel = 'noopener noreferrer';
         blogLink.style = 'color: #1a73e8; text-decoration: none; font-size: 1.1rem;';
         blogLink.textContent = blog.title;
-        
+
+        const dateSpan = document.createElement('span');
+        dateSpan.textContent = blog.date || '';
+        dateSpan.style = 'color: #666; font-size: 0.9rem; white-space: nowrap;';
+
         // Add hover effect
         blogLink.addEventListener('mouseenter', () => {
             blogLink.style.textDecoration = 'underline';
@@ -27,8 +34,10 @@ function createBlogCard(blog) {
             blogLink.style.textDecoration = 'none';
             blogLink.style.color = '#1a73e8';
         });
-        
-        listItem.appendChild(blogLink);
+
+        row.appendChild(blogLink);
+        row.appendChild(dateSpan);
+        listItem.appendChild(row);
         return listItem;
     }
     

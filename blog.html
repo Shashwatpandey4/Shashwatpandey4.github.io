@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post - Shashwat Pandey</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .blog-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            min-height: 100vh;
+        }
+
+        /* Override global centered-div width just for this page */
+        .centered-div {
+            width: 1400px;
+            max-width: 95%;
+        }
+
+        .main-content {
+            line-height: 1.7;
+            color: #333;
+        }
+
+        .sidebar {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #666;
+            height: fit-content;
+            position: relative;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .main-content h1 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            font-weight: bold;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .main-content h2 {
+            color: #333;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .main-content h3 {
+            color: #444;
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .main-content p {
+            margin-bottom: 1.2rem;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        .main-content ul,
+        .main-content ol {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        .main-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .main-content code {
+            background: #f5f5f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .main-content pre {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #e0e0e0;
+        }
+
+        .main-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .main-content blockquote {
+            border-left: 4px solid #1a73e8;
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #666;
+        }
+
+        .blog-meta {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .blog-meta-line {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: #fafafa;
+            border-radius: 6px;
+        }
+
+        .sidebar-section h4 {
+            color: #333;
+            margin: 0 0 0.8rem 0;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .sidebar-section p {
+            margin: 0.5rem 0;
+            font-size: 0.85rem;
+        }
+
+        .sidebar-section .highlight {
+            color: #d32f2f;
+            font-weight: 500;
+        }
+
+        .sidebar-section .link {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        .sidebar-section .link:hover {
+            text-decoration: underline;
+        }
+
+        .reference-number {
+            color: #1a73e8;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .reference-number:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body style="padding-bottom: 5%;">
+    <div class="centered-div" style="margin-bottom: 10%;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <a href="index.html" style="color: #1a73e8; text-decoration: none; font-size: 1.1rem;">
+                ← Back to Home
+            </a>
+            <span style="margin: 0 1rem; color: #bbb;">|</span>
+            <a href="blogs.html" style="color: #1a73e8; text-decoration: none; font-size: 1.1rem;">
+                ← Back to Blogs
+            </a>
+        </div>
+
+        <div class="blog-container">
+            <div class="main-content">
+                <div class="blog-meta">
+                    <h1 id="blog-title"></h1>
+                    <div id="blog-meta-line" class="blog-meta-line"></div>
+                </div>
+
+                <div id="blog-content">
+                    <!-- Rendered blog content will appear here -->
+                </div>
+            </div>
+
+            <div class="sidebar" id="sidebar">
+                <!-- References will be dynamically populated here -->
+            </div>
+        </div>
+
+        <hr style="margin: 2rem 0 1rem 0; border: none; border-top: 1px solid #e0e0e0;">
+        <div style="text-align: center; color: #888; font-size: 0.98rem; margin-top: 2.5rem; margin-bottom: 0;">
+            © 2025 Shashwat Pandey. Content licensed under
+            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
+                style="color: #1a73e8; text-decoration: none;">CC BY 4.0</a>.
+        </div>
+    </div>
+
+    <script>
+        async function loadPost() {
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get('post');
+
+            const titleEl = document.getElementById('blog-title');
+            const metaLineEl = document.getElementById('blog-meta-line');
+            const contentEl = document.getElementById('blog-content');
+
+            if (!slug) {
+                titleEl.textContent = 'Post not found';
+                contentEl.innerHTML = '<p>Please provide a valid <code>?post=</code> parameter in the URL.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`posts/${slug}.md`);
+                if (!response.ok) {
+                    titleEl.textContent = 'Post not found';
+                    contentEl.innerHTML = '<p>Unable to load this post. It may have been moved or deleted.</p>';
+                    return;
+                }
+
+                const text = await response.text();
+
+                const parts = text.split('---');
+                const metaRaw = parts[0] || '';
+                const contentRaw = parts.slice(1).join('---');
+
+                const meta = {};
+                metaRaw.split('\n').forEach(line => {
+                    const trimmed = line.trim();
+                    if (!trimmed || trimmed.startsWith('#')) return;
+                    const idx = trimmed.indexOf(':');
+                    if (idx === -1) return;
+                    const key = trimmed.slice(0, idx).trim();
+                    const value = trimmed.slice(idx + 1).trim();
+                    if (key) meta[key] = value;
+                });
+
+                titleEl.textContent = meta.title || '';
+
+                const metaLineParts = [];
+                if (meta.author) metaLineParts.push(meta.author);
+                if (meta.date) metaLineParts.push(meta.date);
+                // Intentionally skip category/tag in the meta line
+                metaLineEl.textContent = metaLineParts.join(' - ');
+
+                let contentText = (contentRaw || '').trim();
+                const lines = contentText.split('\n');
+
+                // Split body vs trailing reference lines like:
+                // [1] Some reference text
+                // [2] Another reference
+                let firstRefIndex = -1;
+                for (let i = lines.length - 1; i >= 0; i--) {
+                    const trimmed = lines[i].trim();
+                    if (/^\[\d+\]/.test(trimmed)) {
+                        firstRefIndex = i;
+                    } else if (trimmed !== '') {
+                        // Hit non-empty, non-reference content above the refs block
+                        break;
+                    }
+                }
+
+                let bodyLines = lines;
+                let referenceLines = [];
+                if (firstRefIndex !== -1) {
+                    bodyLines = lines.slice(0, firstRefIndex);
+                    referenceLines = lines.slice(firstRefIndex).filter(l => /^\[\d+\]/.test(l.trim()));
+                }
+
+                const bodyMarkdown = bodyLines.join('\n').trim();
+
+                const references = {};
+                referenceLines.forEach(line => {
+                    const match = line.match(/^\[(\d+)\]\s*(.*)$/);
+                    if (match) {
+                        const num = parseInt(match[1], 10);
+                        const refText = match[2];
+                        const refHtml = marked.parse(refText);
+                        references[num] = {
+                            title: `Reference [${num}]`,
+                            content: refHtml
+                        };
+                    }
+                });
+
+                const bodyWithSpans = bodyMarkdown.replace(/\[(\d+)\]/g, '<span class="reference-number">[$1]</span>');
+                const html = marked.parse(bodyWithSpans);
+                contentEl.innerHTML = html;
+
+                function populateSidebar() {
+                    const sidebar = document.getElementById('sidebar');
+                    const referenceElements = document.querySelectorAll('.reference-number');
+
+                    sidebar.innerHTML = '';
+
+                    const sidebarRect = sidebar.getBoundingClientRect();
+                    const referencePositions = [];
+
+                    referenceElements.forEach(element => {
+                        const text = element.textContent;
+                        const match = text.match(/\[(\d+)\]/);
+                        if (match) {
+                            const num = parseInt(match[1], 10);
+                            const markerRect = element.getBoundingClientRect();
+                            const relativeTop = markerRect.top - sidebarRect.top;
+
+                            referencePositions.push({
+                                number: num,
+                                top: relativeTop,
+                                element: element
+                            });
+                        }
+                    });
+
+                    referencePositions.sort((a, b) => a.top - b.top);
+
+                    let maxBottom = 0;
+                    const verticalGap = 16; // px gap between stacked reference blocks
+                    referencePositions.forEach(ref => {
+                        const num = ref.number;
+                        if (!references[num]) return;
+
+                        const section = document.createElement('div');
+                        section.className = 'sidebar-section';
+                        section.innerHTML = `
+                            <h4>${references[num].title}</h4>
+                            <div>${references[num].content}</div>
+                        `;
+                        section.style.position = 'absolute';
+                        section.style.left = '0';
+                        section.style.right = '0';
+
+                        // Base position is aligned with the marker.
+                        // If that would overlap the previous block, push it down
+                        // so it starts just after the previous block (with a small gap).
+                        let desiredTop = ref.top;
+                        if (maxBottom > 0 && desiredTop < maxBottom + verticalGap) {
+                            desiredTop = maxBottom + verticalGap;
+                        }
+                        section.style.top = `${desiredTop}px`;
+                        sidebar.appendChild(section);
+
+                        const blockRect = section.getBoundingClientRect();
+                        const blockTopInSidebar = blockRect.top - sidebarRect.top;
+                        const blockBottomInSidebar = blockTopInSidebar + blockRect.height;
+                        maxBottom = Math.max(maxBottom, blockBottomInSidebar);
+
+                        // Debug: log marker vs sidebar block positions
+                        try {
+                            const markerRect = ref.element.getBoundingClientRect();
+                            console.log(`Ref [${num}] alignment`, {
+                                markerTopViewport: markerRect.top,
+                                markerTopInSidebar: markerRect.top - sidebarRect.top,
+                                blockTopViewport: blockRect.top,
+                                blockTopInSidebar,
+                                viewportDiff: blockRect.top - markerRect.top
+                            });
+                        } catch (e) {
+                            console.warn('Error logging ref alignment', e);
+                        }
+                    });
+
+                    if (referencePositions.length === 0) {
+                        const section = document.createElement('div');
+                        section.className = 'sidebar-section';
+                        section.innerHTML = `
+                            <h4>No References</h4>
+                            <p>Add references like <span class="highlight">[1]</span> in your content to see supplementary information here.</p>
+                        `;
+                        sidebar.appendChild(section);
+                        maxBottom = section.getBoundingClientRect().height;
+                    }
+
+                    if (maxBottom > 0) {
+                        sidebar.style.minHeight = `${maxBottom}px`;
+                    }
+                }
+
+                // Helper to (re)compute positions after layout has settled
+                function scheduleSidebarLayout() {
+                    // Wait for next paint so DOM/layout is up to date
+                    requestAnimationFrame(() => {
+                        // If fonts API is available, wait for fonts as well
+                        if (document.fonts && document.fonts.ready) {
+                            document.fonts.ready.then(() => {
+                                requestAnimationFrame(populateSidebar);
+                            });
+                        } else {
+                            populateSidebar();
+                        }
+                    });
+                }
+
+                // Initial layout after content render
+                scheduleSidebarLayout();
+                // Recompute on resize (layout can change)
+                window.addEventListener('resize', scheduleSidebarLayout);
+            } catch (error) {
+                console.error('Error loading post:', error);
+                titleEl.textContent = 'Error loading post';
+                contentEl.innerHTML = '<p>There was an error loading this post.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPost);
+    </script>
+</body>
+
+</html>

@@ -1,13 +1,10 @@
 blogs:
   - title: "Understanding Matrix Multiplication Performance"
     description: "A deep dive into matrix multiplication performance optimization techniques, exploring cache-friendly algorithms and parallel processing strategies for large-scale computations."
-    url: "blogs/example_blog.html"
+    url: "blog.html?post=example_blog"
+    date: "January 15, 2024"
     category: "Data Engineering"
     readTime: "8 min read"
 
-  - title: "Building Scalable Data Pipelines with Apache Airflow"
-    description: "Learn how to design and implement robust data pipelines using Apache Airflow, covering DAG design patterns, error handling, and monitoring best practices."
-    url: "blogs/airflow_pipelines.html"
-    category: "Data Engineering"
-    readTime: "12 min read"
+
 

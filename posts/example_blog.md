@@ -1,13 +1,11 @@
 title: Understanding Matrix Multiplication Performance
 date: January 15, 2024
+author: Shashwat Pandey
 category: Data Engineering
 description: A deep dive into matrix multiplication performance optimization techniques
 readTime: 8 min read
 
 ---
-
-```
-# Understanding Matrix Multiplication Performance
 
 Matrix multiplication is a fundamental operation in data engineering and machine learning. When working with large datasets, understanding the performance characteristics becomes crucial.
 
@@ -50,18 +48,18 @@ For production systems, it's recommended to use optimized BLAS libraries [1]. Th
 
 Matrix multiplication is used in various applications:
 
-1. **Machine Learning** - Neural network computations
+1. **Machine Learning** - Neural network computations[2]
 2. **Data Processing** - Feature transformations
 3. **Scientific Computing** - Numerical simulations
 
-The choice of implementation can have a dramatic impact on performance, especially when dealing with large-scale data [2].
+The choice of implementation can have a dramatic impact on performance, especially when dealing with large-scale data.
 
 ## Conclusion
 
-Understanding matrix multiplication performance is essential for building efficient data processing pipelines. By choosing the right algorithms and libraries, you can achieve significant performance improvements.
-```
+Understanding matrix multiplication performance is essential for building efficient data processing pipelines[3]. By choosing the right algorithms and libraries, you can achieve significant performance improvements.
 
-```
 [1] BLAS (Basic Linear Algebra Subprograms) is a specification that prescribes a set of low-level routines for performing common linear algebra operations such as vector addition, scalar multiplication, dot products, linear combinations, and matrix multiplication. Popular implementations include Intel's MKL, Apple's Accelerate framework, and OpenBLAS.
 
-[2] For large matrices (typically > 1000×1000), optimized BLAS libraries can provide 10-100x performance improvements over naive implementations. The exact improvement depends on the specific hardware and matrix characteristics. 
+[2] For large matrices (typically > 1000×1000), optimized BLAS libraries can provide 10-100x performance improvements over naive implementations. The exact improvement depends on the specific hardware and matrix characteristics.
+
+[3] For large matrices (typically > 1000×1000), optimized BLAS libraries can provide 10-100x performance improvements over naive implementations. The exact improvement depends on the specific hardware and matrix characteristics.
