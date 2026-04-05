@@ -5,237 +5,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shashwat Pandey</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <div class="centered-div">
-        <div class="intro-row">
+    <div class="container">
+        <div class="intro">
             <img src="images/img.png" alt="Shashwat Pandey">
-            <p>Applied AI & Compilers @ <a href="https://labs.engineering.asu.edu/mps-lab/" target="_blank"
-                    rel="noopener noreferrer">MPS
-                    Lab</a>
-            </p>
-        </div>
-        <div class="social-links">
-            <a href="https://github.com/Shashwatpandey4" target="_blank" title="GitHub">GitHub</a>
-            <span>&bull;</span>
-            <a href="mailto:spande90@asu.edu" target="_blank" title="Gmail">Gmail</a>
-            <span>&bull;</span>
-            <a href="https://www.linkedin.com/in/shashwat023/" target="_blank" title="LinkedIn">LinkedIn</a>
-            <span>&bull;</span>
-            <a href="https://scholar.google.com/citations?hl=en&user=oZBrVWYAAAAJ" target="_blank"
-                title="Google Scholar">Google Scholar</a>
-            <span>&bull;</span>
-            <a href="https://x.com/shashwat023" target="_blank" title="Twitter">Twitter</a>
-            <span>&bull;</span>
-            <a href="blogs.html" title="Blogs">Blog</a>
-        </div>
-
-        <div id="interest-content">
-            <hr class="section-divider">
-            <h3 class="section-heading">Systems & Compilers
-            </h3>
-
-            <ul class="blog-list">
-                <li><a href="https://github.com/Shashwatpandey4/HELM" target="_blank" rel="noopener noreferrer">HELM:
-                        Heterogeneous Execution of Language Models</a>
-                    &mdash; Compiler-guided parallelism for low-latency LLM inference on heterogeneous GPU systems via
-                    cost-modeling.</li>
-                <li><a href="https://github.com/Shashwatpandey4/fast_llm" target="_blank"
-                        rel="noopener noreferrer">fast_llm</a>
-                    &mdash; Performance analysis and optimization of LLM inference via custom kernels and compiler
-                    optimizations.</li>
-                <li><a href="https://github.com/Shashwatpandey4/AIKernels" target="_blank"
-                        rel="noopener noreferrer">AIKernels</a> &mdash; High-performance custom kernels for AI workloads
-                    using CUDA and Triton.</li>
-            </ul>
-
-            <hr class="section-divider">
-            <h3 class="section-heading">Applied AI</h3>
-            <div class='papers-list'>
-                <div class='paper-item'>
-                    <div class='paper-content'>
-                        <div class='paper-text'>
-                            <h4>Interpretable Learning Dynamics in Unsupervised
-                                Reinforcement Learning</h4>
-                            <p class="author">Authors: Shashwat Pandey</p>
-                            <p>arXiv: <a href="https://arxiv.org/abs/2505.06279" target="_blank"
-                                    rel="noopener noreferrer">2505.06279</a></p>
-                            <p>We present an interpretability framework for unsupervised
-                                reinforcement learning (URL) agents, aimed at understanding how intrinsic motivation
-                                shapes attention, behavior, and representation learning. Our findings show that
-                                curiosity-driven agents display broader, more dynamic attention and exploratory behavior
-                                than their extrinsically motivated counterparts.</p>
-                        </div>
-                        <img src='images/transformer_rnd_attention_landscape.png'
-                            alt='Transformer-RND Attention Landscape' class="paper-image">
-                    </div>
-                </div>
-            </div>
-            <h3 class="projects-heading">Projects</h3>
-            <div class="projects-grid">
-                <a href="https://github.com/Shashwatpandey4/sft_llm" target="_blank" rel="noopener noreferrer"
-                    class="project-link">
-                    <div class='project-card project-card-small'>
-                        <img src='images/sft_llm_benchmark.png' alt='Llama 3.2 Fine-tuning'>
-                        <div>
-                            <h4>Llama 3.2 Fine-tuning</h4>
-                            <p>Fine-tune Llama 3.2 1B on consumer hardware using uv. Includes rigorous benchmarking of
-                                training throughput and memory footprint.</p>
-                        </div>
-                    </div>
-                </a>
-                <a href="https://github.com/Shashwatpandey4/unsupervised_rl_interp" target="_blank"
-                    rel="noopener noreferrer" class="project-link">
-                    <div class='project-card project-card-small'>
-                        <img src='images/transformer_rnd_attention_landscape.png'
-                            alt='Transformer-RND Attention Landscape'>
-                        <div>
-                            <h4>Unsupervised RL Interpretability</h4>
-                            <p>A comprehensive interpretability framework
-                                for understanding how curiosity-driven agents explore and represent the world in
-                                unsupervised RL settings.</p>
-                        </div>
-                    </div>
-                </a>
-                <a href="https://github.com/Shashwatpandey4/NanoMamba" target="_blank" rel="noopener noreferrer"
-                    class="project-link">
-                    <div class='project-card project-card-small'>
-                        <img src='images/matmul.png' alt='NanoMamba'>
-                        <div>
-                            <h4>NanoMamba</h4>
-                            <p>Minimal implementation of the Mamba state space model.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <hr class="section-divider">
-            <h3 class="section-heading"><a href="blogs.html">Data Engineering Stuff</a></h3>
-            <ul class="blog-list">
-                <li><a href="https://shashwat-pandey.medium.com/understanding-ssh-as-a-data-professional-29ecc869f5f3"
-                        target="_blank" rel="noopener noreferrer">Understanding SSH as a Data professional</a></li>
-                <li><a href="https://shashwat-pandey.medium.com/understanding-apache-airflows-architecture-b9f238b5da43"
-                        target="_blank" rel="noopener noreferrer">Understanding Apache Airflow's Architecture</a></li>
-                <li><a href="https://medium.com/@shashwat-pandey/building-an-analytics-solution-for-ad-campaigns-part-1-data-modelling-461f82a9c9e8"
-                        target="_blank" rel="noopener noreferrer">Building an Analytics Solution for Ad Campaigns (Part
-                        1): Data Modelling</a></li>
-                <li><a href="https://medium.com/@shashwat-pandey/apache-spark-vs-apache-beam-what-to-choose-when-94f938d0317f"
-                        target="_blank" rel="noopener noreferrer">Apache Spark vs Apache Beam: What to Choose When</a>
-                </li>
-                <li><a href="https://medium.com/@shashwat-pandey/data-lake-table-formats-apache-iceberg-vs-apache-hudi-vs-delta-lake-10b67a1d587"
-                        target="_blank" rel="noopener noreferrer">Data Lake Table Formats: Apache Iceberg vs Apache Hudi
-                        vs Delta Lake</a></li>
-            </ul>
-            <div class="de-projects">
-                <a href="https://github.com/Shashwatpandey4/DataFlux" target="_blank" rel="noopener noreferrer"
-                    class="project-link">
-                    <div class='project-card'>
-                        <img src='images/dataflux.png' alt='DataFlux'>
-                        <div>
-                            <h4>DataFlux</h4>
-                            <p>High-performance, multi-stream data
-                                ingestion simulator. Built for testing real-time pipelines.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <!-- <div class="open-source-section">
-            <hr class="section-divider-top">
-            <h2>Open Source Contributions</h2>
-            <ul class="os-contributions-list">
-                <li><a href="https://github.com/apache/airflow/pull/49188" target="_blank">Add ORC support to
-                        GCSToBigQueryOperator and test
-                        for external tables</a> &mdash; apache/airflow</li>
-            </ul>
-        </div> -->
-        <div class="experience-section">
-            <hr class="section-divider-top">
-            <h2>Experience</h2>
-            <div class="timeline">
-                <div class="timeline-line"></div>
-                <div class="timeline-item">
-                    <div class="timeline-date">
-                        Aug 2024 - Present
-                    </div>
-                    <div class="timeline-marker">
-                        <span class="timeline-dot"></span>
-                        <img src="images/asu.png" alt="Arizona State University" class="timeline-logo">
-                    </div>
-                    <div class="timeline-content">
-                        <span class="timeline-title">Graduate Student Researcher, Arizona State University</span><br>
-                        • Conducting research on efficient LLM Inference, focusing on kernel performance, memory
-                        hierarchy behavior, and runtime scheduling.<br>
-                        • Implemented compiler-level optimizations using LLVM/MLIR, targeting operation fusion, layout
-                        transformations, and reduced memory movement.<br>
-                        • Explored distributed/heterogeneous execution strategies to accelerate large-model inference
-                        across multi-GPU setups.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">
-                        Aug 2025 - Dec 2025
-                    </div>
-                    <div class="timeline-marker">
-                        <span class="timeline-dot"></span>
-                        <img src="images/asu.png" alt="Arizona State University" class="timeline-logo">
-                    </div>
-                    <div class="timeline-content">
-                        <span class="timeline-title">Graduate Teaching Assistant, Arizona State University</span><br>
-                        • Served as a TA for Advanced Computer Architecture course, topics including pipelining,
-                        out-of-order scheduling, cache coherence, memory hierarchy, and GPU programming
-                        fundamentals.<br>
-                        • Designed and graded projects involving CPU/GPU performance analysis, instruction-level
-                        parallelism, and architectural trade-off evaluation.<br>
-                        • Held weekly office hours guiding students through performance bottlenecks, microarchitectural
-                        behavior, and low-level optimization strategies.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">
-                        Oct 2023 - Jul 2024
-                    </div>
-                    <div class="timeline-marker">
-                        <span class="timeline-dot"></span>
-                        <img src="images/zocketads_logo.png" alt="Zocket Technologies" class="timeline-logo">
-                    </div>
-                    <div class="timeline-content">
-                        <span class="timeline-title">Data Engineer, Zocket
-                            Technologies</span><br>
-                        • Designed and built near real-time data pipelines from scratch, enabling ad performance
-                        insights across Facebook and Google.<br>
-                        • Refactored legacy architecture with multithreading, improving pipeline runtime by ~85% and
-                        cutting external API calls by 84%.<br>
-                        • Migrated Zocket's data infrastructure from AWS to GCP, deploying self-managed Spark and
-                        Airflow for better control and cost efficiency.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">
-                        Oct 2021 - Sept 2023
-                    </div>
-                    <div class="timeline-marker">
-                        <span class="timeline-dot"></span>
-                        <img src="images/novo-nordisk-logo.png" alt="Novo Nordisk" class="timeline-logo">
-                    </div>
-                    <div class="timeline-content">
-                        <span class="timeline-title">Data Engineer, Novo
-                            Nordisk</span><br>
-                        • Developed and managed 50+ production-grade ETL pipelines using AWS Glue, supporting analytics
-                        across multiple business functions.<br>
-                        • Improved data quality by 40% through automated validation and Infrastructure-as-Code using AWS
-                        CDK.<br>
-                        • Optimized S3 storage and pipeline design for faster, more reliable data processing.<br>
-                    </div>
+            <div class="intro-text">
+                <h1>Shashwat Pandey</h1>
+                <p class="bio">I work on making AI systems fast — through compilers, kernels, and hardware-aware
+                    design. Graduate researcher at <a href="https://labs.engineering.asu.edu/mps-lab/" target="_blank"
+                        rel="noopener noreferrer">MPS Lab</a>, ASU.</p>
+                <div class="links">
+                    <a href="https://github.com/Shashwatpandey4" target="_blank">GitHub</a>
+                    <a href="mailto:spande90@asu.edu">Email</a>
+                    <a href="https://www.linkedin.com/in/shashwat023/" target="_blank">LinkedIn</a>
+                    <a href="https://scholar.google.com/citations?hl=en&user=oZBrVWYAAAAJ" target="_blank">Google Scholar</a>
+                    <a href="https://x.com/shashwat023" target="_blank">Twitter</a>
                 </div>
             </div>
         </div>
-        <hr class="section-divider">
+
+        <hr>
+
+        <h2>Research</h2>
+        <div class="paper">
+            <div class="paper-text">
+                <h3><a href="https://arxiv.org/abs/2505.06279" target="_blank" rel="noopener noreferrer">Interpretable
+                        Learning Dynamics in Unsupervised Reinforcement Learning</a></h3>
+                <p class="authors">Shashwat Pandey</p>
+                <p>An interpretability framework for unsupervised RL agents, aimed at understanding how intrinsic
+                    motivation shapes attention, behavior, and representation learning. Curiosity-driven agents display
+                    broader, more dynamic attention and exploratory behavior than their extrinsically motivated
+                    counterparts.</p>
+            </div>
+            <img src="images/transformer_rnd_attention_landscape.png" alt="Transformer-RND Attention Landscape">
+        </div>
+
+        <hr>
+
+        <h2>Projects</h2>
+
+        <hr>
+
+        <h2>Blog</h2>
+        <p style="font-size: 0.8rem; color: #aaa; margin: 0 0 1rem 0;">Blog format inspired by <a href="https://simonboehm.com" target="_blank" rel="noopener noreferrer" style="color: #aaa;">Simon Boehm</a>.</p>
+        <div id="blogs-container"></div>
+
         <div class="footer">
-            © 2025 Shashwat Pandey. Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"
+            &copy; 2025 Shashwat Pandey. Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"
                 target="_blank">CC BY 4.0</a>.
         </div>
     </div>
