@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Post - Shashwat Pandey</title>
+    <link rel="icon" href="images/img.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -52,6 +53,8 @@
             margin: 2rem 0 1rem 0;
             font-size: 1.5rem;
             font-weight: bold;
+            text-transform: none;
+            letter-spacing: 0;
         }
 
         .main-content h3 {
@@ -195,9 +198,9 @@
 
         <hr style="margin: 2rem 0 1rem 0; border: none; border-top: 1px solid #e0e0e0;">
         <div style="text-align: center; color: #888; font-size: 0.98rem; margin-top: 2.5rem; margin-bottom: 0;">
-            © 2025 Shashwat Pandey. Content licensed under
+            © 2026 Shashwat Pandey. Content licensed under
             <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
-                style="color: #1a73e8; text-decoration: none;">CC BY 4.0</a>.
+                rel="noopener noreferrer" style="color: #1a73e8; text-decoration: none;">CC BY 4.0</a>.
         </div>
     </div>
 
@@ -350,20 +353,6 @@
                         const blockTopInSidebar = blockRect.top - sidebarRect.top;
                         const blockBottomInSidebar = blockTopInSidebar + blockRect.height;
                         maxBottom = Math.max(maxBottom, blockBottomInSidebar);
-
-                        // Debug: log marker vs sidebar block positions
-                        try {
-                            const markerRect = ref.element.getBoundingClientRect();
-                            console.log(`Ref [${num}] alignment`, {
-                                markerTopViewport: markerRect.top,
-                                markerTopInSidebar: markerRect.top - sidebarRect.top,
-                                blockTopViewport: blockRect.top,
-                                blockTopInSidebar,
-                                viewportDiff: blockRect.top - markerRect.top
-                            });
-                        } catch (e) {
-                            console.warn('Error logging ref alignment', e);
-                        }
                     });
 
                     if (referencePositions.length === 0) {
