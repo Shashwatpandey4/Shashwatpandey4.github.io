@@ -125,6 +125,35 @@ h2 {
     font-size: 0.9rem;
 }
 
+/* Projects */
+.project-list {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.project-list li {
+    margin-bottom: 1.2rem;
+    line-height: 1.55;
+}
+
+.project-title {
+    color: #222;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.project-list p {
+    margin: 0.25rem 0 0.35rem 0;
+    color: #444;
+    font-size: 0.9rem;
+}
+
+.project-status {
+    color: #555;
+    font-size: 0.85rem;
+}
+
 
 /* Footer */
 .footer {
@@ -145,7 +174,7 @@ h2 {
     text-decoration: underline;
 }
 
-/* Blog/blogs.html list styles */
+/* Blog list */
 #blogs-container {
     width: 100%;
     box-sizing: border-box;

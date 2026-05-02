@@ -1,9 +1,6 @@
 title: Understanding Matrix Multiplication Performance
 date: January 15, 2024
 author: Shashwat Pandey
-category: Data Engineering
-description: A deep dive into matrix multiplication performance optimization techniques
-readTime: 8 min read
 
 ---
 

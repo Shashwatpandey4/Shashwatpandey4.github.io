@@ -1,10 +1,20 @@
 blogs:
+  - title: "CUDA GEMM: From Naive Matmul to Optimized Kernels"
+    url: "blog.html?post=cuda_gemm"
+    date: "Planned"
+
+  - title: "FlashAttention in Triton"
+    url: "blog.html?post=flashattention_triton"
+    date: "Planned"
+
+  - title: "From Triton to MLIR/LLVM: A Compiler Walkthrough"
+    url: "blog.html?post=triton_mlir_llvm"
+    date: "Planned"
+
+  - title: "Fast LLM Inference From Scratch"
+    url: "blog.html?post=fast_llm_inference_from_scratch"
+    date: "Planned"
+
   - title: "Understanding Matrix Multiplication Performance"
-    description: "A deep dive into matrix multiplication performance optimization techniques, exploring cache-friendly algorithms and parallel processing strategies for large-scale computations."
     url: "blog.html?post=example_blog"
     date: "January 15, 2024"
-    category: "Data Engineering"
-    readTime: "8 min read"
-
-
-
