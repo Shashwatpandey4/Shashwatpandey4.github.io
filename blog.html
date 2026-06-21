@@ -195,6 +195,8 @@
             </div>
         </div>
 
+        <div id="giscus-container" style="margin-top: 3rem;"></div>
+
         <hr style="margin: 2rem 0 1rem 0; border: none; border-top: 1px solid #e0e0e0;">
         <div style="text-align: center; color: #555; font-size: 0.98rem; margin-top: 2.5rem; margin-bottom: 0;">
             © 2026 Shashwat Pandey. Content licensed under
@@ -388,11 +390,36 @@
                 scheduleSidebarLayout();
                 // Recompute on resize (layout can change)
                 window.addEventListener('resize', scheduleSidebarLayout);
+
+                injectGiscus(slug);
             } catch (error) {
                 console.error('Error loading post:', error);
                 titleEl.textContent = 'Error loading post';
                 contentEl.innerHTML = '<p>There was an error loading this post.</p>';
             }
+        }
+
+        function injectGiscus(slug) {
+            const container = document.getElementById('giscus-container');
+            if (!container) return;
+
+            const script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', 'Shashwatpandey4/Shashwatpandey4.github.io');
+            script.setAttribute('data-repo-id', 'R_kgDONwANsg');
+            script.setAttribute('data-category', 'General');
+            script.setAttribute('data-category-id', 'DIC_kwDONwANss4C_ksW');
+            script.setAttribute('data-mapping', 'specific');
+            script.setAttribute('data-term', slug);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'top');
+            script.setAttribute('data-theme', 'light');
+            script.setAttribute('data-lang', 'en');
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            container.appendChild(script);
         }
 
         document.addEventListener('DOMContentLoaded', loadPost);
