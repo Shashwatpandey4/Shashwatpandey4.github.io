@@ -1,0 +1,12 @@
+{
+  "name": "blog-figs",
+  "private": true,
+  "description": "Figure generators for the blog posts. See README.md.",
+  "scripts": {
+    "build": "node build.cjs"
+  },
+  "dependencies": {
+    "roughjs": "^4.6.6",
+    "marked": "^17.0.1"
+  }
+}
