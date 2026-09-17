@@ -152,6 +152,67 @@
             text-decoration: underline;
         }
 
+        .main-content pre {
+            background: #f7f8f9;
+            border: 1px solid #e3e6e8;
+            border-radius: 3px;
+            padding: 0.85rem 1rem;
+            overflow-x: auto;
+            font-size: 0.84rem;
+            line-height: 1.55;
+            margin: 1.2rem 0;
+        }
+
+        .main-content code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.88em;
+        }
+
+        .main-content :not(pre) > code {
+            background: #f0f2f4;
+            padding: 0.1em 0.32em;
+            border-radius: 3px;
+        }
+
+        .main-content figure {
+            margin: 1.6rem 0;
+        }
+
+        .main-content figure svg,
+        .main-content figure img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .main-content figcaption {
+            font-size: 0.82rem;
+            color: #666;
+            line-height: 1.5;
+            padding-top: 0.5rem;
+            border-top: 1px solid #e8eaec;
+            margin-top: 0.5rem;
+        }
+
+        .main-content table {
+            border-collapse: collapse;
+            font-size: 0.86rem;
+            margin: 1.3rem 0;
+            width: 100%;
+        }
+
+        .main-content th {
+            text-align: left;
+            border-bottom: 1.5px solid #333;
+            padding: 0.35rem 0.6rem;
+            font-weight: 600;
+        }
+
+        .main-content td {
+            border-bottom: 1px solid #e8eaec;
+            padding: 0.35rem 0.6rem;
+        }
+
         .reference-number {
             color: #1a73e8;
             font-weight: bold;
@@ -174,6 +235,14 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/cpp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/bash.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 </head>
 
 <body>
@@ -206,6 +275,64 @@
     </div>
 
     <script>
+
+        function markReferences(root) {
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+                acceptNode(node) {
+                    for (let p = node.parentElement; p && p !== root; p = p.parentElement) {
+                        const t = p.tagName;
+                        if (t === 'CODE' || t === 'PRE' || t === 'A' || t === 'SVG') {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+                    }
+                    return /\[\d+\]/.test(node.nodeValue)
+                        ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+                }
+            });
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+            for (const node of nodes) {
+                const text = node.nodeValue;
+                const frag = document.createDocumentFragment();
+                let last = 0;
+                const re = /\[(\d+)\]/g;
+                let m;
+                while ((m = re.exec(text)) !== null) {
+                    if (m.index > last) {
+                        frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+                    }
+                    const span = document.createElement('span');
+                    span.className = 'reference-number';
+                    span.textContent = m[0];
+                    frag.appendChild(span);
+                    last = m.index + m[0].length;
+                }
+                if (last < text.length) {
+                    frag.appendChild(document.createTextNode(text.slice(last)));
+                }
+                node.parentNode.replaceChild(frag, node);
+            }
+        }
+
+        function highlightAndTypeset(root) {
+            if (window.hljs) {
+                root.querySelectorAll('pre code').forEach(el => {
+                    try { window.hljs.highlightElement(el); } catch (e) {}
+                });
+            }
+            if (window.renderMathInElement) {
+                try {
+                    window.renderMathInElement(root, {
+                        delimiters: [
+                            { left: '$$', right: '$$', display: true },
+                            { left: '$', right: '$', display: false }
+                        ],
+                        ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                    });
+                } catch (e) {}
+            }
+        }
+
         async function loadPost() {
             const params = new URLSearchParams(window.location.search);
             const slug = params.get('post');
@@ -292,9 +419,15 @@
                     }
                 });
 
-                const bodyWithSpans = bodyMarkdown.replace(/\[(\d+)\]/g, '<span class="reference-number">[$1]</span>');
-                const html = marked.parse(bodyWithSpans);
-                contentEl.innerHTML = html;
+                // Render first, THEN mark up [n] references by walking text
+                // nodes. Doing the substitution on the raw markdown rewrote
+                // every array index inside fenced code too -- `acc[0]` became
+                // `acc<span ...>[0]</span>`, which marked then escaped and
+                // showed as literal markup. Code is most of a kernel post, so
+                // this has to skip <pre>, <code> and <a>.
+                contentEl.innerHTML = marked.parse(bodyMarkdown);
+                markReferences(contentEl);
+                highlightAndTypeset(contentEl);
 
                 function populateSidebar() {
                     const sidebar = document.getElementById('sidebar');
