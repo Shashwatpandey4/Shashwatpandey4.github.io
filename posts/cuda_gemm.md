@@ -16,7 +16,6 @@ GPU, and sorted the kernels by how long they ran. Here is the whole picture.
 <figure>
 <svg viewBox="0 0 740 176" role="img" aria-label="Share of GPU time by kernel category, prefill and decode">
   <text x="0" y="14" font-family="monospace" font-size="11" fill="#666">SHARE OF GPU TIME BY KERNEL</text>
-
   <text x="0" y="52" font-family="monospace" font-size="12" fill="#1a1a1a">prefill</text>
   <rect x="78" y="40" width="469" height="18" fill="#1a73e8"/>
   <rect x="547" y="40" width="99" height="18" fill="#c2410c"/>
@@ -24,7 +23,6 @@ GPU, and sorted the kernels by how long they ran. Here is the whole picture.
   <text x="86" y="53" font-family="monospace" font-size="11" fill="#fff">matmul  73.0%</text>
   <text x="553" y="53" font-family="monospace" font-size="10.5" fill="#fff">attn 15.4</text>
   <text x="651" y="53" font-family="monospace" font-size="10.5" fill="#333">rest 12</text>
-
   <text x="0" y="96" font-family="monospace" font-size="12" fill="#1a1a1a">decode</text>
   <rect x="78" y="84" width="544" height="18" fill="#1a73e8"/>
   <rect x="622" y="84" width="54" height="18" fill="#c2410c"/>
@@ -32,7 +30,6 @@ GPU, and sorted the kernels by how long they ran. Here is the whole picture.
   <text x="86" y="97" font-family="monospace" font-size="11" fill="#fff">matmul  84.7%</text>
   <text x="628" y="97" font-family="monospace" font-size="10.5" fill="#fff">8.4</text>
   <text x="681" y="97" font-family="monospace" font-size="10.5" fill="#333">6.9</text>
-
   <line x1="78" y1="118" x2="720" y2="118" stroke="#d8dcdf"/>
   <text x="78" y="136" font-family="monospace" font-size="10.5" fill="#666">0%</text>
   <text x="383" y="136" font-family="monospace" font-size="10.5" fill="#666">50%</text>
@@ -91,7 +88,6 @@ wildly different:
   <text x="128" y="36" font-family="monospace" font-size="10" fill="#666">SIZE</text>
   <text x="228" y="36" font-family="monospace" font-size="10" fill="#666">BANDWIDTH (log scale)</text>
   <text x="640" y="36" font-family="monospace" font-size="10" fill="#666">LATENCY</text>
-
   <!-- registers -->
   <rect x="0" y="46" width="118" height="34" fill="#15803d"/>
   <text x="8" y="67" font-family="monospace" font-size="11.5" fill="#fff">registers</text>
@@ -99,7 +95,6 @@ wildly different:
   <rect x="228" y="54" width="392" height="18" fill="#15803d"/>
   <text x="236" y="67" font-family="monospace" font-size="11" fill="#fff">~100 TB/s</text>
   <text x="640" y="67" font-family="monospace" font-size="11" fill="#333">~1 cycle</text>
-
   <!-- shared -->
   <rect x="0" y="92" width="118" height="34" fill="#1a73e8"/>
   <text x="8" y="113" font-family="monospace" font-size="11.5" fill="#fff">shared mem</text>
@@ -107,7 +102,6 @@ wildly different:
   <rect x="228" y="100" width="300" height="18" fill="#1a73e8"/>
   <text x="236" y="113" font-family="monospace" font-size="11" fill="#fff">~12 TB/s</text>
   <text x="640" y="113" font-family="monospace" font-size="11" fill="#333">~30 cycles</text>
-
   <!-- L2 -->
   <rect x="0" y="138" width="118" height="34" fill="#6b8ea8"/>
   <text x="8" y="159" font-family="monospace" font-size="11.5" fill="#fff">L2 cache</text>
@@ -115,7 +109,6 @@ wildly different:
   <rect x="228" y="146" width="196" height="18" fill="#6b8ea8"/>
   <text x="236" y="159" font-family="monospace" font-size="11" fill="#fff">~2 TB/s</text>
   <text x="640" y="159" font-family="monospace" font-size="11" fill="#333">~200 cycles</text>
-
   <!-- DRAM -->
   <rect x="0" y="184" width="118" height="34" fill="#c2410c"/>
   <text x="8" y="205" font-family="monospace" font-size="11.5" fill="#fff">DRAM</text>
@@ -123,7 +116,6 @@ wildly different:
   <rect x="228" y="192" width="92" height="18" fill="#c2410c"/>
   <text x="236" y="205" font-family="monospace" font-size="11" fill="#fff">227 GB/s</text>
   <text x="640" y="205" font-family="monospace" font-size="11" fill="#333">~400 cycles</text>
-
   <line x1="228" y1="228" x2="620" y2="228" stroke="#d8dcdf"/>
   <text x="0" y="252" font-family="monospace" font-size="10.5" fill="#666">Register and shared-memory bandwidths are aggregate across all 24 SMs. Latencies are rough; the ratios are what matter.</text>
 </svg>
@@ -199,48 +191,40 @@ stride. They are in 32 completely different places.
 <figure>
 <svg viewBox="0 0 740 286" role="img" aria-label="Naive kernel memory access: one warp reads 32 different rows of A">
   <text x="0" y="14" font-family="monospace" font-size="11" fill="#666">MATRIX A IN MEMORY (ROW-MAJOR) &#183; WHAT ONE WARP TOUCHES IN ONE ITERATION</text>
-
   <!-- rows of A -->
   <g>
-    <text x="0" y="46" font-family="monospace" font-size="10.5" fill="#666">row 0</text>
-    <rect x="52" y="34" width="600" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
-    <rect x="172" y="34" width="14" height="14" fill="#c2410c"/>
-    <text x="664" y="46" font-family="monospace" font-size="10" fill="#c2410c">fetch 1</text>
-
-    <text x="0" y="68" font-family="monospace" font-size="10.5" fill="#666">row 1</text>
-    <rect x="52" y="56" width="600" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
-    <rect x="172" y="56" width="14" height="14" fill="#c2410c"/>
-    <text x="664" y="68" font-family="monospace" font-size="10" fill="#c2410c">fetch 2</text>
-
-    <text x="0" y="90" font-family="monospace" font-size="10.5" fill="#666">row 2</text>
-    <rect x="52" y="78" width="600" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
-    <rect x="172" y="78" width="14" height="14" fill="#c2410c"/>
-    <text x="664" y="90" font-family="monospace" font-size="10" fill="#c2410c">fetch 3</text>
-
-    <text x="0" y="112" font-family="monospace" font-size="10.5" fill="#666">row 3</text>
-    <rect x="52" y="100" width="600" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
-    <rect x="172" y="100" width="14" height="14" fill="#c2410c"/>
-    <text x="664" y="112" font-family="monospace" font-size="10" fill="#c2410c">fetch 4</text>
-
-    <text x="76" y="132" font-family="monospace" font-size="12" fill="#999">&#8942;</text>
-    <text x="176" y="132" font-family="monospace" font-size="12" fill="#c2410c">&#8942;</text>
-
-    <text x="0" y="156" font-family="monospace" font-size="10.5" fill="#666">row 31</text>
-    <rect x="52" y="144" width="600" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
-    <rect x="172" y="144" width="14" height="14" fill="#c2410c"/>
-    <text x="664" y="156" font-family="monospace" font-size="10" fill="#c2410c">fetch 32</text>
+  <text x="0" y="46" font-family="monospace" font-size="10.5" fill="#666">row 0</text>
+  <rect x="52" y="34" width="600" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
+  <rect x="172" y="34" width="14" height="14" fill="#c2410c"/>
+  <text x="664" y="46" font-family="monospace" font-size="10" fill="#c2410c">fetch 1</text>
+  <text x="0" y="68" font-family="monospace" font-size="10.5" fill="#666">row 1</text>
+  <rect x="52" y="56" width="600" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
+  <rect x="172" y="56" width="14" height="14" fill="#c2410c"/>
+  <text x="664" y="68" font-family="monospace" font-size="10" fill="#c2410c">fetch 2</text>
+  <text x="0" y="90" font-family="monospace" font-size="10.5" fill="#666">row 2</text>
+  <rect x="52" y="78" width="600" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
+  <rect x="172" y="78" width="14" height="14" fill="#c2410c"/>
+  <text x="664" y="90" font-family="monospace" font-size="10" fill="#c2410c">fetch 3</text>
+  <text x="0" y="112" font-family="monospace" font-size="10.5" fill="#666">row 3</text>
+  <rect x="52" y="100" width="600" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
+  <rect x="172" y="100" width="14" height="14" fill="#c2410c"/>
+  <text x="664" y="112" font-family="monospace" font-size="10" fill="#c2410c">fetch 4</text>
+  <text x="76" y="132" font-family="monospace" font-size="12" fill="#999">&#8942;</text>
+  <text x="176" y="132" font-family="monospace" font-size="12" fill="#c2410c">&#8942;</text>
+  <text x="0" y="156" font-family="monospace" font-size="10.5" fill="#666">row 31</text>
+  <rect x="52" y="144" width="600" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
+  <rect x="172" y="144" width="14" height="14" fill="#c2410c"/>
+  <text x="664" y="156" font-family="monospace" font-size="10" fill="#c2410c">fetch 32</text>
   </g>
-
   <text x="52" y="178" font-family="monospace" font-size="10.5" fill="#666">&#8592; one row = K floats (3584 bytes for K=896) &#8594;</text>
-
   <!-- what the hardware moves -->
   <text x="0" y="214" font-family="monospace" font-size="11" fill="#666">WHAT THE HARDWARE ACTUALLY MOVES</text>
   <rect x="0" y="224" width="720" height="26" fill="#fbeae4" stroke="#e8c4b4"/>
   <g font-family="monospace" font-size="10">
-    <rect x="6" y="230" width="20" height="14" fill="#c2410c"/><text x="30" y="241" fill="#7a2d0c">32 B sector</text>
-    <rect x="118" y="230" width="20" height="14" fill="#c2410c"/><text x="142" y="241" fill="#7a2d0c">32 B sector</text>
-    <rect x="230" y="230" width="20" height="14" fill="#c2410c"/><text x="254" y="241" fill="#7a2d0c">32 B sector</text>
-    <text x="342" y="241" fill="#7a2d0c">&#8230; 32 of them, and 31/32 of every one is thrown away</text>
+  <rect x="6" y="230" width="20" height="14" fill="#c2410c"/><text x="30" y="241" fill="#7a2d0c">32 B sector</text>
+  <rect x="118" y="230" width="20" height="14" fill="#c2410c"/><text x="142" y="241" fill="#7a2d0c">32 B sector</text>
+  <rect x="230" y="230" width="20" height="14" fill="#c2410c"/><text x="254" y="241" fill="#7a2d0c">32 B sector</text>
+  <text x="342" y="241" fill="#7a2d0c">&#8230; 32 of them, and 31/32 of every one is thrown away</text>
   </g>
   <text x="0" y="274" font-family="monospace" font-size="10.5" fill="#666">Measured: 0.112 TFLOPS, ~15 GB/s of useful bandwidth out of 227 GB/s available.</text>
 </svg>
@@ -294,28 +278,22 @@ which are 32 *adjacent* floats. 128 contiguous bytes. One transaction.
 <figure>
 <svg viewBox="0 0 740 250" role="img" aria-label="Coalesced access: one warp reads one contiguous run of B">
   <text x="0" y="14" font-family="monospace" font-size="11" fill="#666">SAME WARP, AFTER THE SWAP &#183; MATRIX B, ROW k</text>
-
   <rect x="52" y="34" width="600" height="18" fill="#eef1f3" stroke="#dfe3e6"/>
   <rect x="172" y="34" width="128" height="18" fill="#15803d"/>
   <text x="0" y="47" font-family="monospace" font-size="10.5" fill="#666">row k</text>
   <text x="180" y="47" font-family="monospace" font-size="10" fill="#fff">32 adjacent floats</text>
   <text x="664" y="47" font-family="monospace" font-size="10" fill="#15803d">1 fetch</text>
-
   <line x1="172" y1="58" x2="172" y2="74" stroke="#15803d"/>
   <line x1="300" y1="58" x2="300" y2="74" stroke="#15803d"/>
   <line x1="172" y1="74" x2="300" y2="74" stroke="#15803d"/>
   <text x="176" y="88" font-family="monospace" font-size="10" fill="#15803d">128 bytes = exactly one memory transaction</text>
-
   <text x="0" y="124" font-family="monospace" font-size="11" fill="#666">BYTES MOVED TO DELIVER 128 USEFUL BYTES</text>
-
   <text x="0" y="152" font-family="monospace" font-size="11" fill="#1a1a1a">naive</text>
   <rect x="78" y="140" width="560" height="16" fill="#c2410c"/>
   <text x="86" y="152" font-family="monospace" font-size="10.5" fill="#fff">1024 bytes &#183; 32 transactions &#183; 87.5% wasted</text>
-
   <text x="0" y="180" font-family="monospace" font-size="11" fill="#1a1a1a">coalesced</text>
   <rect x="78" y="168" width="70" height="16" fill="#15803d"/>
   <text x="156" y="180" font-family="monospace" font-size="10.5" fill="#15803d">128 bytes &#183; 1 transaction &#183; 0% wasted</text>
-
   <line x1="78" y1="198" x2="720" y2="198" stroke="#d8dcdf"/>
   <text x="0" y="224" font-family="monospace" font-size="10.5" fill="#666">Measured on o_proj (896x896), M=2048: 0.112 &#8594; 0.847 TFLOPS. Useful bandwidth 15 &#8594; 110 GB/s.</text>
   <text x="0" y="240" font-family="monospace" font-size="10.5" fill="#666">Note what did NOT change: the instruction count. Only the addresses did.</text>
@@ -410,48 +388,43 @@ and it's 9 loads for 8 FMAs. Now make it two-dimensional — each thread owns an
 <figure>
 <svg viewBox="0 0 740 300" role="img" aria-label="Register outer product: 16 loads produce 64 fused multiply-adds">
   <text x="0" y="14" font-family="monospace" font-size="11" fill="#666">ONE THREAD, ONE STEP OF k &#183; TM=TN=8</text>
-
   <!-- regM column -->
   <text x="6" y="46" font-family="monospace" font-size="10.5" fill="#1a73e8">regM</text>
   <text x="0" y="60" font-family="monospace" font-size="9.5" fill="#666">8 from As</text>
   <g fill="#1a73e8">
-    <rect x="52" y="72" width="22" height="22"/><rect x="52" y="96" width="22" height="22"/>
-    <rect x="52" y="120" width="22" height="22"/><rect x="52" y="144" width="22" height="22"/>
-    <rect x="52" y="168" width="22" height="22"/><rect x="52" y="192" width="22" height="22"/>
-    <rect x="52" y="216" width="22" height="22"/><rect x="52" y="240" width="22" height="22"/>
+  <rect x="52" y="72" width="22" height="22"/><rect x="52" y="96" width="22" height="22"/>
+  <rect x="52" y="120" width="22" height="22"/><rect x="52" y="144" width="22" height="22"/>
+  <rect x="52" y="168" width="22" height="22"/><rect x="52" y="192" width="22" height="22"/>
+  <rect x="52" y="216" width="22" height="22"/><rect x="52" y="240" width="22" height="22"/>
   </g>
-
   <!-- regN row -->
   <text x="90" y="46" font-family="monospace" font-size="10.5" fill="#c2410c">regN &#183; 8 from Bs</text>
   <g fill="#c2410c">
-    <rect x="86" y="50" width="22" height="16"/><rect x="110" y="50" width="22" height="16"/>
-    <rect x="134" y="50" width="22" height="16"/><rect x="158" y="50" width="22" height="16"/>
-    <rect x="182" y="50" width="22" height="16"/><rect x="206" y="50" width="22" height="16"/>
-    <rect x="230" y="50" width="22" height="16"/><rect x="254" y="50" width="22" height="16"/>
+  <rect x="86" y="50" width="22" height="16"/><rect x="110" y="50" width="22" height="16"/>
+  <rect x="134" y="50" width="22" height="16"/><rect x="158" y="50" width="22" height="16"/>
+  <rect x="182" y="50" width="22" height="16"/><rect x="206" y="50" width="22" height="16"/>
+  <rect x="230" y="50" width="22" height="16"/><rect x="254" y="50" width="22" height="16"/>
   </g>
-
   <!-- 8x8 accumulator grid -->
   <g fill="#15803d" opacity="0.88">
-    <rect x="86" y="72" width="190" height="190"/>
+  <rect x="86" y="72" width="190" height="190"/>
   </g>
   <g stroke="#fff" stroke-width="1">
-    <line x1="110" y1="72" x2="110" y2="262"/><line x1="134" y1="72" x2="134" y2="262"/>
-    <line x1="158" y1="72" x2="158" y2="262"/><line x1="182" y1="72" x2="182" y2="262"/>
-    <line x1="206" y1="72" x2="206" y2="262"/><line x1="230" y1="72" x2="230" y2="262"/>
-    <line x1="254" y1="72" x2="254" y2="262"/>
-    <line x1="86" y1="96" x2="276" y2="96"/><line x1="86" y1="120" x2="276" y2="120"/>
-    <line x1="86" y1="144" x2="276" y2="144"/><line x1="86" y1="168" x2="276" y2="168"/>
-    <line x1="86" y1="192" x2="276" y2="192"/><line x1="86" y1="216" x2="276" y2="216"/>
-    <line x1="86" y1="240" x2="276" y2="240"/>
+  <line x1="110" y1="72" x2="110" y2="262"/><line x1="134" y1="72" x2="134" y2="262"/>
+  <line x1="158" y1="72" x2="158" y2="262"/><line x1="182" y1="72" x2="182" y2="262"/>
+  <line x1="206" y1="72" x2="206" y2="262"/><line x1="230" y1="72" x2="230" y2="262"/>
+  <line x1="254" y1="72" x2="254" y2="262"/>
+  <line x1="86" y1="96" x2="276" y2="96"/><line x1="86" y1="120" x2="276" y2="120"/>
+  <line x1="86" y1="144" x2="276" y2="144"/><line x1="86" y1="168" x2="276" y2="168"/>
+  <line x1="86" y1="192" x2="276" y2="192"/><line x1="86" y1="216" x2="276" y2="216"/>
+  <line x1="86" y1="240" x2="276" y2="240"/>
   </g>
   <text x="300" y="150" font-family="monospace" font-size="12" fill="#15803d">64 accumulators, all in registers</text>
   <text x="300" y="168" font-family="monospace" font-size="12" fill="#15803d">64 FMAs from 16 loaded values</text>
-
   <text x="300" y="206" font-family="monospace" font-size="11" fill="#666">loads per FMA:</text>
   <text x="300" y="224" font-family="monospace" font-size="11" fill="#c2410c">rung 3 (one output/thread) &#8594; 2.00</text>
   <text x="300" y="242" font-family="monospace" font-size="11" fill="#1a73e8">rung 4 (8x1 per thread)   &#8594; 1.13</text>
   <text x="300" y="260" font-family="monospace" font-size="11" fill="#15803d">rung 5 (8x8 per thread)   &#8594; 0.25</text>
-
   <text x="0" y="292" font-family="monospace" font-size="10.5" fill="#666">Measured: 1.121 &#8594; 3.712 &#8594; 4.695 TFLOPS. The accumulators never touch memory at all until the very end.</text>
 </svg>
 <figcaption>The move that unlocks the kernel. Load 8 values of A and 8 of B into
@@ -504,25 +477,22 @@ stride `BK` — scattered, so they can't be vectorised. But if we store `As`
 <figure>
 <svg viewBox="0 0 740 216" role="img" aria-label="Transposing As so shared-memory reads become vectorizable">
   <text x="0" y="14" font-family="monospace" font-size="11" fill="#666">THE 8 VALUES ONE THREAD NEEDS FROM As</text>
-
   <text x="0" y="40" font-family="monospace" font-size="11" fill="#c2410c">As stored [BM][BK]</text>
   <g>
-    <rect x="150" y="28" width="340" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
-    <rect x="150" y="44" width="340" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
-    <rect x="150" y="60" width="340" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
-    <rect x="150" y="76" width="340" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
-    <rect x="192" y="28" width="12" height="14" fill="#c2410c"/>
-    <rect x="192" y="44" width="12" height="14" fill="#c2410c"/>
-    <rect x="192" y="60" width="12" height="14" fill="#c2410c"/>
-    <rect x="192" y="76" width="12" height="14" fill="#c2410c"/>
+  <rect x="150" y="28" width="340" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
+  <rect x="150" y="44" width="340" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
+  <rect x="150" y="60" width="340" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
+  <rect x="150" y="76" width="340" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
+  <rect x="192" y="28" width="12" height="14" fill="#c2410c"/>
+  <rect x="192" y="44" width="12" height="14" fill="#c2410c"/>
+  <rect x="192" y="60" width="12" height="14" fill="#c2410c"/>
+  <rect x="192" y="76" width="12" height="14" fill="#c2410c"/>
   </g>
   <text x="504" y="58" font-family="monospace" font-size="10.5" fill="#c2410c">stride BK apart &#8594; 8 x LDS.32</text>
-
   <text x="0" y="134" font-family="monospace" font-size="11" fill="#15803d">As stored [BK][BM]</text>
   <rect x="150" y="122" width="340" height="14" fill="#eef1f3" stroke="#dfe3e6"/>
   <rect x="192" y="122" width="48" height="14" fill="#15803d"/>
   <text x="504" y="134" font-family="monospace" font-size="10.5" fill="#15803d">contiguous &#8594; 2 x LDS.128</text>
-
   <line x1="0" y1="166" x2="720" y2="166" stroke="#d8dcdf"/>
   <text x="0" y="190" font-family="monospace" font-size="10.5" fill="#666">Transposing costs 4 scalar SMEM writes at load time, once per tile, and saves 6 SMEM reads per thread per k step.</text>
   <text x="0" y="206" font-family="monospace" font-size="10.5" fill="#666">Measured: 4.695 &#8594; 7.252 TFLOPS.</text>
@@ -552,25 +522,20 @@ template parameters differ.
 <figure>
 <svg viewBox="0 0 740 262" role="img" aria-label="Same warptiling kernel, A6000 config versus retuned for 24 SMs">
   <text x="0" y="14" font-family="monospace" font-size="11" fill="#666">SAME KERNEL, DIFFERENT TILE PARAMETERS &#183; TFLOPS</text>
-
   <g font-family="monospace" font-size="10.5">
-    <text x="0" y="44" fill="#1a1a1a">qkv_proj  M=128</text>
-    <rect x="132" y="32" width="93" height="15" fill="#9aa4ab"/><text x="231" y="44" fill="#666">1.854  A6000 config</text>
-    <rect x="132" y="49" width="177" height="15" fill="#15803d"/><text x="315" y="61" fill="#15803d">3.547  retuned &#8594; +91%</text>
-
-    <text x="0" y="98" fill="#1a1a1a">o_proj    M=128</text>
-    <rect x="132" y="86" width="72" height="15" fill="#9aa4ab"/><text x="210" y="98" fill="#666">1.442</text>
-    <rect x="132" y="103" width="138" height="15" fill="#15803d"/><text x="276" y="115" fill="#15803d">2.764  +92%</text>
-
-    <text x="0" y="152" fill="#1a1a1a">down_proj M=128</text>
-    <rect x="132" y="140" width="82" height="15" fill="#9aa4ab"/><text x="220" y="152" fill="#666">1.631</text>
-    <rect x="132" y="157" width="155" height="15" fill="#15803d"/><text x="293" y="169" fill="#15803d">3.103  +90%</text>
-
-    <text x="0" y="206" fill="#1a1a1a">lm_head   M=128</text>
-    <rect x="132" y="194" width="380" height="15" fill="#9aa4ab"/><text x="518" y="206" fill="#666">7.604  A6000 config</text>
-    <rect x="132" y="211" width="309" height="15" fill="#c2410c"/><text x="447" y="223" fill="#c2410c">6.182  retuned &#8594; &#8722;19%</text>
+  <text x="0" y="44" fill="#1a1a1a">qkv_proj  M=128</text>
+  <rect x="132" y="32" width="93" height="15" fill="#9aa4ab"/><text x="231" y="44" fill="#666">1.854  A6000 config</text>
+  <rect x="132" y="49" width="177" height="15" fill="#15803d"/><text x="315" y="61" fill="#15803d">3.547  retuned &#8594; +91%</text>
+  <text x="0" y="98" fill="#1a1a1a">o_proj    M=128</text>
+  <rect x="132" y="86" width="72" height="15" fill="#9aa4ab"/><text x="210" y="98" fill="#666">1.442</text>
+  <rect x="132" y="103" width="138" height="15" fill="#15803d"/><text x="276" y="115" fill="#15803d">2.764  +92%</text>
+  <text x="0" y="152" fill="#1a1a1a">down_proj M=128</text>
+  <rect x="132" y="140" width="82" height="15" fill="#9aa4ab"/><text x="220" y="152" fill="#666">1.631</text>
+  <rect x="132" y="157" width="155" height="15" fill="#15803d"/><text x="293" y="169" fill="#15803d">3.103  +90%</text>
+  <text x="0" y="206" fill="#1a1a1a">lm_head   M=128</text>
+  <rect x="132" y="194" width="380" height="15" fill="#9aa4ab"/><text x="518" y="206" fill="#666">7.604  A6000 config</text>
+  <rect x="132" y="211" width="309" height="15" fill="#c2410c"/><text x="447" y="223" fill="#c2410c">6.182  retuned &#8594; &#8722;19%</text>
   </g>
-
   <line x1="132" y1="238" x2="720" y2="238" stroke="#d8dcdf"/>
   <text x="0" y="256" font-family="monospace" font-size="10.5" fill="#666">A6000 config: 128x128 block tile, 128 accumulators/thread. Retuned winners on 24 SMs: 64x64 and 32x128, 32 accumulators.</text>
 </svg>
@@ -602,28 +567,25 @@ arithmetic for tile `i` is still running, then commit it to the other buffer.
 <figure>
 <svg viewBox="0 0 740 190" role="img" aria-label="Single versus double buffered K loop timeline">
   <text x="0" y="14" font-family="monospace" font-size="11" fill="#666">TIME &#8594;</text>
-
   <text x="0" y="46" font-family="monospace" font-size="11" fill="#1a1a1a">single</text>
   <g font-family="monospace" font-size="9.5">
-    <rect x="66" y="34" width="86" height="16" fill="#c2410c"/><text x="74" y="46" fill="#fff">load i</text>
-    <rect x="152" y="34" width="20" height="16" fill="#9aa4ab"/>
-    <rect x="172" y="34" width="60" height="16" fill="#15803d"/><text x="180" y="46" fill="#fff">math i</text>
-    <rect x="232" y="34" width="86" height="16" fill="#c2410c"/><text x="240" y="46" fill="#fff">load i+1</text>
-    <rect x="318" y="34" width="20" height="16" fill="#9aa4ab"/>
-    <rect x="338" y="34" width="60" height="16" fill="#15803d"/><text x="346" y="46" fill="#fff">math i+1</text>
-    <rect x="398" y="34" width="86" height="16" fill="#c2410c"/><text x="406" y="46" fill="#fff">load i+2</text>
+  <rect x="66" y="34" width="86" height="16" fill="#c2410c"/><text x="74" y="46" fill="#fff">load i</text>
+  <rect x="152" y="34" width="20" height="16" fill="#9aa4ab"/>
+  <rect x="172" y="34" width="60" height="16" fill="#15803d"/><text x="180" y="46" fill="#fff">math i</text>
+  <rect x="232" y="34" width="86" height="16" fill="#c2410c"/><text x="240" y="46" fill="#fff">load i+1</text>
+  <rect x="318" y="34" width="20" height="16" fill="#9aa4ab"/>
+  <rect x="338" y="34" width="60" height="16" fill="#15803d"/><text x="346" y="46" fill="#fff">math i+1</text>
+  <rect x="398" y="34" width="86" height="16" fill="#c2410c"/><text x="406" y="46" fill="#fff">load i+2</text>
   </g>
-
   <text x="0" y="90" font-family="monospace" font-size="11" fill="#1a1a1a">double</text>
   <g font-family="monospace" font-size="9.5">
-    <rect x="66" y="78" width="86" height="16" fill="#c2410c"/><text x="74" y="90" fill="#fff">load i</text>
-    <rect x="152" y="78" width="60" height="16" fill="#15803d"/><text x="160" y="90" fill="#fff">math i</text>
-    <rect x="152" y="96" width="86" height="16" fill="#c2410c" opacity="0.55"/><text x="160" y="108" fill="#7a2d0c">load i+1 (overlapped)</text>
-    <rect x="212" y="78" width="60" height="16" fill="#15803d"/><text x="220" y="90" fill="#fff">math i+1</text>
-    <rect x="212" y="96" width="86" height="16" fill="#c2410c" opacity="0.55"/>
-    <rect x="272" y="78" width="60" height="16" fill="#15803d"/><text x="280" y="90" fill="#fff">math i+2</text>
+  <rect x="66" y="78" width="86" height="16" fill="#c2410c"/><text x="74" y="90" fill="#fff">load i</text>
+  <rect x="152" y="78" width="60" height="16" fill="#15803d"/><text x="160" y="90" fill="#fff">math i</text>
+  <rect x="152" y="96" width="86" height="16" fill="#c2410c" opacity="0.55"/><text x="160" y="108" fill="#7a2d0c">load i+1 (overlapped)</text>
+  <rect x="212" y="78" width="60" height="16" fill="#15803d"/><text x="220" y="90" fill="#fff">math i+1</text>
+  <rect x="212" y="96" width="86" height="16" fill="#c2410c" opacity="0.55"/>
+  <rect x="272" y="78" width="60" height="16" fill="#15803d"/><text x="280" y="90" fill="#fff">math i+2</text>
   </g>
-
   <text x="0" y="146" font-family="monospace" font-size="10.5" fill="#666">The loads do not get faster. They stop being on the critical path.</text>
   <text x="0" y="164" font-family="monospace" font-size="10.5" fill="#666">Measured: 7.591 &#8594; 8.115 TFLOPS &#183; 97.9% of cuBLAS on this shape.</text>
 </svg>
@@ -644,31 +606,28 @@ alternately in the same process so neither gets a thermal advantage.
   <text x="196" y="20" font-family="monospace" font-size="9.5" fill="#999">0</text>
   <text x="440" y="20" font-family="monospace" font-size="9.5" fill="#999">4</text>
   <text x="684" y="20" font-family="monospace" font-size="9.5" fill="#999">8</text>
-
   <g font-family="monospace" font-size="10.5">
-    <text x="0" y="44" fill="#1a1a1a">1  naive</text>
-    <rect x="196" y="34" width="7" height="14" fill="#c2410c"/><text x="209" y="45" fill="#666">0.112</text>
-    <text x="0" y="66" fill="#1a1a1a">2  coalesce</text>
-    <rect x="196" y="56" width="53" height="14" fill="#c2410c"/><text x="255" y="67" fill="#666">0.847</text>
-    <text x="0" y="88" fill="#1a1a1a">3  shared mem</text>
-    <rect x="196" y="78" width="71" height="14" fill="#c2410c"/><text x="273" y="89" fill="#666">1.121</text>
-    <text x="0" y="110" fill="#1a1a1a">4  1D blocktile</text>
-    <rect x="196" y="100" width="234" height="14" fill="#e08a3c"/><text x="436" y="111" fill="#666">3.712</text>
-    <text x="0" y="132" fill="#1a1a1a">5  2D blocktile</text>
-    <rect x="196" y="122" width="296" height="14" fill="#e08a3c"/><text x="498" y="133" fill="#666">4.695</text>
-    <text x="0" y="154" fill="#1a1a1a">6  vectorize</text>
-    <rect x="196" y="144" width="457" height="14" fill="#1a73e8"/><text x="659" y="155" fill="#666">7.252</text>
-    <text x="0" y="176" fill="#1a1a1a">7  warptile (A6000)</text>
-    <rect x="196" y="166" width="447" height="14" fill="#9aa4ab"/><text x="649" y="177" fill="#666">7.089</text>
-    <text x="0" y="198" fill="#1a1a1a">8  warptile (tuned)</text>
-    <rect x="196" y="188" width="478" height="14" fill="#1a73e8"/><text x="680" y="199" fill="#666">7.591</text>
-    <text x="0" y="220" fill="#1a1a1a">9  + double buffer</text>
-    <rect x="196" y="210" width="511" height="14" fill="#15803d"/><text x="713" y="221" fill="#15803d">8.115</text>
+  <text x="0" y="44" fill="#1a1a1a">1  naive</text>
+  <rect x="196" y="34" width="7" height="14" fill="#c2410c"/><text x="209" y="45" fill="#666">0.112</text>
+  <text x="0" y="66" fill="#1a1a1a">2  coalesce</text>
+  <rect x="196" y="56" width="53" height="14" fill="#c2410c"/><text x="255" y="67" fill="#666">0.847</text>
+  <text x="0" y="88" fill="#1a1a1a">3  shared mem</text>
+  <rect x="196" y="78" width="71" height="14" fill="#c2410c"/><text x="273" y="89" fill="#666">1.121</text>
+  <text x="0" y="110" fill="#1a1a1a">4  1D blocktile</text>
+  <rect x="196" y="100" width="234" height="14" fill="#e08a3c"/><text x="436" y="111" fill="#666">3.712</text>
+  <text x="0" y="132" fill="#1a1a1a">5  2D blocktile</text>
+  <rect x="196" y="122" width="296" height="14" fill="#e08a3c"/><text x="498" y="133" fill="#666">4.695</text>
+  <text x="0" y="154" fill="#1a1a1a">6  vectorize</text>
+  <rect x="196" y="144" width="457" height="14" fill="#1a73e8"/><text x="659" y="155" fill="#666">7.252</text>
+  <text x="0" y="176" fill="#1a1a1a">7  warptile (A6000)</text>
+  <rect x="196" y="166" width="447" height="14" fill="#9aa4ab"/><text x="649" y="177" fill="#666">7.089</text>
+  <text x="0" y="198" fill="#1a1a1a">8  warptile (tuned)</text>
+  <rect x="196" y="188" width="478" height="14" fill="#1a73e8"/><text x="680" y="199" fill="#666">7.591</text>
+  <text x="0" y="220" fill="#1a1a1a">9  + double buffer</text>
+  <rect x="196" y="210" width="511" height="14" fill="#15803d"/><text x="713" y="221" fill="#15803d">8.115</text>
   </g>
-
   <line x1="708" y1="30" x2="708" y2="238" stroke="#1a1a1a" stroke-dasharray="3 3"/>
   <text x="600" y="252" font-family="monospace" font-size="10.5" fill="#1a1a1a">cuBLAS 8.138</text>
-
   <text x="0" y="280" font-family="monospace" font-size="11" fill="#15803d">72.8x from rung 1 to rung 9. 97.9% of cuBLAS.</text>
   <text x="0" y="300" font-family="monospace" font-size="10.5" fill="#666">Also: a sustained fp32 GEMM on this GPU measured 7.02 TFLOPS earlier in the project, and both cuBLAS and rung 9 beat it here,</text>
   <text x="0" y="314" font-family="monospace" font-size="10.5" fill="#666">because that 7.02 was itself measured under sustained load, while these bursts run at a higher clock.</text>
@@ -714,27 +673,24 @@ So I ran the same nine kernels at M=1.
   <text x="196" y="20" font-family="monospace" font-size="9.5" fill="#999">0</text>
   <text x="440" y="20" font-family="monospace" font-size="9.5" fill="#999">0.16</text>
   <text x="674" y="20" font-family="monospace" font-size="9.5" fill="#999">0.32</text>
-
   <g font-family="monospace" font-size="10.5">
-    <text x="0" y="44" fill="#1a1a1a">1  naive</text>
-    <rect x="196" y="34" width="25" height="14" fill="#9aa4ab"/><text x="227" y="45" fill="#666">0.016</text>
-    <text x="0" y="66" fill="#1a1a1a">2  coalesce</text>
-    <rect x="196" y="56" width="46" height="14" fill="#1a73e8"/><text x="248" y="67" fill="#1a73e8">0.029</text>
-    <text x="0" y="88" fill="#1a1a1a">3  shared mem</text>
-    <rect x="196" y="78" width="31" height="14" fill="#9aa4ab"/><text x="233" y="89" fill="#666">0.020</text>
-    <text x="0" y="110" fill="#1a1a1a">4  1D blocktile</text>
-    <rect x="196" y="100" width="39" height="14" fill="#9aa4ab"/><text x="241" y="111" fill="#666">0.025</text>
-    <text x="0" y="132" fill="#1a1a1a">5  2D blocktile</text>
-    <rect x="196" y="122" width="16" height="14" fill="#c2410c"/><text x="218" y="133" fill="#c2410c">0.010  &#8592; slower than rung 2</text>
-    <text x="0" y="154" fill="#1a1a1a">6  vectorize</text>
-    <rect x="196" y="144" width="22" height="14" fill="#c2410c"/><text x="224" y="155" fill="#666">0.014</text>
-    <text x="0" y="176" fill="#1a1a1a">9  + double buffer</text>
-    <rect x="196" y="166" width="58" height="14" fill="#1a73e8"/><text x="260" y="177" fill="#666">0.037</text>
+  <text x="0" y="44" fill="#1a1a1a">1  naive</text>
+  <rect x="196" y="34" width="25" height="14" fill="#9aa4ab"/><text x="227" y="45" fill="#666">0.016</text>
+  <text x="0" y="66" fill="#1a1a1a">2  coalesce</text>
+  <rect x="196" y="56" width="46" height="14" fill="#1a73e8"/><text x="248" y="67" fill="#1a73e8">0.029</text>
+  <text x="0" y="88" fill="#1a1a1a">3  shared mem</text>
+  <rect x="196" y="78" width="31" height="14" fill="#9aa4ab"/><text x="233" y="89" fill="#666">0.020</text>
+  <text x="0" y="110" fill="#1a1a1a">4  1D blocktile</text>
+  <rect x="196" y="100" width="39" height="14" fill="#9aa4ab"/><text x="241" y="111" fill="#666">0.025</text>
+  <text x="0" y="132" fill="#1a1a1a">5  2D blocktile</text>
+  <rect x="196" y="122" width="16" height="14" fill="#c2410c"/><text x="218" y="133" fill="#c2410c">0.010  &#8592; slower than rung 2</text>
+  <text x="0" y="154" fill="#1a1a1a">6  vectorize</text>
+  <rect x="196" y="144" width="22" height="14" fill="#c2410c"/><text x="224" y="155" fill="#666">0.014</text>
+  <text x="0" y="176" fill="#1a1a1a">9  + double buffer</text>
+  <rect x="196" y="166" width="58" height="14" fill="#1a73e8"/><text x="260" y="177" fill="#666">0.037</text>
   </g>
-
   <line x1="690" y1="30" x2="690" y2="194" stroke="#1a1a1a" stroke-dasharray="3 3"/>
   <text x="560" y="208" font-family="monospace" font-size="10.5" fill="#1a1a1a">cuBLAS 0.314</text>
-
   <text x="0" y="234" font-family="monospace" font-size="11" fill="#c2410c">The best kernel of the nine reaches 11.7% of cuBLAS. The ladder has inverted.</text>
   <text x="0" y="252" font-family="monospace" font-size="10.5" fill="#666">Rung 5 &#8212; the register outer product, the idea that unlocked everything at M=2048 &#8212; is now 3x slower than rung 2.</text>
 </svg>
