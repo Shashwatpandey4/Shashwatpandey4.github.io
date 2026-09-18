@@ -15,9 +15,9 @@ blogs:
     url: "blog.html?post=triton_mlir_llvm"
     date: "Draft"
 
-  - title: "FlashAttention in Triton"
+  - title: "The Matrix You Must Not Build: FlashAttention in Triton"
     url: "blog.html?post=flashattention_triton"
-    date: "Planned"
+    date: "Draft"
 
   - title: "Fast LLM Inference From Scratch"
     url: "blog.html?post=fast_llm_inference_from_scratch"
