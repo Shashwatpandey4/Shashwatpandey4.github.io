@@ -4,9 +4,11 @@ author: Shashwat Pandey
 
 ---
 
-*Part 1 of 3. This part builds a matrix-multiply kernel from the dumbest possible
+*Part 1 of 4. This part builds a matrix-multiply kernel from the dumbest possible
 version up to roughly cuBLAS speed, one idea at a time. Part 2 asks why that
-turned out not to matter, and Part 3 gets the win somewhere else entirely.*
+turned out not to matter, Part 3 gets the win somewhere else entirely, and
+[Part 4](blog.html?post=triton_mlir_llvm) discovers that a compiler will now
+generate every step below, unasked, from forty lines of Python.*
 
 ## 1. Why this one function matters
 

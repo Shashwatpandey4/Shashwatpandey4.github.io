@@ -4,7 +4,7 @@ author: Shashwat Pandey
 
 ---
 
-*Part 3 of 3. [Part 1](blog.html?post=cuda_gemm) built a matmul kernel through
+*Part 3 of 4. [Part 1](blog.html?post=cuda_gemm) built a matmul kernel through
 nine rungs to 8.1 TFLOPS. [Part 2](blog.html?post=decode_roofline) showed that
 decode is bandwidth-bound, that the +20% target sat below the physical floor,
 and that a kernel worth +57% in a microbenchmark was worth +0.3% in a real
@@ -1348,6 +1348,11 @@ Final numbers, all interleaved, all against vLLM with graphs and compile active:
 32.** The kernel is 400 lines. The measurement harness that made those numbers
 trustworthy is bigger than the kernel, and that ratio is the most honest thing I
 can tell you about GPU performance work.
+
+[Part 4](blog.html?post=triton_mlir_llvm) writes this same kernel in forty-three
+lines of Triton, reads every level of IR the compiler produces, and finds it
+matches this one on eight of ten shapes — for a reason that took one more
+experiment to pin down.
 
 [1] `mma.sync` and `ldmatrix` fragment layouts are in the [PTX ISA](https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#warp-level-matrix-instructions). The per-lane element maps are the part to read carefully; getting them wrong gives permuted output rather than an error.
 [2] The `0x4300 | nib` int4 unpack trick is used in several production kernels; a clear writeup is in the [FasterTransformer / TensorRT-LLM weight-only kernels](https://github.com/NVIDIA/TensorRT-LLM). The bias-by-8 convention is what makes the OR legal.

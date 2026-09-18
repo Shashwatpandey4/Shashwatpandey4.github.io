@@ -20,6 +20,7 @@ const PARTS = {
   part1: { figs: './part1_figs.cjs', tpl: 'part1_template.md', out: 'cuda_gemm.md' },
   part2: { figs: './part2_figs.cjs', tpl: 'part2_template.md', out: 'decode_roofline.md' },
   part3: { figs: './part3_figs.cjs', tpl: 'part3_template.md', out: 'w8a16_vllm.md' },
+  part4: { figs: './part4_figs.cjs', tpl: 'part4_template.md', out: 'triton_mlir_llvm.md' },
 };
 const which = process.argv[2];
 const todo = which ? [which] : Object.keys(PARTS).filter(k =>

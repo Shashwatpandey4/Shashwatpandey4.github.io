@@ -4,7 +4,7 @@ author: Shashwat Pandey
 
 ---
 
-*Part 2 of 3. [Part 1](blog.html?post=cuda_gemm) built a matmul kernel from
+*Part 2 of 4. [Part 1](blog.html?post=cuda_gemm) built a matmul kernel from
 0.112 to 8.115 TFLOPS — and then discovered that at the matrix shapes a language
 model actually uses while generating text, the best of those nine kernels
 reaches 11.7% of cuBLAS. This part explains why, builds the tool that predicts
