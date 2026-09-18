@@ -1,4 +1,4 @@
-title: Moving Fewer Bytes
+title: CUDA GEMM, Part 3: W8A16 Quantization from mma.sync to vLLM
 date: September 7, 2026
 author: Shashwat Pandey
 

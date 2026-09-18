@@ -1,4 +1,4 @@
-title: The Compiler Wrote Part 1
+title: CUDA GEMM, Part 4: What the Compiler Generates
 date: September 10, 2026
 author: Shashwat Pandey
 

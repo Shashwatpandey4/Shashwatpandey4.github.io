@@ -1,4 +1,4 @@
-title: The Matrix You Must Not Build
+title: Implementing FlashAttention in Triton
 date: September 13, 2026
 author: Shashwat Pandey
 

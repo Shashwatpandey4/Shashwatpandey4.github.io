@@ -1,4 +1,4 @@
-title: Your Kernel Is Not Slow, Your Bus Is Full
+title: CUDA GEMM, Part 2: Bandwidth Limits and Six Benchmarking Errors
 date: September 4, 2026
 author: Shashwat Pandey
 

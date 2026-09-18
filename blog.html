@@ -394,6 +394,9 @@
                 });
 
                 titleEl.textContent = meta.title || '';
+                // every post's tab used to read "Blog Post", which made
+                // bookmarks and shared links indistinguishable
+                if (meta.title) document.title = meta.title + ' - Shashwat Pandey';
 
                 const metaLineParts = [];
                 if (meta.author) metaLineParts.push(meta.author);
