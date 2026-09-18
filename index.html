@@ -1,34 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shashwat Pandey</title>
-    <link rel="icon" href="images/img.png">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shashwat Pandey</title>
+<link rel="icon" href="images/img.png">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ---- redesign layer. Same identity as the current site (Poppins, white,
+         the blue link colour) but with structure the animations can live in
+         instead of being painted behind a single column. ---- */
+  body{margin:0}
+  .container{max-width:none;margin:0;padding:0;min-height:0;display:block}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;box-sizing:border-box}
+  section{position:relative}
+  h2.sec{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+         color:#8a9099;font-weight:600;margin:0 0 1.4rem}
+
+  /* ---- hero ---- */
+  .hero{padding:4.5rem 0 3.5rem}
+  .hero-grid{display:grid;gap:2rem;align-items:center;grid-template-columns:1fr}
+  .hero h1{font-size:2.5rem;line-height:1.1;margin:.4rem 0 .9rem}
+  .hero .bio{font-size:1.02rem;line-height:1.6;color:#333;margin:0 0 1.1rem;max-width:34rem}
+  .hero .links a{margin-right:1.1rem;font-size:.92rem}
+  .avatar{width:74px;height:74px;border-radius:50%;object-fit:cover}
+  #anim-hero{position:relative;width:100%;height:240px;order:-1}
+  @media(min-width:900px){
+    .hero-grid{grid-template-columns:1.05fr .95fr;gap:1.5rem}
+    #anim-hero{height:430px;order:0;margin-right:-3rem}
+  }
+
+  /* ---- focus strip ---- */
+  .focus{padding:4.6rem 0;border-top:1px solid #eef1f3;background:#fcfdfe;overflow:hidden}
+  .focus-grid{display:grid;gap:1.1rem;grid-template-columns:1fr}
+  @media(min-width:760px){.focus-grid{grid-template-columns:repeat(3,1fr)}}
+  .fcard{border:1px solid #e9edf0;border-radius:10px;padding:1.1rem 1.2rem;background:#fff}
+  .fcard b{display:block;font-size:.98rem;margin-bottom:.3rem}
+  .fcard span{font-size:.86rem;color:#667;line-height:1.5}
+  /* the memory hierarchy sits BEHIND the three cards rather than beside them,
+     so the cards get the full width and the object gets the full height */
+  #anim-focus{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.62}
+  .focus .wrap{position:relative;z-index:1}
+  .fcard{background:rgba(255,255,255,.92);backdrop-filter:blur(2px)}
+
+  /* ---- writing ---- */
+  .writing{padding:3.4rem 0}
+  .writing-inner{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  #anim-blog{position:relative;width:100%;height:210px}
+  @media(min-width:900px){
+    .writing-inner{grid-template-columns:.8fr 1.2fr;gap:2.5rem;align-items:start}
+    #anim-blog{height:360px;position:sticky;top:3rem}
+  }
+  #blogs-container ul{margin:0}
+  #blogs-container li{padding:.55rem 0;border-bottom:1px solid #f1f4f6}
+
+  /* ---- footer ---- */
+  footer.big{position:relative;border-top:1px solid #eef1f3;padding:4.2rem 0 4.6rem;
+             margin-top:1rem;overflow:hidden}
+  #anim-foot{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.6}
+  footer.big .wrap{position:relative;z-index:1}
+  footer.big p{font-size:.82rem;color:#7b828a;margin:0;text-align:center}
+</style>
 </head>
-
 <body>
-    <div class="container">
-        <div class="intro">
-            <img src="images/img.png" alt="Shashwat Pandey">
-            <div class="intro-text">
-                <h1>Shashwat Pandey</h1>
-                <p class="bio">I work on making AI systems fast — through compilers, kernels, and hardware-aware
-                    design. Graduate researcher at <a href="https://labs.engineering.asu.edu/mps-lab/" target="_blank"
-                        rel="noopener noreferrer">MPS Lab</a>, ASU.</p>
-                <div class="links">
-                    <a href="https://github.com/Shashwatpandey4" target="_blank" rel="noopener noreferrer">GitHub</a>
-                    <a href="mailto:spande90@asu.edu">Email</a>
-                    <a href="https://www.linkedin.com/in/shashwat023/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                    <a href="https://scholar.google.com/citations?hl=en&user=oZBrVWYAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
-                    <a href="https://x.com/shashwat023" target="_blank" rel="noopener noreferrer">Twitter</a>
-                </div>
-            </div>
-        </div>
 
-        <!--
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <img class="avatar" src="images/img.png" alt="Shashwat Pandey">
+      <h1>Shashwat Pandey</h1>
+      <p class="bio">I work on making AI systems fast &mdash; through compilers, kernels,
+        and hardware-aware design. Graduate researcher at
+        <a href="https://labs.engineering.asu.edu/mps-lab/" target="_blank" rel="noopener noreferrer">MPS Lab</a>, ASU.</p>
+      <div class="links">
+        <a href="https://github.com/Shashwatpandey4" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="mailto:spande90@asu.edu">Email</a>
+        <a href="https://www.linkedin.com/in/shashwat023/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://scholar.google.com/citations?hl=en&user=oZBrVWYAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+        <a href="https://x.com/shashwat023" target="_blank" rel="noopener noreferrer">Twitter</a>
+      </div>
+    </div>
+    <div id="anim-hero" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section class="focus">
+  <div class="wrap">
+    <h2 class="sec">What I work on</h2>
+      <div class="focus-grid">
+        <div class="fcard"><b>Kernels</b><span>CUDA and Triton GEMM and attention kernels, tuned for the shapes a model actually issues.</span></div>
+        <div class="fcard"><b>Compilers</b><span>Reading what Triton, MLIR and LLVM generate, and where the decisions actually get made.</span></div>
+        <div class="fcard"><b>Inference</b><span>Quantization and serving work measured end to end, in vLLM rather than in a microbenchmark.</span></div>
+      </div>
+  </div>
+  <div id="anim-focus" aria-hidden="true"></div>
+</section>
+
+<!--
         <hr>
 
         <h2>Research</h2>
@@ -53,17 +121,67 @@
         </ul>
         -->
 
-        <hr>
-
-        <h2>Blog</h2>
-        <div id="blogs-container"></div>
-
-        <div class="footer">
-            &copy; 2026 Shashwat Pandey. Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"
-                target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.
-        </div>
+<section class="writing">
+  <div class="wrap">
+    <h2 class="sec">Writing</h2>
+    <div class="writing-inner">
+      <div id="anim-blog" aria-hidden="true"></div>
+      <div class="container"><div id="blogs-container"></div></div>
     </div>
-    <script src="script.js"></script>
-</body>
+  </div>
+</section>
 
+<footer class="big">
+  <div id="anim-foot" aria-hidden="true"></div>
+  <div class="wrap">
+    <p>&copy; 2026 Shashwat Pandey. Content licensed under
+      <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
+</script>
+<script type="module">
+import { mount } from './anim/scene.js';
+import { ALL } from './anim/designs.js';
+
+// Four objects, each chosen for the section it sits in rather than for variety:
+//   hero    the block tile sweeping an output matrix -- the signature image
+//   focus   the memory hierarchy, which is what "hardware-aware" means here
+//   writing the roofline, which is what the series argues from
+//   footer  a drifting point field, ambient and quiet
+const PLACED = [
+  // zoom multiplies the framed radius, so values BELOW 1 make the object
+  // larger in frame. They were all above 1, which is why everything looked
+  // like a postage stamp in the middle of its section.
+  ['anim-hero',  'tile-sweep',  { zoom: 0.80 }],
+  ['anim-focus', 'systolic',    { zoom: 0.72, elev: 0.72 }],
+  ['anim-blog',  'roofline',    { zoom: 0.86 }],
+  ['anim-foot',  'point-field', { zoom: 0.62, elev: 0.16 }],
+];
+
+// Mount on a rect check rather than IntersectionObserver: IO does not fire
+// under headless virtual-time, and a silent no-op looks identical to a broken
+// renderer. scene.js still uses IO afterwards to pause each render loop.
+const queue = PLACED.map(([id, key, opts]) => [document.getElementById(id), key, opts])
+                    .filter(([host]) => host);
+function sweep() {
+  const vh = innerHeight + 260;
+  for (let i = queue.length - 1; i >= 0; i--) {
+    const [host, key, opts] = queue[i];
+    const r = host.getBoundingClientRect();
+    if (r.top > vh || r.bottom < -260) continue;
+    queue.splice(i, 1);
+    try { mount(host, ALL[key].d, opts); }
+    catch (e) { console.error('mount failed', key, e); }
+  }
+  if (queue.length) requestAnimationFrame(sweep);
+}
+addEventListener('scroll', sweep, { passive: true });
+addEventListener('resize', sweep);
+sweep();
+</script>
+</body>
 </html>

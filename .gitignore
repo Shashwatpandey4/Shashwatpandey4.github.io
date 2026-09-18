@@ -1,2 +1,5 @@
 figs/node_modules/
 node_modules/
+
+# local-only animation experiments; not part of the published site
+experiments/
