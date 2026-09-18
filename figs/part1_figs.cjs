@@ -85,7 +85,8 @@ F.mem_hierarchy = () => {
   rows.forEach(([name, size, bw, lat, w, col, style], i) => {
     const y = 52 + i * 48;
     f.rect(0, y, 120, 34, { fill: col, fillStyle: style, sw: 1.4, hachureGap: 6 });
-    f.text(10, y + 22, name, { size: 14, fill: style === 'solid' ? '#fff' : INK });
+    f.text(10, y + 22, name, { size: 14, fill: style === 'solid' ? '#fff' : INK,
+                               halo: style === 'hachure' });
     f.text(130, y + 22, size, { size: 12.5, fill: INK, mono: true });
     f.rect(236, y + 8, w, 18, { fill: col, fillStyle: 'solid', sw: 1.1 });
     f.text(244, y + 22, bw, { size: 12, fill: '#fff', mono: true });
@@ -391,7 +392,8 @@ F.warptile = () => {
   f.text(248, 152, 'why: each SM has four warp schedulers', { size: 13, fill: INK });
   for (let i = 0; i < 4; i++) {
     f.rect(248 + i * 76, 164, 66, 34, { fill: i === 0 ? BLUE : GRAY, fillStyle: 'hachure', sw: 1.3, hachureGap: 6 });
-    f.text(281 + i * 76, 186, `sched ${i}`, { size: 11, fill: INK, anchor: 'middle', mono: true });
+    // label sits on hachure, so it needs the halo
+    f.text(281 + i * 76, 186, `sched ${i}`, { size: 11, fill: INK, anchor: 'middle', mono: true, halo: true });
   }
   f.text(248, 222, 'giving each warp a contiguous rectangle keeps its', { size: 12.5, fill: MUTED });
   f.text(248, 240, 'reads in the same SMEM banks and lets the four', { size: 12.5, fill: MUTED });
@@ -464,7 +466,8 @@ F.dbuf_timeline = () => {
   f.text(0, 46, 'single', { size: 14, fill: INK });
   const seg = (x, y, w, label, col, style) => {
     f.rect(x, y, w, 18, { fill: col, fillStyle: style || 'solid', sw: 1.2, hachureGap: 5 });
-    if (label) f.text(x + 6, y + 13, label, { size: 10.5, fill: style ? INK : '#fff', mono: true });
+    if (label) f.text(x + 6, y + 13, label,
+                      { size: 10.5, fill: style ? INK : '#fff', mono: true, halo: !!style });
   };
   seg(70, 34, 92, 'load i', ORANGE);
   f.rect(162, 34, 22, 18, { fill: '#eceff1', fillStyle: 'solid', stroke: '#d8dcdf', sw: 1 });

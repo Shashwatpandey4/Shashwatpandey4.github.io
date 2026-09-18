@@ -30,6 +30,15 @@ function fig(width, height, seed = 7) {
   const gen = rough.generator({ seed });
   const parts = [];
 
+  // roughjs only honours `seed` when it is set on the DRAWABLE, not on the
+  // generator -- otherwise every shape calls newSeed() and picks a fresh random
+  // one. The figures were therefore different on every build: same semantics,
+  // completely different path data, and a 245-line diff on a post whose content
+  // had not changed. Hand each shape a deterministic seed derived from the
+  // figure's own, counting in draw order.
+  let nshape = 0;
+  const sd = () => seed * 1000 + (++nshape);
+
   const emitDrawable = (drawable, opts = {}) => {
     for (const p of gen.toPaths(drawable)) {
       const stroke = p.stroke === 'none' ? 'none' : p.stroke;
@@ -44,6 +53,7 @@ function fig(width, height, seed = 7) {
   const api = {
     rect(x, y, w, h, o = {}) {
       emitDrawable(gen.rectangle(x, y, w, h, {
+        seed: sd(),
         roughness: o.roughness ?? 1.1,
         bowing: o.bowing ?? 1,
         stroke: o.stroke ?? INK,
@@ -61,6 +71,7 @@ function fig(width, height, seed = 7) {
     },
     line(x1, y1, x2, y2, o = {}) {
       emitDrawable(gen.line(x1, y1, x2, y2, {
+        seed: sd(),
         roughness: o.roughness ?? 1.0,
         bowing: o.bowing ?? 1,
         stroke: o.stroke ?? INK,
@@ -70,6 +81,7 @@ function fig(width, height, seed = 7) {
     },
     ellipse(cx, cy, w, h, o = {}) {
       emitDrawable(gen.ellipse(cx, cy, w, h, {
+        seed: sd(),
         roughness: o.roughness ?? 1.1,
         stroke: o.stroke ?? INK,
         strokeWidth: o.sw ?? 1.4,
@@ -94,9 +106,17 @@ function fig(width, height, seed = 7) {
       const family = o.mono
         ? 'monospace'
         : (o.family || HAND);
+      // Hachure strokes run straight through glyphs, which made labels like
+      // "shared mem" and "sched 0" genuinely hard to read. paint-order="stroke"
+      // lays a white outline down first, so the text reads as if it were on a
+      // clear background without hiding the fill behind it.
+      const halo = o.halo
+        ? ` paint-order="stroke" stroke="${o.halo === true ? '#ffffff' : o.halo}"` +
+          ` stroke-width="${o.haloWidth ?? 3.2}" stroke-linejoin="round"`
+        : '';
       parts.push(
         `  <text x="${x}" y="${y}" font-family="${family}" ` +
-        `font-size="${o.size ?? 14}" fill="${o.fill ?? INK}"${anchor}${weight}>` +
+        `font-size="${o.size ?? 14}" fill="${o.fill ?? INK}"${anchor}${weight}${halo}>` +
         esc(str) + `</text>`
       );
       return api;

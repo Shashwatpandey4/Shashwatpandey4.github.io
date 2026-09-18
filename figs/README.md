@@ -31,21 +31,39 @@ meant to read as gray, not as a series.
 these figures those two colors carry "fast" and "slow". Blue/orange is the
 CVD-safe pair for that job.
 
-## Two rules the markdown pipeline imposes
+## Four rules, all learned the hard way
 
-Both of these broke every figure in Part 1 once, so they are not optional:
+Each of these broke something that had already shipped, so `build.cjs` asserts
+all four and refuses to write on failure.
 
 1. **No blank lines inside `<figure>`.** In CommonMark an HTML block ends at the
-   first blank line; marked then parses the rest of the figure as markdown.
+   first blank line; marked then parses the rest of the figure as markdown. This
+   broke every figure in Part 1 once.
 2. **Indent at most two spaces.** Four or more starts an indented code block, so
-   the tail of the figure renders as visible escaped markup.
+   the tail of the figure renders as visible escaped markup. Same incident.
+3. **Run it through the real renderer.** The guard parses the built post with the
+   same `marked` the site loads and asserts zero escaped SVG child tags.
+   Validating the SVG as standalone XML, or over HTTP, is *not* the same test —
+   that is exactly how the Part 1 breakage got through.
+4. **Figures must be byte-identical across builds.** roughjs only honours `seed`
+   when it is set on the **drawable**, not on the generator; otherwise each shape
+   calls `newSeed()` and every build emits different path data. A no-op rebuild
+   produced a 245-line diff before `rough.cjs` started passing a per-shape seed.
 
-`build_prototypes.cjs` asserts both after writing. Always run the output through
-the same marked build the site loads before pushing — validating the SVG as
-standalone XML is not the same test.
+## Text on a hachure fill needs `halo: true`
+
+Hachure strokes run straight through glyphs. `text()` takes `halo`, which sets
+`paint-order="stroke"` with a white outline so the label reads cleanly without
+covering the fill behind it. Use it for any label drawn on top of a hachured
+rectangle.
 
 ## Usage
 
 ```bash
-cd figs && npm install roughjs && node build_prototypes.cjs
+cd figs && npm install && node build.cjs        # all parts with a template
+cd figs && node build.cjs part2                 # just one
 ```
+
+Each part is `part<N>_figs.cjs` (keyed figure generators) plus
+`part<N>_template.md` (prose with `{{svg:key}}` markers); the builder splices
+them into `posts/<slug>.md`.
