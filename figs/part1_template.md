@@ -458,7 +458,7 @@ matrix. That is what prefill looks like.
 
 But a language model generating text one token at a time doesn't multiply
 2048x896 matrices. It multiplies **1x896** matrices. That's the decode phase, and
-it is 84.7% of the time in the profile we started with.
+it is 84.9% of the time in the profile we started with.
 
 So I ran the same nine kernels at M=1.
 

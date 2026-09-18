@@ -846,9 +846,9 @@ terms, all at batch 1 so the chain is comparable end to end.
   <text x="607.9" y="53" font-family="monospace" font-size="13" fill="#1a73e8">1.652x</text>
   <text x="250" y="74" font-family="monospace" font-size="10.5" fill="#666666">traffic-weighted over all five shapes</text>
   <text x="0" y="103" font-family="monospace" font-size="12" fill="#1a1a1a">x Amdahl on GPU time</text>
-  <rect x="250" y="90" width="272.5" height="20" fill="#6b7280" rx="3"/>
-  <text x="526.5" y="105" font-family="monospace" font-size="13" fill="#6b7280">1.502x</text>
-  <text x="250" y="126" font-family="monospace" font-size="10.5" fill="#666666">GEMM is 84.7% of decode GPU time</text>
+  <rect x="250" y="90" width="273.6" height="20" fill="#6b7280" rx="3"/>
+  <text x="527.6" y="105" font-family="monospace" font-size="13" fill="#6b7280">1.504x</text>
+  <text x="250" y="126" font-family="monospace" font-size="10.5" fill="#666666">GEMM is 84.9% of decode GPU time</text>
   <text x="0" y="155" font-family="monospace" font-size="12" fill="#1a1a1a">x Amdahl on WALL time</text>
   <rect x="250" y="142" width="62.4" height="20" fill="#6b7280" rx="3"/>
   <text x="316.4" y="157" font-family="monospace" font-size="13" fill="#6b7280">1.115x</text>
@@ -861,8 +861,8 @@ terms, all at batch 1 so the chain is comparable end to end.
   <text x="0" y="262" font-family="monospace" font-size="11.5" fill="#1a1a1a">Nothing unexplained is left. The biggest single term is not about kernels at all.</text>
   <line x1="0" y1="276" x2="700" y2="276" stroke="#dfe3e6"/>
   <text x="0" y="300" font-family="monospace" font-size="12" fill="#1a73e8">Same kernel, under vLLM (graphs + compile, so wall time IS GPU time):</text>
-  <rect x="250" y="310" width="272.5" height="18" fill="#cbd1d6" rx="3"/>
-  <text x="526.5" y="324" font-family="monospace" font-size="12" fill="#6b7280">1.502x ceiling</text>
+  <rect x="250" y="310" width="273.6" height="18" fill="#cbd1d6" rx="3"/>
+  <text x="527.6" y="324" font-family="monospace" font-size="12" fill="#6b7280">1.504x ceiling</text>
   <rect x="250" y="332" width="215.5" height="18" fill="#1a73e8" rx="3"/>
   <text x="469.5" y="346" font-family="monospace" font-size="12" fill="#1a73e8">1.397x measured (93% of it)</text>
 </svg>
@@ -874,10 +874,10 @@ to do with kernels.</figcaption>
 
 Taking the terms one at a time:
 
-**Amdahl, on GPU time.** GEMM is 84.7% of decode's GPU time. So even a GEMM that
+**Amdahl, on GPU time.** GEMM is 84.9% of decode's GPU time. So even a GEMM that
 gets 1.652× faster bounds the whole step at
 
-$$\frac{1}{0.153 + 0.847/1.652} = 1.50\times$$
+$$\frac{1}{0.151 + 0.849/1.652} = 1.50\times$$
 
 That's a ceiling, not a prediction, and it is already well below +57%.
 
@@ -1295,7 +1295,7 @@ One last figure, because it ties back to Part 2's most important plot.
   <line x1="230" y1="30" x2="230" y2="212" stroke="#1a1a1a" stroke-width="1.4"/>
   <text x="230" y="228" font-family="monospace" font-size="10.5" fill="#1a1a1a" text-anchor="middle">1.0x</text>
   <text x="0" y="258" font-family="monospace" font-size="11.5" fill="#c2410c">Weight quantisation is a LATENCY optimization. Batch well and it does progressively less.</text>
-  <text x="0" y="278" font-family="monospace" font-size="10.5" fill="#666666">Amdahl takes a fixed share of the excess over 1.0: a 1.652x GEMM dilutes to 1.502x, a 1.072x one to 1.058x.</text>
+  <text x="0" y="278" font-family="monospace" font-size="10.5" fill="#666666">Amdahl takes a fixed share of the excess over 1.0: a 1.652x GEMM dilutes to 1.504x, a 1.072x one to 1.060x.</text>
   <text x="0" y="294" font-family="monospace" font-size="10.5" fill="#666666">So a small win survives the trip to end-to-end almost intact and a large one does not. Hence the convergence.</text>
 </svg>
 <figcaption>The same kernel, the same server, two batch sizes, next to the
@@ -1314,9 +1314,9 @@ spend three weeks on it.
 The pleasing part is the agreement at the right-hand end, and the reason for it
 is worth stating because it is not what I first assumed. The GEMM share of decode
 does not change much with batch size. What changes is the *size of the win*: the
-whole-model speedup is $1/(0.153 + 0.847/g)$ for a GEMM speedup $g$, so a $g$ of
-1.652 dilutes to 1.50 — a 9% haircut — while a $g$ of 1.072 dilutes to 1.058, a
-1.4% one. Amdahl takes a fixed fraction of the *excess* over 1.0, so a small win
+whole-model speedup is $1/(0.151 + 0.849/g)$ for a GEMM speedup $g$, so a $g$ of
+1.652 dilutes to 1.50 — a 9% haircut — while a $g$ of 1.072 dilutes to 1.060, a
+1.1% one. Amdahl takes a fixed fraction of the *excess* over 1.0, so a small win
 survives the trip to end-to-end almost intact and a large one does not.
 
 ## 17. What I'd do differently

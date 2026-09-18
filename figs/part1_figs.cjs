@@ -13,29 +13,48 @@ const PALE_B = '#c7dbf6';
 const PALE_O = '#f2cdbc';
 
 // ============================================================ 1. time split
-F.time_split = () => `<svg viewBox="0 0 740 176" role="img" aria-label="Share of GPU time by kernel, prefill and decode">
-  <text x="0" y="14" font-family="monospace" font-size="11" fill="${MUTED}">SHARE OF GPU TIME BY KERNEL</text>
-  <text x="0" y="52" font-family="monospace" font-size="12" fill="${INK}">prefill</text>
-  <rect x="78" y="40" width="467" height="18" fill="${BLUE}"/>
-  <rect x="549" y="40" width="97" height="18" fill="${ORANGE}"/>
-  <rect x="650" y="40" width="70" height="18" fill="#cbd1d6"/>
-  <text x="86" y="53" font-family="monospace" font-size="11" fill="#fff">matmul  73.0%</text>
-  <text x="555" y="53" font-family="monospace" font-size="10.5" fill="#fff">attn 15.4</text>
-  <text x="655" y="53" font-family="monospace" font-size="10.5" fill="#333">rest 12</text>
-  <text x="0" y="96" font-family="monospace" font-size="12" fill="${INK}">decode</text>
-  <rect x="78" y="84" width="542" height="18" fill="${BLUE}"/>
-  <rect x="624" y="84" width="54" height="18" fill="${ORANGE}"/>
-  <rect x="682" y="84" width="38" height="18" fill="#cbd1d6"/>
-  <text x="86" y="97" font-family="monospace" font-size="11" fill="#fff">matmul  84.7%</text>
-  <text x="630" y="97" font-family="monospace" font-size="10.5" fill="#fff">8.4</text>
-  <text x="687" y="97" font-family="monospace" font-size="10.5" fill="#333">6.9</text>
-  <line x1="78" y1="118" x2="720" y2="118" stroke="${FAINT}"/>
-  <text x="78" y="136" font-family="monospace" font-size="10.5" fill="${MUTED}">0%</text>
-  <text x="383" y="136" font-family="monospace" font-size="10.5" fill="${MUTED}">50%</text>
-  <text x="694" y="136" font-family="monospace" font-size="10.5" fill="${MUTED}">100%</text>
-  <text x="0" y="158" font-family="monospace" font-size="10.5" fill="${MUTED}">Nsight Systems, RTX 4060 Laptop, Qwen2.5-0.5B. "matmul" is the GEMM kernels; "attn" is FlashAttention;</text>
-  <text x="0" y="170" font-family="monospace" font-size="10.5" fill="${MUTED}">"rest" is RMSNorm, SiLU, sampling and KV-cache writes.</text>
+F.time_split = () => {
+  // Geometry is DERIVED from the numbers, not hand-placed. The hand-placed
+  // version drifted: it shipped decode as 84.7/8.4/6.9 when the profile says
+  // 84.86/7.68/7.46, because the flash kernels were summed by eye.
+  //
+  // Both rows come from a torch profile of vLLM. The profiler files
+  // flash_fwd_splitkv under "Matmul GEMM", so GEMM here is the category total
+  // minus the flash kernels -- otherwise attention gets counted twice. Its own
+  // "Attention" category is reshape_and_cache_flash, the KV-cache write.
+  const rows = [
+    ['prefill', 72.98, 15.06, 11.96, '2048 in, batch 8'],
+    ['decode',  84.86,  7.68,  7.46, '32 in / 256 out, batch 32'],
+  ];
+  const X0 = 78, W = 642, GAP = 4;
+  const usable = W - 2 * GAP;
+  const L = [];
+  L.push(`  <text x="0" y="14" font-family="monospace" font-size="11" fill="${MUTED}">SHARE OF GPU TIME BY KERNEL</text>`);
+  rows.forEach(([name, g, a, r, cfg], i) => {
+    const y = 40 + i * 44;
+    const wg = g / 100 * usable, wa = a / 100 * usable, wr = r / 100 * usable;
+    const xa = X0 + wg + GAP, xr = xa + wa + GAP;
+    L.push(`  <text x="0" y="${y + 12}" font-family="monospace" font-size="12" fill="${INK}">${name}</text>`);
+    L.push(`  <text x="0" y="${y + 26}" font-family="monospace" font-size="9" fill="${MUTED}">${cfg}</text>`);
+    L.push(`  <rect x="${X0}" y="${y}" width="${wg.toFixed(1)}" height="18" fill="${BLUE}"/>`);
+    L.push(`  <rect x="${xa.toFixed(1)}" y="${y}" width="${wa.toFixed(1)}" height="18" fill="${ORANGE}"/>`);
+    L.push(`  <rect x="${xr.toFixed(1)}" y="${y}" width="${wr.toFixed(1)}" height="18" fill="#cbd1d6"/>`);
+    L.push(`  <text x="${X0 + 8}" y="${y + 13}" font-family="monospace" font-size="11" fill="#fff">matmul  ${g.toFixed(1)}%</text>`);
+    L.push(`  <text x="${(xa + 5).toFixed(1)}" y="${y + 13}" font-family="monospace" font-size="10" fill="#fff">${a.toFixed(1)}</text>`);
+    L.push(`  <text x="${(xr + 5).toFixed(1)}" y="${y + 13}" font-family="monospace" font-size="10" fill="#333">${r.toFixed(1)}</text>`);
+  });
+  L.push(`  <line x1="${X0}" y1="132" x2="720" y2="132" stroke="${FAINT}"/>`);
+  L.push(`  <text x="${X0}" y="150" font-family="monospace" font-size="10.5" fill="${MUTED}">0%</text>`);
+  L.push(`  <text x="${X0 + W / 2}" y="150" font-family="monospace" font-size="10.5" fill="${MUTED}" text-anchor="middle">50%</text>`);
+  L.push(`  <text x="720" y="150" font-family="monospace" font-size="10.5" fill="${MUTED}" text-anchor="end">100%</text>`);
+  L.push(`  <text x="0" y="172" font-family="monospace" font-size="10.5" fill="${BLUE}">blue matmul</text>`);
+  L.push(`  <text x="104" y="172" font-family="monospace" font-size="10.5" fill="${ORANGE}">orange FlashAttention</text>`);
+  L.push(`  <text x="286" y="172" font-family="monospace" font-size="10.5" fill="${MUTED}">grey norms, SiLU, sampling, KV writes</text>`);
+  L.push(`  <text x="0" y="190" font-family="monospace" font-size="10" fill="${MUTED}">The profiler files FlashAttention under "Matmul GEMM"; it is subtracted out here so attention is not counted twice.</text>`);
+  return `<svg viewBox="0 0 740 198" role="img" aria-label="Share of GPU time by kernel, prefill and decode">
+${L.join('\n')}
 </svg>`;
+};
 
 // ================================================== 2. CUDA thread hierarchy
 F.thread_hierarchy = () => {

@@ -283,10 +283,10 @@ to do with kernels.</figcaption>
 
 Taking the terms one at a time:
 
-**Amdahl, on GPU time.** GEMM is 84.7% of decode's GPU time. So even a GEMM that
+**Amdahl, on GPU time.** GEMM is 84.9% of decode's GPU time. So even a GEMM that
 gets 1.652× faster bounds the whole step at
 
-$$\frac{1}{0.153 + 0.847/1.652} = 1.50\times$$
+$$\frac{1}{0.151 + 0.849/1.652} = 1.50\times$$
 
 That's a ceiling, not a prediction, and it is already well below +57%.
 
@@ -440,9 +440,9 @@ spend three weeks on it.
 The pleasing part is the agreement at the right-hand end, and the reason for it
 is worth stating because it is not what I first assumed. The GEMM share of decode
 does not change much with batch size. What changes is the *size of the win*: the
-whole-model speedup is $1/(0.153 + 0.847/g)$ for a GEMM speedup $g$, so a $g$ of
-1.652 dilutes to 1.50 — a 9% haircut — while a $g$ of 1.072 dilutes to 1.058, a
-1.4% one. Amdahl takes a fixed fraction of the *excess* over 1.0, so a small win
+whole-model speedup is $1/(0.151 + 0.849/g)$ for a GEMM speedup $g$, so a $g$ of
+1.652 dilutes to 1.50 — a 9% haircut — while a $g$ of 1.072 dilutes to 1.060, a
+1.1% one. Amdahl takes a fixed fraction of the *excess* over 1.0, so a small win
 survives the trip to end-to-end almost intact and a large one does not.
 
 ## 17. What I'd do differently

@@ -16,28 +16,32 @@ I profiled a small language model — Qwen2.5-0.5B — generating text on my lap
 GPU, and sorted the kernels by how long they ran. Here is the whole picture.
 
 <figure>
-<svg viewBox="0 0 740 176" role="img" aria-label="Share of GPU time by kernel, prefill and decode">
+<svg viewBox="0 0 740 198" role="img" aria-label="Share of GPU time by kernel, prefill and decode">
   <text x="0" y="14" font-family="monospace" font-size="11" fill="#666666">SHARE OF GPU TIME BY KERNEL</text>
   <text x="0" y="52" font-family="monospace" font-size="12" fill="#1a1a1a">prefill</text>
-  <rect x="78" y="40" width="467" height="18" fill="#1a73e8"/>
-  <rect x="549" y="40" width="97" height="18" fill="#c2410c"/>
-  <rect x="650" y="40" width="70" height="18" fill="#cbd1d6"/>
+  <text x="0" y="66" font-family="monospace" font-size="9" fill="#666666">2048 in, batch 8</text>
+  <rect x="78" y="40" width="462.7" height="18" fill="#1a73e8"/>
+  <rect x="544.7" y="40" width="95.5" height="18" fill="#c2410c"/>
+  <rect x="644.2" y="40" width="75.8" height="18" fill="#cbd1d6"/>
   <text x="86" y="53" font-family="monospace" font-size="11" fill="#fff">matmul  73.0%</text>
-  <text x="555" y="53" font-family="monospace" font-size="10.5" fill="#fff">attn 15.4</text>
-  <text x="655" y="53" font-family="monospace" font-size="10.5" fill="#333">rest 12</text>
+  <text x="549.7" y="53" font-family="monospace" font-size="10" fill="#fff">15.1</text>
+  <text x="649.2" y="53" font-family="monospace" font-size="10" fill="#333">12.0</text>
   <text x="0" y="96" font-family="monospace" font-size="12" fill="#1a1a1a">decode</text>
-  <rect x="78" y="84" width="542" height="18" fill="#1a73e8"/>
-  <rect x="624" y="84" width="54" height="18" fill="#c2410c"/>
-  <rect x="682" y="84" width="38" height="18" fill="#cbd1d6"/>
-  <text x="86" y="97" font-family="monospace" font-size="11" fill="#fff">matmul  84.7%</text>
-  <text x="630" y="97" font-family="monospace" font-size="10.5" fill="#fff">8.4</text>
-  <text x="687" y="97" font-family="monospace" font-size="10.5" fill="#333">6.9</text>
-  <line x1="78" y1="118" x2="720" y2="118" stroke="#dfe3e6"/>
-  <text x="78" y="136" font-family="monospace" font-size="10.5" fill="#666666">0%</text>
-  <text x="383" y="136" font-family="monospace" font-size="10.5" fill="#666666">50%</text>
-  <text x="694" y="136" font-family="monospace" font-size="10.5" fill="#666666">100%</text>
-  <text x="0" y="158" font-family="monospace" font-size="10.5" fill="#666666">Nsight Systems, RTX 4060 Laptop, Qwen2.5-0.5B. "matmul" is the GEMM kernels; "attn" is FlashAttention;</text>
-  <text x="0" y="170" font-family="monospace" font-size="10.5" fill="#666666">"rest" is RMSNorm, SiLU, sampling and KV-cache writes.</text>
+  <text x="0" y="110" font-family="monospace" font-size="9" fill="#666666">32 in / 256 out, batch 32</text>
+  <rect x="78" y="84" width="538.0" height="18" fill="#1a73e8"/>
+  <rect x="620.0" y="84" width="48.7" height="18" fill="#c2410c"/>
+  <rect x="672.7" y="84" width="47.3" height="18" fill="#cbd1d6"/>
+  <text x="86" y="97" font-family="monospace" font-size="11" fill="#fff">matmul  84.9%</text>
+  <text x="625.0" y="97" font-family="monospace" font-size="10" fill="#fff">7.7</text>
+  <text x="677.7" y="97" font-family="monospace" font-size="10" fill="#333">7.5</text>
+  <line x1="78" y1="132" x2="720" y2="132" stroke="#dfe3e6"/>
+  <text x="78" y="150" font-family="monospace" font-size="10.5" fill="#666666">0%</text>
+  <text x="399" y="150" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="middle">50%</text>
+  <text x="720" y="150" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="end">100%</text>
+  <text x="0" y="172" font-family="monospace" font-size="10.5" fill="#1a73e8">blue matmul</text>
+  <text x="104" y="172" font-family="monospace" font-size="10.5" fill="#c2410c">orange FlashAttention</text>
+  <text x="286" y="172" font-family="monospace" font-size="10.5" fill="#666666">grey norms, SiLU, sampling, KV writes</text>
+  <text x="0" y="190" font-family="monospace" font-size="10" fill="#666666">The profiler files FlashAttention under "Matmul GEMM"; it is subtracted out here so attention is not counted twice.</text>
 </svg>
 <figcaption>Every kernel the model runs, bucketed. During token generation,
 <b>85% of the GPU's time goes into plain matrix multiplication</b> — and most of
@@ -1478,7 +1482,7 @@ matrix. That is what prefill looks like.
 
 But a language model generating text one token at a time doesn't multiply
 2048x896 matrices. It multiplies **1x896** matrices. That's the decode phase, and
-it is 84.7% of the time in the profile we started with.
+it is 84.9% of the time in the profile we started with.
 
 So I ran the same nine kernels at M=1.
 

@@ -19,11 +19,6 @@ blogs:
     url: "blog.html?post=flashattention_triton"
     date: "Planned"
 
-
   - title: "Fast LLM Inference From Scratch"
     url: "blog.html?post=fast_llm_inference_from_scratch"
     date: "Planned"
-
-  - title: "Understanding Matrix Multiplication Performance"
-    url: "blog.html?post=example_blog"
-    date: "January 15, 2024"

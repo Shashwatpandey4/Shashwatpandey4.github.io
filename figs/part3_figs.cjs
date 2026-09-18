@@ -363,7 +363,7 @@ F.gap_accounting = () => {
   L.push(`<text x="0" y="14" font-family="monospace" font-size="11" fill="${MUTED}">WHERE +65% BECAME +4%  ·  BATCH 1, HUGGINGFACE EAGER LOOP</text>`);
   const rows = [
     ['GEMM alone, microbenchmark', 1.652, BLUE, 'traffic-weighted over all five shapes'],
-    ['x Amdahl on GPU time', 1.502, GRAY, 'GEMM is 84.7% of decode GPU time'],
+    ['x Amdahl on GPU time', 1.504, GRAY, 'GEMM is 84.9% of decode GPU time'],
     ['x Amdahl on WALL time', 1.115, GRAY, '69% of an eager step is not GPU work'],
     ['measured, HF A/B interleaved', 1.036, ORANGE, '15.72 -> 15.17 ms/token'],
   ];
@@ -378,8 +378,8 @@ F.gap_accounting = () => {
   L.push(`<text x="0" y="262" font-family="monospace" font-size="11.5" fill="${INK}">Nothing unexplained is left. The biggest single term is not about kernels at all.</text>`);
   L.push(`<line x1="0" y1="276" x2="700" y2="276" stroke="${FAINT}"/>`);
   L.push(`<text x="0" y="300" font-family="monospace" font-size="12" fill="${BLUE}">Same kernel, under vLLM (graphs + compile, so wall time IS GPU time):</text>`);
-  L.push(`<rect x="250" y="310" width="${sc(1.502)}" height="18" fill="${DIM}" rx="3"/>`);
-  L.push(`<text x="${(254 + +sc(1.502)).toFixed(1)}" y="324" font-family="monospace" font-size="12" fill="${GRAY}">1.502x ceiling</text>`);
+  L.push(`<rect x="250" y="310" width="${sc(1.504)}" height="18" fill="${DIM}" rx="3"/>`);
+  L.push(`<text x="${(254 + +sc(1.504)).toFixed(1)}" y="324" font-family="monospace" font-size="12" fill="${GRAY}">1.504x ceiling</text>`);
   L.push(`<rect x="250" y="332" width="${sc(1.397)}" height="18" fill="${BLUE}" rx="3"/>`);
   L.push(`<text x="${(254 + +sc(1.397)).toFixed(1)}" y="346" font-family="monospace" font-size="12" fill="${BLUE}">1.397x measured (93% of it)</text>`);
   return `<svg viewBox="0 0 740 358" role="img" aria-label="The microbenchmark to end-to-end gap accounted for by Amdahl on GPU time and on wall time">\n  ${L.join('\n  ')}\n</svg>`;
@@ -566,7 +566,7 @@ F.batch_win = () => {
   L.push(`<line x1="230" y1="30" x2="230" y2="212" stroke="${INK}" stroke-width="1.4"/>`);
   L.push(`<text x="230" y="228" font-family="monospace" font-size="10.5" fill="${INK}" text-anchor="middle">1.0x</text>`);
   L.push(`<text x="0" y="258" font-family="monospace" font-size="11.5" fill="${ORANGE}">Weight quantisation is a LATENCY optimization. Batch well and it does progressively less.</text>`);
-  L.push(`<text x="0" y="278" font-family="monospace" font-size="10.5" fill="${MUTED}">Amdahl takes a fixed share of the excess over 1.0: a 1.652x GEMM dilutes to 1.502x, a 1.072x one to 1.058x.</text>`);
+  L.push(`<text x="0" y="278" font-family="monospace" font-size="10.5" fill="${MUTED}">Amdahl takes a fixed share of the excess over 1.0: a 1.652x GEMM dilutes to 1.504x, a 1.072x one to 1.060x.</text>`);
   L.push(`<text x="0" y="294" font-family="monospace" font-size="10.5" fill="${MUTED}">So a small win survives the trip to end-to-end almost intact and a large one does not. Hence the convergence.</text>`);
   return `<svg viewBox="0 0 740 304" role="img" aria-label="The speedup falls from 1.397x at batch 1 to 1.070x at batch 32 as weights are amortised">\n  ${L.join('\n  ')}\n</svg>`;
 };
