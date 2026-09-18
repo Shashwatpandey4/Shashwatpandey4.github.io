@@ -60,6 +60,40 @@ for (const key of wanted) {
 }
 if (/\{\{svg:/.test(md)) { console.error('  unreplaced markers remain'); anyFail = true; return; }
 
+// ---- check 0.5: text that runs off the edge of its own viewBox ----
+// Long monospace captions overflowing the right edge was the single most common
+// defect while drafting, and it is invisible in a downscaled screenshot. Advance
+// widths are approximated per family; the tolerance is loose enough that only
+// real overflows trip it.
+const overflow = [];
+for (const key of wanted) {
+  const svg = FIGS[key]();
+  const vb = svg.match(/viewBox="(-?[\d.]+) (-?[\d.]+) ([\d.]+) ([\d.]+)"/);
+  if (!vb) continue;
+  const X0 = parseFloat(vb[1]), W = parseFloat(vb[3]);
+  const re = /<text x="(-?[\d.]+)" y="(-?[\d.]+)"([^>]*)>([^<]*)<\/text>/g;
+  let m;
+  while ((m = re.exec(svg)) !== null) {
+    const x = parseFloat(m[1]), attrs = m[3];
+    const body = m[4].replace(/&[a-z]+;/g, 'x');
+    if (!body) continue;
+    const sz = parseFloat((attrs.match(/font-size="([\d.]+)"/) || [0, 14])[1]);
+    const mono = /monospace/.test(attrs);
+    const w = body.length * sz * (mono ? 0.60 : 0.50);
+    const anchor = (attrs.match(/text-anchor="(\w+)"/) || [0, 'start'])[1];
+    const left = anchor === 'end' ? x - w : anchor === 'middle' ? x - w / 2 : x;
+    const right = left + w;
+    if (right > X0 + W + 1 || left < X0 - 1) {
+      overflow.push(`${key}: "${body.slice(0, 40)}..." spans ${left.toFixed(0)}..${right.toFixed(0)}, box ${X0}..${X0 + W}`);
+    }
+  }
+}
+if (overflow.length) {
+  console.error(`  FAIL: ${overflow.length} text runs outside its viewBox`);
+  for (const o of overflow.slice(0, 14)) console.error('    ' + o);
+  anyFail = true; return;
+}
+
 // ---- check 1 & 2: the markdown pipeline's two traps ----
 const figures = md.match(/<figure>[\s\S]*?<\/figure>/g) || [];
 let blanks = 0, deep = 0;

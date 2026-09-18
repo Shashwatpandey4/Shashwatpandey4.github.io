@@ -242,7 +242,7 @@ F.smem_kloop = () => {
 
 // ==================================================== 8. cooperative GMEM load
 F.gmem_load = () => {
-  const f = fig(740, 250, 29);
+  const f = fig(740, 250, 29, 46);
   f.caption(0, 14, 'who loads what: 256 threads filling a 128x8 tile of As');
   f.grid(30, 40, 16, 8, 20, { outline: true });
   const tag = (c, r, label, col) => {
@@ -266,7 +266,7 @@ F.gmem_load = () => {
 
 // ======================================================= 9. 1D blocktiling
 F.blocktile_1d = () => {
-  const f = fig(740, 280, 37);
+  const f = fig(740, 280, 37, 34);
   f.caption(0, 14, 'one thread, TM outputs stacked down a column of C');
   f.text(30, 44, 'As', { size: 14, fill: INK, mono: true });
   f.grid(30, 54, 1, 8, 22, { outline: true });
@@ -345,7 +345,7 @@ F.loop_nest = () => {
   });
   f.text(60, 176, 'the 64 FMAs live here', { size: 13, fill: INK });
   f.text(60, 194, 'and this is the ONLY place memory is not touched', { size: 12.5, fill: BLUE });
-  f.caption(0, 244, 'Nest it the other way -- loads inside the arithmetic -- and the fragments spill out of registers. Same maths, a third of the speed.');
+  f.caption(0, 244, 'Nest it the other way and the fragments spill out of registers. Same maths, a third of the speed.');
   return f.toSVG('Loop nesting: bkIdx, dotIdx, register load, then the TM by TN FMAs');
 };
 
@@ -373,7 +373,7 @@ F.transpose = () => {
 
 // ============================================================ 13. warptiling
 F.warptile = () => {
-  const f = fig(740, 330, 47);
+  const f = fig(740, 330, 47, 20);
   f.caption(0, 14, 'three levels of ownership: block, then warp, then thread');
   f.grid(20, 34, 8, 8, 26, { outline: true });
   f.region(20, 34, 104, 104, { stroke: BLUE, sw: 2 });
@@ -456,7 +456,7 @@ F.a6000 = () => `<svg viewBox="0 0 740 262" role="img" aria-label="Same warptili
   <rect x="132" y="211" width="309" height="15" fill="${ORANGE}"/><text x="447" y="223" fill="${ORANGE}">6.182  retuned &#8594; &#8722;19%</text>
   </g>
   <line x1="132" y1="238" x2="720" y2="238" stroke="${FAINT}"/>
-  <text x="0" y="256" font-family="monospace" font-size="10.5" fill="${MUTED}">A6000 config: 128x128 block tile, 128 accumulators/thread. Retuned winners on 24 SMs: 64x64 and 32x128, 32 accumulators.</text>
+  <text x="0" y="256" font-family="monospace" font-size="10.5" fill="${MUTED}">A6000 config: 128x128 tile, 128 accumulators/thread. Retuned on 24 SMs: 64x64 and 32x128, 32 accumulators.</text>
 </svg>`;
 
 // ======================================================= 16. double buffering
@@ -506,7 +506,9 @@ F.ladder = () => {
     const y = 34 + i * 22;
     return `  <text x="0" y="${y + 10}" fill="${INK}">${name}</text>\n` +
       `  <rect x="196" y="${y}" width="${w}" height="14" fill="${col}"/>\n` +
-      `  <text x="${202 + w}" y="${y + 11}" fill="${i === 8 ? BLUE : MUTED}">${v.toFixed(3)}</text>`;
+      (202 + w + 34 > 740
+        ? `  <text x="${190 + w}" y="${y + 11}" fill="#fff" text-anchor="end">${v.toFixed(3)}</text>`
+        : `  <text x="${202 + w}" y="${y + 11}" fill="${i === 8 ? BLUE : MUTED}">${v.toFixed(3)}</text>`);
   }).join('\n');
   return `<svg viewBox="0 0 740 320" role="img" aria-label="All nine kernel versions in TFLOPS against cuBLAS">
   <text x="0" y="14" font-family="monospace" font-size="11" fill="${MUTED}">o_proj (896x896), M=2048, fp32 &#183; TFLOPS</text>
@@ -551,7 +553,7 @@ F.inversion = () => `<svg viewBox="0 0 740 258" role="img" aria-label="The same 
   <line x1="690" y1="30" x2="690" y2="194" stroke="${INK}" stroke-dasharray="3 3"/>
   <text x="560" y="208" font-family="monospace" font-size="10.5" fill="${INK}">cuBLAS 0.314</text>
   <text x="0" y="234" font-family="monospace" font-size="11" fill="${ORANGE}">The best kernel of the nine reaches 11.7% of cuBLAS. The ladder has inverted.</text>
-  <text x="0" y="252" font-family="monospace" font-size="10.5" fill="${MUTED}">Rung 5 &#8212; the register outer product, the idea that unlocked everything at M=2048 &#8212; is now 3x slower than rung 2.</text>
+  <text x="0" y="252" font-family="monospace" font-size="10.5" fill="${MUTED}">Rung 5, the register outer product that unlocked everything at M=2048, is now 3x slower than rung 2.</text>
 </svg>`;
 
 module.exports = F;

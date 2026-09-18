@@ -23,7 +23,7 @@ find*. Each weight is used exactly once and thrown away. The only question that
 matters is: **how fast can I stream a gigabyte off the bus?**
 
 <figure>
-<svg viewBox="0 0 740 320" role="img" aria-label="Prefill is arithmetic-bound, decode is bandwidth-bound">
+<svg viewBox="-52 0 792 320" role="img" aria-label="Prefill is arithmetic-bound, decode is bandwidth-bound">
   <text x="0" y="14" font-family="'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive" font-size="12.5" fill="#666666">the same GEMM, asked two different questions</text>
   <text x="8" y="42" font-family="'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive" font-size="15" fill="#1a1a1a">PREFILL</text>
   <text x="8" y="60" font-family="'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive" font-size="13" fill="#666666">2048 rows at once</text>
@@ -1100,7 +1100,7 @@ Then I ran it inside a real model, generating real tokens.
   <text x="236.1" y="155" font-family="monospace" font-size="13" fill="#c2410c">+0.3%</text>
   <line x1="0" y1="194" x2="700" y2="194" stroke="#dfe3e6"/>
   <text x="0" y="216" font-family="monospace" font-size="11.5" fill="#1a1a1a">A factor of roughly fifteen, and this time it is not measurement error.</text>
-  <text x="0" y="234" font-family="monospace" font-size="10.5" fill="#666666">Part 3 accounts for the gap: a fusion the serving framework already had, a Python branch traced at the wrong time, one PTX instruction.</text>
+  <text x="0" y="234" font-family="monospace" font-size="10.5" fill="#666666">Part 3 accounts for it: a fusion the framework already had, a branch traced too early, one PTX instruction.</text>
 </svg>
 <figcaption>The microbenchmark said +57%. End to end, on the real model, it was
 <b>+0.3% to +3.7%</b>. A factor of roughly fifteen, and none of it is

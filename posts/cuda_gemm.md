@@ -73,7 +73,8 @@ Before any code, one piece of background, because it explains all nine steps.
 When people first learn that a GPU is fast, they learn it as "lots of cores."
 That's true and mostly irrelevant. The RTX 4060 in my laptop can do about 28
 trillion floating-point operations per second. It can read about 227 **billion**
-bytes per second from its main memory. Those numbers are off by a factor of 123.
+bytes per second from its main memory [3]. Those numbers are off by a factor of
+123.
 
 So: a GPU is an enormous arithmetic engine attached to a memory system that
 cannot possibly keep it fed. Every optimization in this post is a trick for
@@ -471,7 +472,9 @@ buys 8×.
 ## 4. Swapping two lines, for 8x
 
 The naive kernel mapped `threadIdx.x` to the *row* of C. Let's map it to the
-*column* instead. That's the entire change:
+*column* instead — so that the 32 threads of a warp ask for 32 *adjacent*
+addresses, which the memory system can service as one transaction rather than
+32 [2]. That's the entire change:
 
 ```cuda
 template <const uint BLOCKSIZE>
@@ -697,7 +700,7 @@ Each element now crosses the DRAM bus `K/BS` times instead of `K` times. With
 BS=32 that's a 32x reduction in traffic.
 
 <figure>
-<svg viewBox="0 0 740 250" role="img" aria-label="Cooperative global-to-shared load: thread to address mapping">
+<svg viewBox="-46 0 786 250" role="img" aria-label="Cooperative global-to-shared load: thread to address mapping">
   <text x="0" y="14" font-family="'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive" font-size="12.5" fill="#666666">who loads what: 256 threads filling a 128x8 tile of As</text>
   <rect x="30" y="40" width="320" height="160" fill="#f6f7f8" stroke="none"/>
   <line x1="30" y1="40" x2="30" y2="200" stroke="#dfe3e6" stroke-width="0.7"/>
@@ -811,7 +814,7 @@ and it's 9 loads for 8 FMAs. Now make it two-dimensional — each thread owns an
 8x8 patch of C — and the inner loop becomes a **register outer product**:
 
 <figure>
-<svg viewBox="0 0 740 280" role="img" aria-label="1D blocktiling: one Bs value feeds TM multiply-adds">
+<svg viewBox="-34 0 774 280" role="img" aria-label="1D blocktiling: one Bs value feeds TM multiply-adds">
   <text x="0" y="14" font-family="'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive" font-size="12.5" fill="#666666">one thread, TM outputs stacked down a column of C</text>
   <text x="30" y="44" font-family="monospace" font-size="14" fill="#1a1a1a">As</text>
   <rect x="30" y="54" width="22" height="176" fill="#f6f7f8" stroke="none"/>
@@ -1017,7 +1020,7 @@ of the speed.
   <text x="199.39999999999998" y="172" font-family="'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive" font-size="12.5" fill="#666666">TM x TN fused multiply-adds</text>
   <text x="60" y="176" font-family="'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive" font-size="13" fill="#1a1a1a">the 64 FMAs live here</text>
   <text x="60" y="194" font-family="'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive" font-size="12.5" fill="#1a73e8">and this is the ONLY place memory is not touched</text>
-  <text x="0" y="244" font-family="'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive" font-size="12.5" fill="#666666">Nest it the other way -- loads inside the arithmetic -- and the fragments spill out of registers. Same maths, a third of the speed.</text>
+  <text x="0" y="244" font-family="'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive" font-size="12.5" fill="#666666">Nest it the other way and the fragments spill out of registers. Same maths, a third of the speed.</text>
 </svg>
 <figcaption>The four loops, outermost first. The innermost pair is the only place in the kernel that touches no memory at all &mdash; which is exactly why the <code>k</code> step has to sit outside it.</figcaption>
 </figure>
@@ -1112,7 +1115,7 @@ the same shared-memory banks and lets the four schedulers get out of each other'
 way.
 
 <figure>
-<svg viewBox="0 0 740 330" role="img" aria-label="Warptiling: block tile splits into warp tiles then thread tiles">
+<svg viewBox="-20 0 760 330" role="img" aria-label="Warptiling: block tile splits into warp tiles then thread tiles">
   <text x="0" y="14" font-family="'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive" font-size="12.5" fill="#666666">three levels of ownership: block, then warp, then thread</text>
   <rect x="20" y="34" width="208" height="208" fill="#f6f7f8" stroke="none"/>
   <line x1="20" y1="34" x2="20" y2="242" stroke="#dfe3e6" stroke-width="0.7"/>
@@ -1204,7 +1207,7 @@ template parameters differ.
   <rect x="132" y="211" width="309" height="15" fill="#c2410c"/><text x="447" y="223" fill="#c2410c">6.182  retuned &#8594; &#8722;19%</text>
   </g>
   <line x1="132" y1="238" x2="720" y2="238" stroke="#dfe3e6"/>
-  <text x="0" y="256" font-family="monospace" font-size="10.5" fill="#666666">A6000 config: 128x128 block tile, 128 accumulators/thread. Retuned winners on 24 SMs: 64x64 and 32x128, 32 accumulators.</text>
+  <text x="0" y="256" font-family="monospace" font-size="10.5" fill="#666666">A6000 config: 128x128 tile, 128 accumulators/thread. Retuned on 24 SMs: 64x64 and 32x128, 32 accumulators.</text>
 </svg>
 <figcaption>Retuning the same kernel for a 24-SM GPU is worth up to <b>+91%</b>.
 And the last row is the honest part: on the one shape wide enough to keep a big
@@ -1435,7 +1438,7 @@ alternately in the same process so neither gets a thermal advantage.
   <text x="680" y="199" fill="#666666">7.591</text>
   <text x="0" y="220" fill="#1a1a1a">9  + double buffer</text>
   <rect x="196" y="210" width="511" height="14" fill="#1a73e8"/>
-  <text x="713" y="221" fill="#1a73e8">8.115</text>
+  <text x="701" y="221" fill="#fff" text-anchor="end">8.115</text>
   </g>
   <line x1="708" y1="30" x2="708" y2="238" stroke="#1a1a1a" stroke-dasharray="3 3"/>
   <text x="600" y="252" font-family="monospace" font-size="10.5" fill="#1a1a1a">cuBLAS 8.138</text>
@@ -1503,7 +1506,7 @@ So I ran the same nine kernels at M=1.
   <line x1="690" y1="30" x2="690" y2="194" stroke="#1a1a1a" stroke-dasharray="3 3"/>
   <text x="560" y="208" font-family="monospace" font-size="10.5" fill="#1a1a1a">cuBLAS 0.314</text>
   <text x="0" y="234" font-family="monospace" font-size="11" fill="#c2410c">The best kernel of the nine reaches 11.7% of cuBLAS. The ladder has inverted.</text>
-  <text x="0" y="252" font-family="monospace" font-size="10.5" fill="#666666">Rung 5 &#8212; the register outer product, the idea that unlocked everything at M=2048 &#8212; is now 3x slower than rung 2.</text>
+  <text x="0" y="252" font-family="monospace" font-size="10.5" fill="#666666">Rung 5, the register outer product that unlocked everything at M=2048, is now 3x slower than rung 2.</text>
 </svg>
 <figcaption>The same nine kernels, same GPU, one row instead of 2048. <b>Rung 5
 is three times slower than rung 2</b>, and the best of the nine manages 11.7% of

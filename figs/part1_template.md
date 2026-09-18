@@ -51,7 +51,8 @@ Before any code, one piece of background, because it explains all nine steps.
 When people first learn that a GPU is fast, they learn it as "lots of cores."
 That's true and mostly irrelevant. The RTX 4060 in my laptop can do about 28
 trillion floating-point operations per second. It can read about 227 **billion**
-bytes per second from its main memory. Those numbers are off by a factor of 123.
+bytes per second from its main memory [3]. Those numbers are off by a factor of
+123.
 
 So: a GPU is an enormous arithmetic engine attached to a memory system that
 cannot possibly keep it fed. Every optimization in this post is a trick for
@@ -162,7 +163,9 @@ buys 8×.
 ## 4. Swapping two lines, for 8x
 
 The naive kernel mapped `threadIdx.x` to the *row* of C. Let's map it to the
-*column* instead. That's the entire change:
+*column* instead — so that the 32 threads of a warp ask for 32 *adjacent*
+addresses, which the memory system can service as one transaction rather than
+32 [2]. That's the entire change:
 
 ```cuda
 template <const uint BLOCKSIZE>

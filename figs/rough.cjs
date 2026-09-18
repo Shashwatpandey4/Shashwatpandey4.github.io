@@ -26,7 +26,7 @@ const MUTED = '#666666';
 const FAINT = '#dfe3e6';
 const HAND = "'Virgil','Excalifont','Architects Daughter','Comic Sans MS',cursive";
 
-function fig(width, height, seed = 7) {
+function fig(width, height, seed = 7, padLeft = 0) {
   const gen = rough.generator({ seed });
   const parts = [];
 
@@ -186,7 +186,7 @@ function fig(width, height, seed = 7) {
     },
     toSVG(label) {
       return [
-        `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(label)}">`,
+        `<svg viewBox="${-padLeft} 0 ${width + padLeft} ${height}" role="img" aria-label="${esc(label)}">`,
         ...parts,
         `</svg>`,
       ].join('\n');

@@ -49,6 +49,16 @@ all four and refuses to write on failure.
    when it is set on the **drawable**, not on the generator; otherwise each shape
    calls `newSeed()` and every build emits different path data. A no-op rebuild
    produced a 245-line diff before `rough.cjs` started passing a per-shape seed.
+5. **No text may run outside its own viewBox.** A long monospace caption
+   overflowing the right edge was the single most common defect while drafting,
+   and it is invisible in a downscaled screenshot — the text is simply clipped.
+   The guard estimates advance widths per font family and reports the offending
+   string and its span. It found 19 of these across the three parts, including
+   labels that were entirely off-canvas in posts already published.
+
+A figure that genuinely needs room to the left of `x = 0` — a vertical dimension
+bracket, say — asks for it with the fourth argument to `fig(w, h, seed, padLeft)`,
+which shifts the viewBox origin rather than the drawing.
 
 ## Text on a hachure fill needs `halo: true`
 

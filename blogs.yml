@@ -7,6 +7,10 @@ blogs:
     url: "blog.html?post=decode_roofline"
     date: "Draft"
 
+  - title: "CUDA GEMM (3/3): Moving Fewer Bytes — int8 to a +39% vLLM Patch"
+    url: "blog.html?post=w8a16_vllm"
+    date: "Draft"
+
   - title: "FlashAttention in Triton"
     url: "blog.html?post=flashattention_triton"
     date: "Planned"

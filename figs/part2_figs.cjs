@@ -16,7 +16,7 @@ const DIM = '#cbd1d6';
 
 // ==================================================== 1. two questions (hand)
 F.two_questions = () => {
-  const f = fig(740, 320, 11);
+  const f = fig(740, 320, 11, 52);
   f.caption(0, 14, 'the same GEMM, asked two different questions');
   // ---- left: prefill
   f.text(8, 42, 'PREFILL', { size: 15, fill: INK });
@@ -499,7 +499,7 @@ F.micro_vs_e2e = () => {
   });
   L.push(`<line x1="0" y1="194" x2="700" y2="194" stroke="${FAINT}"/>`);
   L.push(`<text x="0" y="216" font-family="monospace" font-size="11.5" fill="${INK}">A factor of roughly fifteen, and this time it is not measurement error.</text>`);
-  L.push(`<text x="0" y="234" font-family="monospace" font-size="10.5" fill="${MUTED}">Part 3 accounts for the gap: a fusion the serving framework already had, a Python branch traced at the wrong time, one PTX instruction.</text>`);
+  L.push(`<text x="0" y="234" font-family="monospace" font-size="10.5" fill="${MUTED}">Part 3 accounts for it: a fusion the framework already had, a branch traced too early, one PTX instruction.</text>`);
   return `<svg viewBox="0 0 740 244" role="img" aria-label="A 57 percent microbenchmark win becomes 0.3 to 3.7 percent end to end">\n  ${L.join('\n  ')}\n</svg>`;
 };
 
