@@ -19,7 +19,10 @@ function createBlogListItem(blog) {
 // Function to load and render blogs
 async function loadBlogs() {
     try {
-        const response = await fetch('blogs.yml');
+        // GitHub Pages serves this with cache-control: max-age=600, so a
+        // default fetch shows stale titles and dates for ten minutes after
+        // a push. 'no-cache' revalidates via ETag: a 304 when unchanged.
+        const response = await fetch('blogs.yml', { cache: 'no-cache' });
         const yamlText = await response.text();
 
         const blogsData = parseYAML(yamlText);

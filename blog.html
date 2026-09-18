@@ -367,7 +367,9 @@
             }
 
             try {
-                const response = await fetch(`posts/${slug}.md`);
+                // see script.js: Pages caches .md for 600s, so revalidate
+                const response = await fetch(`posts/${slug}.md`,
+                                             { cache: 'no-cache' });
                 if (!response.ok) {
                     titleEl.textContent = 'Post not found';
                     contentEl.innerHTML = '<p>Unable to load this post. It may have been moved or deleted.</p>';
