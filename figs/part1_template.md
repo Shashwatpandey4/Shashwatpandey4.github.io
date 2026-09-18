@@ -1,5 +1,5 @@
 title: Making a Matmul Fast: 0.1 to 8 TFLOPS in Nine Steps
-date: Draft
+date: September 1, 2026
 author: Shashwat Pandey
 
 ---

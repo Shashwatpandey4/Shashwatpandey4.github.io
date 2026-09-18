@@ -1,5 +1,5 @@
 title: The Compiler Wrote Part 1
-date: Draft
+date: September 10, 2026
 author: Shashwat Pandey
 
 ---

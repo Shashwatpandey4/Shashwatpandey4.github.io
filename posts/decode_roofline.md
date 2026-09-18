@@ -1,5 +1,5 @@
 title: Your Kernel Is Not Slow, Your Bus Is Full
-date: Draft
+date: September 4, 2026
 author: Shashwat Pandey
 
 ---

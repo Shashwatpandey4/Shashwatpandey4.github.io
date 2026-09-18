@@ -1,5 +1,5 @@
 title: Moving Fewer Bytes
-date: Draft
+date: September 7, 2026
 author: Shashwat Pandey
 
 ---

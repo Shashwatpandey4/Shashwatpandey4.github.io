@@ -1,5 +1,5 @@
 title: The Matrix You Must Not Build
-date: Draft
+date: September 13, 2026
 author: Shashwat Pandey
 
 ---

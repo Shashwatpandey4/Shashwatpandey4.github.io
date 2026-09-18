@@ -1,24 +1,20 @@
 blogs:
   - title: "CUDA GEMM (1/4): From Naive Matmul to Optimized Kernels"
     url: "blog.html?post=cuda_gemm"
-    date: "Draft"
+    date: "September 1, 2026"
 
   - title: "CUDA GEMM (2/4): Your Kernel Is Not Slow, Your Bus Is Full"
     url: "blog.html?post=decode_roofline"
-    date: "Draft"
+    date: "September 4, 2026"
 
   - title: "CUDA GEMM (3/4): Moving Fewer Bytes — int8 to a +39% vLLM Patch"
     url: "blog.html?post=w8a16_vllm"
-    date: "Draft"
+    date: "September 7, 2026"
 
   - title: "CUDA GEMM (4/4): The Compiler Wrote Part 1 — Triton, MLIR and LLVM"
     url: "blog.html?post=triton_mlir_llvm"
-    date: "Draft"
+    date: "September 10, 2026"
 
   - title: "The Matrix You Must Not Build: FlashAttention in Triton"
     url: "blog.html?post=flashattention_triton"
-    date: "Draft"
-
-  - title: "Fast LLM Inference From Scratch"
-    url: "blog.html?post=fast_llm_inference_from_scratch"
-    date: "Planned"
+    date: "September 13, 2026"
