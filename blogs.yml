@@ -22,3 +22,7 @@ blogs:
   - title: "A Speedup Is a Claim: Making a Kernel Benchmark Carry Its Evidence"
     url: "blog.html?post=attest_harness"
     date: "September 16, 2026"
+
+  - title: "Why Is This Kernel Slow: A Diagnosis Ladder for Triton"
+    url: "blog.html?post=diagnosis_ladder"
+    date: "September 19, 2026"
