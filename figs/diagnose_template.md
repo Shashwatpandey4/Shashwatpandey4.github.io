@@ -1,4 +1,4 @@
-title: Why Is This Kernel Slow
+title: Why Is This Kernel Slow: A Diagnosis Ladder for Triton
 date: September 19, 2026
 author: Shashwat Pandey
 
@@ -27,6 +27,14 @@ geometric mean on NPUKernelBench doing it.
 I wanted to know what that looks like on kernels whose numbers I already know,
 so I built the ladder and pointed it at my own five shapes.
 
+Rung 1 is the one everybody already has, and it is worth being precise about why
+it is not enough. "7.0 µs" is not a diagnosis. Neither is "1.67× faster than
+cuBLAS", because a ratio tells you about the other implementation, not about the
+ceiling. The question rung 1 can never answer is *how much is left* — and
+without that, every subsequent hour is speculative. You can spend a week making
+a kernel 5% faster and never learn that it was already at 95% of what the
+hardware can do.
+
 <figure>
 {{svg:ladder}}
 <figcaption>Five rungs, cheapest first. Only rung 1 needs to run the kernel;
@@ -34,6 +42,19 @@ everything above rung 2 is static and byte-identical every time. The ordering is
 the point — most kernels are explained at rung 2, and only the survivors are
 worth reading IR for.</figcaption>
 </figure>
+
+The escalation is not just tidiness, it is an economic argument. Rungs 1 and 2
+need a warm GPU, exclusive access, a rotation past L2 and eight interleaved
+rounds — in other words everything the previous post was about, and tens of
+seconds per shape. Rungs 3 to 5 need a compile and a handful of regexes over
+files on disk: no GPU contention, no thermal state, no measurement hygiene at
+all, because nothing is being timed. They are close to free and perfectly
+reproducible.
+
+Which means the expensive rung is the one you must do first, and the cheap rungs
+are the ones you are tempted to skip. That is exactly backwards from how it
+feels, and it is why I ordered the ladder explicitly rather than reaching for
+whichever tool was nearest.
 
 Timing comes from [`attest`](blog.html?post=attest_harness), the harness from the
 previous post [4], so every number here arrives with rotation past L2, CUDA
@@ -64,6 +85,14 @@ previous post was that dividing bytes by time is the check that catches what
 ratios hide. It is — but it inherits the quality of its denominator, and I had
 picked a denominator that was 10% too tight for every read-dominated kernel I
 would ever point it at.
+
+Getting that number right matters more than it sounds, because rung 2 is the
+only rung whose output is a *budget*. Every rung above it spends effort against
+a prize that rung 2 sizes. If the ceiling is 10% too low, every shape looks
+closer to finished than it is and real work gets abandoned; 10% too high and you
+chase a gap that does not exist. It is the one measurement in the ladder where
+being approximately right is not good enough, and it is also the one people
+most often take from a spec sheet.
 
 ## 3. Three of five shapes are finished
 
@@ -129,6 +158,24 @@ That is a hypothesis, not a conclusion: *the depth I chose to hide latency is
 the thing capping occupancy*. Rung 3's job is to produce exactly this kind of
 testable statement, and the test is cheap.
 
+It is worth saying what occupancy is for, because 17% sounds alarming and often
+is not. Occupancy is how many warps the scheduler has available to switch to
+when one stalls on memory. It is a *latency-hiding budget*, not a utilisation
+figure — a kernel at 17% occupancy that never stalls is perfect, and a kernel at
+100% occupancy waiting on DRAM is not. So low occupancy is only a diagnosis when
+paired with a stall the kernel cannot hide, which is why this rung sits above
+rung 2 rather than replacing it. On the three shapes already at the memory wall,
+occupancy is irrelevant by construction: there is no latency to hide that more
+warps would help with, because the bus is the constraint and more warps do not
+widen the bus.
+
+There is also a reason this rung is static rather than profiled. `n_regs`,
+`n_spills` and `metadata.shared` are properties of the compiled binary, so
+reading them costs a compile and no GPU time at all, they are identical on every
+run, and they are available before the kernel has ever been launched. A profiler
+would give the same numbers plus a great deal else, at the cost of serialising
+the kernel and perturbing exactly the timings rung 1 just established.
+
 ## 5. Acting on it
 
 <figure>
@@ -147,7 +194,7 @@ explanation. What comes out is a rule with a shape to it:
 > Pipeline depth pays until shared memory costs you a block per SM. Where that
 > crossover sits depends on whether the shape is already at the wall.
 
-`gate_up`, at 90% of the ceiling, wants the **minimum** depth — it has no latency
+`gate_up`, at 82% of the ceiling, wants the **minimum** depth — it has no latency
 left to hide and every extra stage is pure occupancy cost. `down_proj`, with
 K=4864, has the most reduction to hide and needs depth badly enough to pay for
 it. The two small shapes sit in the middle at three.
@@ -160,7 +207,34 @@ each shape wants what it wants.
 ## 6. Rung 4: what the compiler decided
 
 Above rung 3, the questions stop being about resources and start being about
-choices. The TritonGPU IR records them.
+choices. The TritonGPU IR records them, and unlike everything below it, it
+records them in a form that says *why*. What the ladder pulls out of `qkv_proj`'s
+`ttgir` is six numbers:
+
+```
+async_copies    12      cp.async issued in the loop body
+local_allocs     3      shared-memory buffers
+dot_ops         14      tt.dot operations
+convert_layouts  1      layout reconciliations
+divisibility    10      pointer alignment the compiler proved
+warps_per_cta  4, 1     how the 4 warps tile the output block
+```
+
+`warps_per_cta = 4, 1` is warptiling — Part 1's rung 6, which I implemented by
+hand in CUDA and which here is a consequence of passing `num_warps=4` and a 16×64
+block. `divisibility = 10` is the compiler having proved the pointers are
+1024-byte aligned, which is the precondition for the vectorised loads that were
+Part 1's rung 4. Neither appears in the Triton source. Both appear here.
+
+What I look for at this rung is mismatch, and `convert_layouts` is where it
+shows: a layout reconciliation is the compiler discovering that the layout a
+value was produced in is not the one its consumer wants, and fixing it by
+round-tripping through shared memory. One per kernel, outside the loop, is
+setup. The same operation *inside* the `K` loop would run once per iteration —
+38 times for `down_proj`, whose K=4864 at BK=128 gives 38 trips — and would be
+the whole diagnosis. The count is what
+distinguishes those two cases, and nothing at rungs 1 to 3 can tell them apart,
+because both look like "slower than it should be".
 
 <figure>
 {{svg:emitted}}
@@ -169,6 +243,13 @@ pipeline depth, as it should. One <code>convert_layout</code> everywhere —
 Triton is moving between layouts once per kernel, which is cheap but not free.
 And the row that matters: <b>LDSM is zero on every shape.</b></figcaption>
 </figure>
+
+This is the rung where Part 1's optimisations stop being things I wrote and
+become things I can only read. Warptiling, vectorised loads and the pipelining
+that `async_copies` counts are all present in these kernels, but I did not write
+any of them and cannot address them directly. The only handles are `BLOCK_*`,
+`num_warps` and `num_stages` — three integers standing in for nine hand-written
+rungs — and rung 4 is how you find out what the compiler did with them.
 
 ## 7. Rung 5: the instruction that is never there
 
@@ -202,7 +283,12 @@ matter. The honest statement is narrower and more useful:
 > which are the two smallest.
 
 That is a much less exciting conclusion than "I found a compiler bug worth
-1.85×", and it is the one the evidence supports. Chasing it into the TritonGPU
+1.85×", and it is the one the evidence supports. The difference between the two
+statements is rung 2. Without a ceiling, "Triton never emits `ldmatrix`, and the
+kernel that does is 1.85× faster" is an extremely tempting causal story, and I
+would have had no instrument for resisting it. With a ceiling, three of the five
+shapes are ruled out before the question is even asked, and the claim shrinks to
+something I can defend. Chasing it into the TritonGPU
 lowering is the obvious next thing, and rung 2 says the prize is bounded by the
 41% of the ceiling that `qkv_proj` and `o_proj` are leaving on the table.
 
@@ -227,6 +313,14 @@ impossible, which is the only reason I looked.
 The second is in `attest`, published three days before this, and is the ceiling
 problem from §2.
 
+What the two have in common is more specific than carelessness. In both cases
+the wrong number was *plausible in isolation*. 37,632 bytes of shared memory is
+an entirely reasonable figure; 238 GB/s is an entirely reasonable figure. Each
+became visible only in relation to something else — the same value repeating
+where it had to change, and a value exceeding a bound it could not exceed. A
+number that can only be checked against intuition cannot be checked at all, and
+intuition is exactly what an agent loop does not have.
+
 Both are the same failure: a tool that reports a number without any way to
 notice that the number is absurd. The diagnosis ladder catches these because
 every rung has a physical bound attached — smem must scale with depth, bandwidth
@@ -248,6 +342,13 @@ rung 6.
 kernel in isolation. Part 3 spent 4,000 words on the gap between that and a
 model, and nothing in this ladder closes it.
 
+**It diagnoses one configuration, not a kernel.** Everything above is M=1 with
+one tile config per shape. The `LDSM` result happens to hold across all five,
+but "Triton never emits `ldmatrix`" is a claim about five points in a space with
+thousands of them, and I have not earned the general version. §5's depth sweep
+is the same caution in miniature: the answer changed per shape, and it would
+have been easy to measure one shape and generalise wrongly.
+
 ## 10. What I would build next
 
 The thing I actually want is the loop: a ladder whose output is a *hypothesis
@@ -261,6 +362,16 @@ difference between the two open problems the field lists. Generation is solved
 well enough to be interesting. Knowing whether the generated thing is better,
 and *why*, is still done by hand — and when I do it by hand I get it wrong about
 as often as I get it right.
+
+There is also a smaller, more concrete thing I would do first, because this
+exercise made it obvious. Rung 2 should run *before* any optimisation work is
+authorised, on every shape, and its output should be a budget rather than a
+score: `gate_up` has 18% of the ceiling left, `qkv_proj` has 41%, `lm_head` has
+5%. Those three numbers would have redirected a meaningful fraction of the last
+four posts. I spent time tuning shapes that had nothing to give because I was
+measuring speedups against cuBLAS rather than distance from the wall, and a
+ratio against another implementation will happily let you optimise something
+that is already finished.
 
 [1] [Compiler-Grounded Hierarchical Diagnosis for LLM-Based Triton Kernel Optimization](https://arxiv.org/abs/2607.23089), 2026. The escalation idea, and a 4.35× geometric mean on NPUKernelBench applying it to Ascend NPUs.
 [2] Occupancy arithmetic for Ada is in the [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#compute-capability-8-x): 64K 32-bit registers and up to 100 KB of shared memory per SM, 1536 resident threads.

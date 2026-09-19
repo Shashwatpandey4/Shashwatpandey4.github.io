@@ -1533,11 +1533,11 @@ question is *how fast can I stream a gigabyte of weights off the bus*.
 That is Part 2. We'll build the roofline model that tells you which question
 you're in, find out why a 20% speedup was arithmetically impossible on this
 hardware, and then I'll walk through the six separate occasions on which my own
-benchmarks confidently told me the opposite of the truth — including a 372%
-speedup that was entirely a thermometer reading, and a kernel that was correct on
+benchmarks confidently told me the opposite of the truth — including a 259.8%
+win that was really a 68.1% loss, and a kernel that was correct on
 every shape below 600 blocks and silently wrong above it.
 
 
 [1] Simon Boehm, [*How to Optimize a CUDA Matmul Kernel for cuBLAS-like Performance: a Worklog*](https://siboehm.com/articles/22/CUDA-MMM). The nine-rung structure of this post follows his. Section 8 is where our numbers part ways: he tunes on an 84-SM A6000, I have 24 SMs, and the same kernel wants a different tile.
 [2] NVIDIA, [*CUDA C++ Best Practices Guide* &mdash; coalesced access to global memory](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#coalesced-access-to-global-memory). The 32-byte sector behaviour behind section 3.
-[3] All numbers here are from my own runs on an RTX 4060 Laptop (sm_89, 24 SMs, 8 GB, 227 GB/s measured). Candidate and cuBLAS are timed in alternating rounds inside one process, because this card throttles from 3105 to about 1200 MHz under sustained load &mdash; Part 2 has the story of what that did to my first set of results.
+[3] All numbers here are from my own runs on an RTX 4060 Laptop (sm_89, 24 SMs, 8 GB, 227 GB/s measured). Candidate and cuBLAS are timed in alternating rounds inside one process, because this card's clock falls from 2505 MHz at 70 &deg;C to 1335 MHz at 91 &deg;C under sustained load, with the power-cap throttle bit set &mdash; Part 2 has the story of what that did to my first set of results. (3105 MHz is the card's <code>sm_max_mhz</code>, a spec capability; I quoted it as an observed clock in earlier versions of this series and it never was one.)

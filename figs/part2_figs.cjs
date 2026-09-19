@@ -347,27 +347,48 @@ F.lie_l2 = () => {
 
 // ================================================= 11. lie: thermal (crisp)
 F.lie_thermal = () => {
-  const X = t => (70 + t / 60 * 610).toFixed(1);
-  const Y = mhz => (230 - (mhz - 1000) / 2400 * 170).toFixed(1);
-  const trace = [[0, 3105], [4, 3090], [8, 2860], [14, 2450], [20, 2100], [28, 1800], [36, 1540], [46, 1340], [60, 1210]];
+  // Every point is a row of results/kernels/tune_bf16.json: the sweep's
+  // pct_cublas (reference timed once, cold) against the interleaved A/B
+  // pct_cublas for the same config. 23 runs, 6 shapes x 5 sizes.
+  const R = [
+    ['qkv_proj', 1, 259.8, 68.1], ['qkv_proj', 16, 76.9, 76.8], ['qkv_proj', 128, 63.6, 75.9],
+    ['qkv_proj', 512, 73.7, 86.5], ['qkv_proj', 2048, 78.4, 78.7],
+    ['o_proj', 1, 68.2, 68.1], ['o_proj', 16, 74.7, 74.3], ['o_proj', 128, 71.0, 70.4],
+    ['o_proj', 512, 75.4, 84.9], ['o_proj', 2048, 84.6, 77.7],
+    ['gate_up', 1, 94.0, 96.6], ['gate_up', 16, 106.5, 121.2], ['gate_up', 128, 81.7, 82.0],
+    ['gate_up', 512, 72.1, 81.4], ['gate_up', 2048, 74.8, 83.4],
+    ['down_proj', 1, 63.4, 63.4], ['down_proj', 16, 58.5, 58.7], ['down_proj', 128, 52.4, 52.1],
+    ['down_proj', 512, 65.9, 77.7], ['down_proj', 2048, 73.8, 75.0],
+    ['lm_head', 1, 108.8, 100.0], ['lm_head', 16, 99.7, 100.0], ['lm_head', 128, 80.4, 83.4],
+  ];
+  const X = v => (95 + Math.min(v, 280) / 280 * 560).toFixed(1);
+  const Y = v => (250 - Math.min(v, 140) / 140 * 195).toFixed(1);
   const L = [];
-  L.push(`<text x="0" y="14" font-family="monospace" font-size="11" fill="${MUTED}">SM CLOCK DURING ONE 60-SECOND AUTOTUNER SWEEP</text>`);
-  for (const m of [1000, 2000, 3000]) {
-    L.push(`<line x1="70" y1="${Y(m)}" x2="680" y2="${Y(m)}" stroke="${FAINT}" stroke-width="0.8"/>`);
-    L.push(`<text x="62" y="${(+Y(m) + 4).toFixed(1)}" font-family="monospace" font-size="10.5" fill="${MUTED}" text-anchor="end">${m}</text>`);
+  L.push(`<text x="0" y="14" font-family="monospace" font-size="11" fill="${MUTED}">SWEEP SCORE (COLD REFERENCE)  vs  INTERLEAVED SCORE  ·  SAME CONFIG, SAME MACHINE  ·  23 RUNS</text>`);
+  // y axis
+  for (const v of [0, 50, 100]) {
+    L.push(`<line x1="95" y1="${Y(v)}" x2="655" y2="${Y(v)}" stroke="${FAINT}" stroke-width="0.8"/>`);
+    L.push(`<text x="87" y="${(+Y(v) + 4).toFixed(1)}" font-family="monospace" font-size="10.5" fill="${MUTED}" text-anchor="end">${v}%</text>`);
   }
-  L.push(`<text x="10" y="50" font-family="monospace" font-size="10.5" fill="${MUTED}">MHz</text>`);
-  L.push(`<polyline points="${trace.map(([t, m]) => `${X(t)},${Y(m)}`).join(' ')}" fill="none" stroke="${ORANGE}" stroke-width="2.4"/>`);
-  L.push(`<circle cx="${X(0)}" cy="${Y(3105)}" r="5" fill="${BLUE}" stroke="#fff" stroke-width="1.6"/>`);
-  L.push(`<text x="${(+X(0) + 12).toFixed(1)}" y="${(+Y(3105) - 10).toFixed(1)}" font-family="monospace" font-size="11" fill="${BLUE}">cuBLAS reference measured HERE: 7.45 TFLOPS, 60 C</text>`);
-  L.push(`<rect x="${X(10)}" y="60" width="${(+X(60) - +X(10)).toFixed(1)}" height="170" fill="${ORANGE}" opacity="0.06"/>`);
-  L.push(`<text x="${X(30)}" y="${(+Y(1700)).toFixed(1)}" font-family="monospace" font-size="11" fill="${ORANGE}" text-anchor="middle">188 candidates measured in here: 1.87 TFLOPS, 87 C</text>`);
-  L.push(`<line x1="70" y1="230" x2="680" y2="230" stroke="${INK}" stroke-width="1.2"/>`);
-  L.push(`<text x="70" y="248" font-family="monospace" font-size="10.5" fill="${MUTED}">0s</text>`);
-  L.push(`<text x="680" y="248" font-family="monospace" font-size="10.5" fill="${MUTED}" text-anchor="end">60s</text>`);
-  L.push(`<text x="0" y="278" font-family="monospace" font-size="11.5" fill="${INK}">Reference cold, candidates hot. The whole 2.6x drift landed in the ratio: reported <tspan fill="${ORANGE}">372% speedup</tspan>.</text>`);
-  L.push(`<text x="0" y="296" font-family="monospace" font-size="10.5" fill="${MUTED}">On another shape the reported figure was 259.8%; interleaved it was 68.1% — the kernel was losing badly. Twice.</text>`);
-  return `<svg viewBox="0 0 740 306" role="img" aria-label="GPU clock falls from 3105 to 1210 MHz during an autotuner sweep, manufacturing a fake speedup">\n  ${L.join('\n  ')}\n</svg>`;
+  for (const v of [0, 100, 200]) {
+    L.push(`<line x1="${X(v)}" y1="250" x2="${X(v)}" y2="255" stroke="${INK}" stroke-width="1"/>`);
+    L.push(`<text x="${X(v)}" y="270" font-family="monospace" font-size="10.5" fill="${MUTED}" text-anchor="middle">${v}%</text>`);
+  }
+  // the y = x line: where an honest protocol puts every point
+  L.push(`<line x1="${X(0)}" y1="${Y(0)}" x2="${X(140)}" y2="${Y(140)}" stroke="${GRAY}" stroke-width="1.2" stroke-dasharray="4 4"/>`);
+  L.push(`<text x="${X(120)}" y="${(+Y(120) - 8).toFixed(1)}" font-family="monospace" font-size="10" fill="${GRAY}">agree</text>`);
+  L.push(`<text x="10" y="50" font-family="monospace" font-size="10.5" fill="${MUTED}">A/B</text>`);
+  for (const [nm, m, a, b] of R) {
+    const bad = a / b > 2;
+    L.push(`<circle cx="${X(a)}" cy="${Y(b)}" r="${bad ? 6 : 4}" fill="${bad ? ORANGE : BLUE}" opacity="${bad ? 1 : 0.55}"/>`);
+    if (bad) {
+      L.push(`<text x="${(+X(a) - 12).toFixed(1)}" y="${(+Y(b) + 4).toFixed(1)}" font-family="monospace" font-size="11" fill="${ORANGE}" text-anchor="end">${nm} M=${m}</text>`);
+      L.push(`<text x="${(+X(a) - 12).toFixed(1)}" y="${(+Y(b) + 19).toFixed(1)}" font-family="monospace" font-size="10.5" fill="${ORANGE}" text-anchor="end">259.8% reported, 68.1% true</text>`);
+    }
+  }
+  L.push(`<text x="0" y="296" font-family="monospace" font-size="11.5" fill="${INK}">The candidate timed the same both ways (9.034 vs 9.037 us). All of the error was in the reference: 3.81x.</text>`);
+  L.push(`<text x="0" y="314" font-family="monospace" font-size="10.5" fill="${MUTED}">Logged GPU state for that run: 2490 MHz, 85 C, throttle bit 0x00 — not hot. It was cuBLAS's first call on the shape.</text>`);
+  return `<svg viewBox="0 0 740 324" role="img" aria-label="Scatter of sweep score against interleaved score for 23 runs; 22 agree and one reports 259.8 percent instead of 68.1">\n  ${L.join('\n  ')}\n</svg>`;
 };
 
 // ================================================== 12. lie: cuBLAS (crisp)

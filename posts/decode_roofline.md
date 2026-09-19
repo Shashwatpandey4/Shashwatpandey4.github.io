@@ -766,44 +766,107 @@ And notice what made this one so durable: it was *reproducible*. Reproducibility
 tells you a measurement is stable. It tells you nothing about whether it is
 measuring the right thing.
 
-### Lie 2: thermal drift became speedup
+### Lie 2: the reference was measured once, cold
 
-This one produced the most absurd number of the project: a **372% speedup** that
-was entirely a thermometer reading.
+This one produced the most absurd number of the project. It is also the one I
+described wrongly for months — while writing the sixth post in this series I
+went back to the archived sweep to reproduce it, and the data says something
+different from what I had been repeating. What follows is what the JSON actually
+contains.
 
-My autotuner timed cuBLAS once, then measured 188 candidate configurations. That
-sweep takes about a minute, during which a laptop GPU heats from 60 °C to 87 °C
-and drops from 3105 MHz to about 1200 MHz. The reference was measured cold and
-the candidates warm, so the drift landed entirely in the ratio.
+My autotuner timed cuBLAS **once**, then scored 156 candidate configurations
+against that single reading. On `qkv_proj` at M=1 it reported **259.8%** — my
+kernel beating cuBLAS by two and a half times. Re-measured with candidate and
+reference interleaved, the same config scores **68.1%**. It was losing by a
+third.
+
+The decomposition is the interesting part, because it is not what I assumed:
+
+```
+                    sweep        interleaved
+  candidate ms     0.009034        0.009037     <- unchanged
+  cuBLAS    ms     0.023468        0.006155     <- 3.81x
+  reported          259.8%           68.1%
+```
+
+**The candidate was never mismeasured.** Nine microseconds either way. The whole
+error lives in the reference, which read 3.81× slow because it was cuBLAS's
+first call on that shape and paid for heuristic selection and kernel load — a
+cost that a single timing cannot amortise and that never recurs.
+
+And the GPU state logged with that run says `2490 MHz, 85 °C, throttle
+0x00`: the clock was high and the throttle bit was **clear**. So the mechanism
+here is a cold reference, not heat, which is the opposite of what I claimed in
+the first version of this post.
 
 <figure>
-<svg viewBox="0 0 740 306" role="img" aria-label="GPU clock falls from 3105 to 1210 MHz during an autotuner sweep, manufacturing a fake speedup">
-  <text x="0" y="14" font-family="monospace" font-size="11" fill="#666666">SM CLOCK DURING ONE 60-SECOND AUTOTUNER SWEEP</text>
-  <line x1="70" y1="230.0" x2="680" y2="230.0" stroke="#dfe3e6" stroke-width="0.8"/>
-  <text x="62" y="234.0" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="end">1000</text>
-  <line x1="70" y1="159.2" x2="680" y2="159.2" stroke="#dfe3e6" stroke-width="0.8"/>
-  <text x="62" y="163.2" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="end">2000</text>
-  <line x1="70" y1="88.3" x2="680" y2="88.3" stroke="#dfe3e6" stroke-width="0.8"/>
-  <text x="62" y="92.3" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="end">3000</text>
-  <text x="10" y="50" font-family="monospace" font-size="10.5" fill="#666666">MHz</text>
-  <polyline points="70.0,80.9 110.7,82.0 151.3,98.3 212.3,127.3 273.3,152.1 354.7,173.3 436.0,191.8 537.7,205.9 680.0,215.1" fill="none" stroke="#c2410c" stroke-width="2.4"/>
-  <circle cx="70.0" cy="80.9" r="5" fill="#1a73e8" stroke="#fff" stroke-width="1.6"/>
-  <text x="82.0" y="70.9" font-family="monospace" font-size="11" fill="#1a73e8">cuBLAS reference measured HERE: 7.45 TFLOPS, 60 C</text>
-  <rect x="171.7" y="60" width="508.3" height="170" fill="#c2410c" opacity="0.06"/>
-  <text x="375.0" y="180.4" font-family="monospace" font-size="11" fill="#c2410c" text-anchor="middle">188 candidates measured in here: 1.87 TFLOPS, 87 C</text>
-  <line x1="70" y1="230" x2="680" y2="230" stroke="#1a1a1a" stroke-width="1.2"/>
-  <text x="70" y="248" font-family="monospace" font-size="10.5" fill="#666666">0s</text>
-  <text x="680" y="248" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="end">60s</text>
-  <text x="0" y="278" font-family="monospace" font-size="11.5" fill="#1a1a1a">Reference cold, candidates hot. The whole 2.6x drift landed in the ratio: reported <tspan fill="#c2410c">372% speedup</tspan>.</text>
-  <text x="0" y="296" font-family="monospace" font-size="10.5" fill="#666666">On another shape the reported figure was 259.8%; interleaved it was 68.1% — the kernel was losing badly. Twice.</text>
+<svg viewBox="0 0 740 324" role="img" aria-label="Scatter of sweep score against interleaved score for 23 runs; 22 agree and one reports 259.8 percent instead of 68.1">
+  <text x="0" y="14" font-family="monospace" font-size="11" fill="#666666">SWEEP SCORE (COLD REFERENCE)  vs  INTERLEAVED SCORE  ·  SAME CONFIG, SAME MACHINE  ·  23 RUNS</text>
+  <line x1="95" y1="250.0" x2="655" y2="250.0" stroke="#dfe3e6" stroke-width="0.8"/>
+  <text x="87" y="254.0" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="end">0%</text>
+  <line x1="95" y1="180.4" x2="655" y2="180.4" stroke="#dfe3e6" stroke-width="0.8"/>
+  <text x="87" y="184.4" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="end">50%</text>
+  <line x1="95" y1="110.7" x2="655" y2="110.7" stroke="#dfe3e6" stroke-width="0.8"/>
+  <text x="87" y="114.7" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="end">100%</text>
+  <line x1="95.0" y1="250" x2="95.0" y2="255" stroke="#1a1a1a" stroke-width="1"/>
+  <text x="95.0" y="270" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="middle">0%</text>
+  <line x1="295.0" y1="250" x2="295.0" y2="255" stroke="#1a1a1a" stroke-width="1"/>
+  <text x="295.0" y="270" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="middle">100%</text>
+  <line x1="495.0" y1="250" x2="495.0" y2="255" stroke="#1a1a1a" stroke-width="1"/>
+  <text x="495.0" y="270" font-family="monospace" font-size="10.5" fill="#666666" text-anchor="middle">200%</text>
+  <line x1="95.0" y1="250.0" x2="375.0" y2="55.0" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <text x="335.0" y="74.9" font-family="monospace" font-size="10" fill="#6b7280">agree</text>
+  <text x="10" y="50" font-family="monospace" font-size="10.5" fill="#666666">A/B</text>
+  <circle cx="614.6" cy="155.1" r="6" fill="#c2410c" opacity="1"/>
+  <text x="602.6" y="159.1" font-family="monospace" font-size="11" fill="#c2410c" text-anchor="end">qkv_proj M=1</text>
+  <text x="602.6" y="174.1" font-family="monospace" font-size="10.5" fill="#c2410c" text-anchor="end">259.8% reported, 68.1% true</text>
+  <circle cx="248.8" cy="143.0" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="222.2" cy="144.3" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="242.4" cy="129.5" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="251.8" cy="140.4" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="231.4" cy="155.1" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="244.4" cy="146.5" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="237.0" cy="151.9" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="245.8" cy="131.7" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="264.2" cy="141.8" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="283.0" cy="115.5" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="308.0" cy="81.2" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="258.4" cy="135.8" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="239.2" cy="136.6" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="244.6" cy="133.8" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="221.8" cy="161.7" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="212.0" cy="168.2" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="199.8" cy="177.4" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="226.8" cy="141.8" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="242.6" cy="145.5" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="312.6" cy="110.7" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="294.4" cy="110.7" r="4" fill="#1a73e8" opacity="0.55"/>
+  <circle cx="255.8" cy="133.8" r="4" fill="#1a73e8" opacity="0.55"/>
+  <text x="0" y="296" font-family="monospace" font-size="11.5" fill="#1a1a1a">The candidate timed the same both ways (9.034 vs 9.037 us). All of the error was in the reference: 3.81x.</text>
+  <text x="0" y="314" font-family="monospace" font-size="10.5" fill="#666666">Logged GPU state for that run: 2490 MHz, 85 C, throttle bit 0x00 — not hot. It was cuBLAS's first call on the shape.</text>
 </svg>
-<figcaption>Clock against wall time during one autotuner run, with the "speedup"
-it reported. The same cuBLAS call measured 7.45 TFLOPS cold and 1.87 TFLOPS hot.
-On another shape the reported figure was 259.8%; re-measured properly it was
-<b>68.1%</b> — the kernel was losing badly.</figcaption>
+<figcaption>All 23 shape/size runs from the archived sweep, sweep score against
+interleaved score. <b>Twenty-two agree within ±16%.</b> One does not:
+<code>qkv_proj</code> at M=1, where a cold reference turned a 68% loss into a
+259.8% win. A protocol error does not degrade every measurement a little — it
+ruins the occasional one completely, which is exactly why averaging over a
+sweep does not surface it.</figcaption>
 </figure>
 
-The fix is to stop measuring them separately. Run candidate and reference in
+Thermal drift is real in the same table, and worth separating from this.
+**Seventeen of the 23 runs carry the power-cap throttle bit `0x20`**, at 83–89 °C
+with clocks between 1920 and 2340 MHz, against a flat 2490 MHz on the six
+unthrottled ones — and across the whole project the observed range runs from
+2505 MHz at 70 °C down to 1335 MHz at 91 °C. But its effect here points the
+*other* way: by the time the A/B rounds ran the card was hot, so cuBLAS had
+slowed too, and on **ten runs the interleaved score came out higher** than the
+sweep's — seven of them by 11.5% to 19.3%.
+
+That is worth holding onto, because the two mechanisms flatter you in opposite
+directions and a protocol that only defends against one of them is not safer on
+average — it is differently wrong.
+
+One fix covers both, which is to stop measuring the two arms separately. Run candidate and reference in
 short alternating rounds — A, B, A, B, twenty times — and take the median of the
 per-round *ratios* rather than the ratio of the totals. Drift then appears on both
 sides of every ratio and cancels, and you get a distribution instead of a point,
@@ -812,8 +875,9 @@ so you can see when the two are within noise of each other.
 The reason this one deserves a whole section is that I made *exactly the same
 mistake* again, one level up, weeks later: a Python harness that timed a model in
 bf16, then quantised it, then timed it again — minutes apart. A hot run measured
-the identical bf16 baseline at 15.63 ms/token where a cool run measured 9.24. The
-mechanism was identical and I did not recognise it, because it was in a different
+the identical bf16 baseline at 15.63 ms/token where a cool run measured 9.24 —
+that one really was heat. The shape was identical and I did not recognise it,
+because it was in a different
 language, at a different scale, in code I thought of as the harness rather than
 the benchmark. Knowing a failure mode is not the same as having a habit that
 prevents it.

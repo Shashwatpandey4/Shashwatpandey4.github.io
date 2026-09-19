@@ -183,4 +183,44 @@ F.attested = () => {
   return `<svg viewBox="0 0 740 252" role="img" aria-label="Four attested claims with speedup, spread, implied bandwidth, rotation and correctness score">\n  ${L.join('\n  ')}\n</svg>`;
 };
 
+// attest/demo_thermal.py: one 780-second burn, 53,909 timings of the SAME
+// 2048-cube bf16 matmul, GPU pinned at its 80 W cap and 87 C. True ratio is
+// 1.000 by construction, so every deviation is the protocol lying.
+F.thermal = () => {
+  const T = [[0,591.2,2475,64],[27,599.8,2445,71],[53,603.5,2430,76],[80,607.2,2430,80],
+    [107,611.3,2385,83],[134,615.6,2370,85],[162,626.7,2340,87],[190,643.3,2295,87],
+    [218,656.0,2235,87],[248,665.1,2205,87],[277,674.0,2175,87],[307,684.0,2160,86],
+    [337,688.3,2115,86],[368,693.1,2115,87],[399,696.4,2115,87],[430,708.1,2085,86],
+    [461,708.2,2070,86],[492,708.2,2085,86],[523,713.3,2055,87],[555,723.8,2025,86],
+    [587,723.7,2025,86],[619,713.6,2025,86],[650,723.8,2025,87],[682,723.9,2025,87],
+    [714,736.1,1980,87],[747,729.3,1995,86]];
+  const X = t => (72 + t / 780 * 520).toFixed(1);
+  const Yu = u => (206 - (u - 580) / 175 * 160).toFixed(1);
+  const Yc = c => (206 - (c - 1950) / 575 * 160).toFixed(1);
+  const L = [];
+  L.push(`<text x="0" y="14" font-family="monospace" font-size="11" fill="${MUTED}">THE SAME FUNCTION, TIMED 53,909 TIMES OVER 780 SECONDS AT THE 80 W CAP</text>`);
+  for (const u of [600, 650, 700]) {
+    L.push(`<line x1="72" y1="${Yu(u)}" x2="592" y2="${Yu(u)}" stroke="${FAINT}" stroke-width="0.8"/>`);
+    L.push(`<text x="66" y="${(+Yu(u) + 4).toFixed(1)}" font-family="monospace" font-size="10" fill="${ORANGE}" text-anchor="end">${u}</text>`);
+  }
+  for (const c of [2000, 2200, 2400]) {
+    L.push(`<text x="598" y="${(+Yc(c) + 4).toFixed(1)}" font-family="monospace" font-size="10" fill="${BLUE}">${c}</text>`);
+  }
+  L.push(`<text x="10" y="42" font-family="monospace" font-size="10" fill="${ORANGE}">us</text>`);
+  L.push(`<text x="598" y="42" font-family="monospace" font-size="10" fill="${BLUE}">MHz</text>`);
+  L.push(`<polyline points="${T.map(r => `${X(r[0])},${Yc(r[2])}`).join(' ')}" fill="none" stroke="${BLUE}" stroke-width="2" opacity="0.75"/>`);
+  L.push(`<polyline points="${T.map(r => `${X(r[0])},${Yu(r[1])}`).join(' ')}" fill="none" stroke="${ORANGE}" stroke-width="2.4"/>`);
+  // the two halves the sequential protocol would have compared
+  L.push(`<line x1="${X(390)}" y1="46" x2="${X(390)}" y2="206" stroke="${GRAY}" stroke-width="1" stroke-dasharray="3 3"/>`);
+  L.push(`<text x="${X(195)}" y="62" font-family="monospace" font-size="10.5" fill="${GRAY}" text-anchor="middle">"reference" half: 626.6 us</text>`);
+  L.push(`<text x="${X(585)}" y="62" font-family="monospace" font-size="10.5" fill="${GRAY}" text-anchor="middle">"candidate" half: 713.7 us</text>`);
+  L.push(`<line x1="72" y1="206" x2="592" y2="206" stroke="${INK}" stroke-width="1.2"/>`);
+  L.push(`<text x="72" y="224" font-family="monospace" font-size="10" fill="${MUTED}">0s · 44 C</text>`);
+  L.push(`<text x="592" y="224" font-family="monospace" font-size="10" fill="${MUTED}" text-anchor="end">780s · 87 C</text>`);
+  L.push(`<text x="0" y="256" font-family="monospace" font-size="12" fill="${INK}">true ratio 1.000</text>`);
+  L.push(`<text x="0" y="276" font-family="monospace" font-size="12" fill="${ORANGE}">  sequential   0.878x   <tspan fill="${MUTED}">error -12.2%</tspan></text>`);
+  L.push(`<text x="0" y="294" font-family="monospace" font-size="12" fill="${BLUE}">  interleaved  1.000x   <tspan fill="${MUTED}">error +0.0%, IQR 0.008</tspan></text>`);
+  return `<svg viewBox="0 0 740 304" role="img" aria-label="Timing of one unchanged function rising 14 percent as the GPU clock falls, and the two protocols' answers">\n  ${L.join('\n  ')}\n</svg>`;
+};
+
 module.exports = F;

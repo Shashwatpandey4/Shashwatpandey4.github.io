@@ -308,25 +308,63 @@ And notice what made this one so durable: it was *reproducible*. Reproducibility
 tells you a measurement is stable. It tells you nothing about whether it is
 measuring the right thing.
 
-### Lie 2: thermal drift became speedup
+### Lie 2: the reference was measured once, cold
 
-This one produced the most absurd number of the project: a **372% speedup** that
-was entirely a thermometer reading.
+This one produced the most absurd number of the project. It is also the one I
+described wrongly for months — while writing the sixth post in this series I
+went back to the archived sweep to reproduce it, and the data says something
+different from what I had been repeating. What follows is what the JSON actually
+contains.
 
-My autotuner timed cuBLAS once, then measured 188 candidate configurations. That
-sweep takes about a minute, during which a laptop GPU heats from 60 °C to 87 °C
-and drops from 3105 MHz to about 1200 MHz. The reference was measured cold and
-the candidates warm, so the drift landed entirely in the ratio.
+My autotuner timed cuBLAS **once**, then scored 156 candidate configurations
+against that single reading. On `qkv_proj` at M=1 it reported **259.8%** — my
+kernel beating cuBLAS by two and a half times. Re-measured with candidate and
+reference interleaved, the same config scores **68.1%**. It was losing by a
+third.
+
+The decomposition is the interesting part, because it is not what I assumed:
+
+```
+                    sweep        interleaved
+  candidate ms     0.009034        0.009037     <- unchanged
+  cuBLAS    ms     0.023468        0.006155     <- 3.81x
+  reported          259.8%           68.1%
+```
+
+**The candidate was never mismeasured.** Nine microseconds either way. The whole
+error lives in the reference, which read 3.81× slow because it was cuBLAS's
+first call on that shape and paid for heuristic selection and kernel load — a
+cost that a single timing cannot amortise and that never recurs.
+
+And the GPU state logged with that run says `2490 MHz, 85 °C, throttle
+0x00`: the clock was high and the throttle bit was **clear**. So the mechanism
+here is a cold reference, not heat, which is the opposite of what I claimed in
+the first version of this post.
 
 <figure>
 {{svg:lie_thermal}}
-<figcaption>Clock against wall time during one autotuner run, with the "speedup"
-it reported. The same cuBLAS call measured 7.45 TFLOPS cold and 1.87 TFLOPS hot.
-On another shape the reported figure was 259.8%; re-measured properly it was
-<b>68.1%</b> — the kernel was losing badly.</figcaption>
+<figcaption>All 23 shape/size runs from the archived sweep, sweep score against
+interleaved score. <b>Twenty-two agree within ±16%.</b> One does not:
+<code>qkv_proj</code> at M=1, where a cold reference turned a 68% loss into a
+259.8% win. A protocol error does not degrade every measurement a little — it
+ruins the occasional one completely, which is exactly why averaging over a
+sweep does not surface it.</figcaption>
 </figure>
 
-The fix is to stop measuring them separately. Run candidate and reference in
+Thermal drift is real in the same table, and worth separating from this.
+**Seventeen of the 23 runs carry the power-cap throttle bit `0x20`**, at 83–89 °C
+with clocks between 1920 and 2340 MHz, against a flat 2490 MHz on the six
+unthrottled ones — and across the whole project the observed range runs from
+2505 MHz at 70 °C down to 1335 MHz at 91 °C. But its effect here points the
+*other* way: by the time the A/B rounds ran the card was hot, so cuBLAS had
+slowed too, and on **ten runs the interleaved score came out higher** than the
+sweep's — seven of them by 11.5% to 19.3%.
+
+That is worth holding onto, because the two mechanisms flatter you in opposite
+directions and a protocol that only defends against one of them is not safer on
+average — it is differently wrong.
+
+One fix covers both, which is to stop measuring the two arms separately. Run candidate and reference in
 short alternating rounds — A, B, A, B, twenty times — and take the median of the
 per-round *ratios* rather than the ratio of the totals. Drift then appears on both
 sides of every ratio and cancels, and you get a distribution instead of a point,
@@ -335,8 +373,9 @@ so you can see when the two are within noise of each other.
 The reason this one deserves a whole section is that I made *exactly the same
 mistake* again, one level up, weeks later: a Python harness that timed a model in
 bf16, then quantised it, then timed it again — minutes apart. A hot run measured
-the identical bf16 baseline at 15.63 ms/token where a cool run measured 9.24. The
-mechanism was identical and I did not recognise it, because it was in a different
+the identical bf16 baseline at 15.63 ms/token where a cool run measured 9.24 —
+that one really was heat. The shape was identical and I did not recognise it,
+because it was in a different
 language, at a different scale, in code I thought of as the harness rather than
 the benchmark. Knowing a failure mode is not the same as having a habit that
 prevents it.

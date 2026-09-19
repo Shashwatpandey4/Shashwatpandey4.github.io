@@ -1,4 +1,4 @@
-title: A Speedup Is a Claim
+title: A Speedup Is a Claim: Making a Kernel Benchmark Carry Its Evidence
 date: September 16, 2026
 author: Shashwat Pandey
 
@@ -53,9 +53,25 @@ The [survey on automated kernel generation](https://arxiv.org/html/2601.15727v3)
 
 I have an unusual relationship with those two sentences, because I spent four
 posts producing exactly the failures they describe, by hand, with no agent
-involved. A 169% win that was the L2 cache. A 372% speedup that was a
-thermometer. A kernel that measured 1.22× in a tuner loop and 0.85× inside a
+involved. A 169% win that was the L2 cache. A 259.8% win that was really a
+68.1% loss. A kernel that measured 1.22× in a tuner loop and 0.85× inside a
 model. A microbenchmark worth +57% that was worth +3.6% end to end.
+
+Each of those has a mechanism, and the mechanisms are boringly different from
+one another:
+
+| The claim | What it actually was | Corrected |
+|---|---|---|
+| 169.1% of cuBLAS | working set fit in 33.55 MB of L2 | **108.9%** |
+| 259.8% of cuBLAS | reference timed once, cold | **68.1%** — a loss |
+| 1.22× in a tuner | measured inside the model instead | **0.85×** — a sign flip |
+| +57% on the kernel | Amdahl: GEMM is 26% of an eager step's wall clock | **+0.3–3.7%** end to end |
+
+That table is the argument for a record rather than a number. No single check
+catches all four: a cache-residency test says nothing about clocks, a clock
+check says nothing about whether the shape is representative, and neither says
+anything about what fraction of the model the kernel is. They fail
+independently, so they have to be checked independently.
 
 An agent doing this at 100 experiments a night does not make those mistakes less
 often. It makes them faster, and it removes the human who might have squinted at
@@ -162,10 +178,11 @@ model, the two tensors want opposite treatment.
 
 Three more rules, briefly, because they are each one line of consequence.
 
-**Interleave.** This laptop drops from 3105 to about 1200 MHz under sustained
-load. Timing the reference cold and the candidate warm put that entire 2.6×
-drift into the ratio and reported a 372% speedup. Alternating rounds puts the
-drift on both sides of every ratio, where it cancels.
+**Interleave.** Time the reference once and the candidate 156 times against
+that single reading, and whatever was wrong with the one reading is now wrong
+with all 156 ratios. That is how a 68.1% loss was reported as a 259.8% win.
+Alternating rounds puts every drift on both sides of every ratio, where it
+cancels. §11 is about how badly I misdescribed the *reason* for this rule.
 
 **Capture in a graph.** Launch overhead is not the kernel. Eager timing said a
 Triton kernel lost on 8 of 10 decode shapes; under CUDA graphs the same kernels
@@ -177,6 +194,23 @@ library treats that as a verdict rather than a caveat:
 
 > **NO DIFFERENCE:** 0.997× sits inside its own IQR (0.009). This is not a
 > speedup.
+
+The spread is also why the ratio is computed the way it is. Two obvious options
+differ more than they look:
+
+```python
+median([r / c for r, c in zip(refs, cands)])   # median of ratios
+median(refs) / median(cands)                   # ratio of medians
+```
+
+Interleaving pairs each reference round with the candidate round beside it, so
+the first form subtracts whatever drift the two shared — they ran a few hundred
+microseconds apart. The second form throws that pairing away and compares two
+summaries of the whole run, which reintroduces exactly the drift the
+interleaving was there to cancel. `attest` uses the median of ratios, and the
+IQR it reports is the IQR of those per-pair ratios, which makes it a spread of
+the effect rather than a spread of the timings. That distinction is what lets
+the `NO DIFFERENCE` rule above be a one-line comparison instead of a t-test.
 
 ## 9. The check that actually catches things: divide
 
@@ -195,6 +229,33 @@ plausible numbers for a kernel change. The physics is what gave it away.
 
 The library measures the bus itself rather than trusting a datasheet, and gets
 **226.9 GB/s** on a card whose spec sheet says 256.
+
+Which is itself a rule worth stating: the ceiling has to come from the machine
+in front of you, in the state it is actually in. There are two separate
+subtleties here that I got wrong in turn.
+
+The first is *whose* ceiling. Copy bandwidth (226.4 GB/s) and read-only
+bandwidth (250.1 GB/s) are different numbers on the same bus, because a copy
+moves every byte twice. A weight-streaming GEMM reads far more than it writes,
+so the copy figure is the wrong ceiling for it — and using it, my `lm_head`
+measurement came out at "105% of the bus" and was flagged `IMPLAUSIBLE` while
+being perfectly legitimate. A false positive on the one check I trusted most is
+worse than no check, so `attest` measures both and compares against the read
+figure.
+
+The second is the state of the machine. Before any of this runs, the library
+refuses to measure at all if something else is on the GPU:
+
+```
+RuntimeError: other processes hold the GPU: 3821, chrome
+```
+
+That is not fastidiousness. With a browser holding a few hundred megabytes and
+a compositor waking up 60 times a second, the same bf16 matmul measured
+**17.7 TFLOPS on an idle card and 11.5 TFLOPS with a desktop session on it** —
+a 35% haircut that belongs to neither the kernel nor the harness, and that
+drifts as the user scrolls. Every rule below is worthless if the measurement is
+sharing the device, so this one runs first and raises rather than warns.
 
 ## 10. The attestation
 
@@ -239,7 +300,64 @@ nothing about *how this was measured* tripped a check. A flagged record is not
 necessarily wrong either — `CACHED` is correct behaviour for a KV cache. The
 flag means a human has to decide, and the record gives them what they need to.
 
-## 11. The lies, caught automatically
+## 11. I went to demonstrate one rule, and it did not survive
+
+Every rule in §8 is stated with a number attached. While assembling this post I
+decided to stop asserting the interleaving one and demonstrate it, on the
+grounds that a post about evidence should not contain a claim I had never
+checked. It took three attempts and the first two failed in different ways.
+
+**The clock figures were never measured.** Nine files across two repositories
+justify interleaving with the same sentence: *this laptop drops 3105 → 1200 MHz
+under load*. 3105 MHz is `sm_max_mhz` — the advertised boost ceiling, which
+`nvidia-smi` will hand you on an idle card. It is a spec number. I had put it on
+one side of an arrow, a round number on the other, and repeated the pair for
+four months. My own archived logs say the observed range is **2505 MHz at 70 °C
+down to 1335 MHz at 91 °C**, with the power-cap throttle bit `0x20` set: a 1.88×
+spread, not the 2.6× I kept quoting.
+
+**And the headline number was not thermal at all.** Going back to
+`tune_bf16.json`, the 259.8% that [Part 2](blog.html?post=decode_roofline)
+opens with decomposes as: candidate 9.034 µs in the sweep and 9.037 µs in the
+A/B — unchanged — while cuBLAS read 0.0235 ms cold and 0.0062 ms interleaved.
+The entire 3.81× error is in the reference, and the GPU state logged with that
+run is `2490 MHz, 85 °C, throttle 0x00`. The card was not throttling. It was
+cuBLAS's first call on that shape, paying for heuristic selection and kernel
+load exactly once, with nothing to amortise it against.
+
+**Then the demo measured an idle GPU.** My first attempt timed the same function
+for thirteen minutes and reported 1.000× under both protocols, which I briefly
+took for a result. It called `nvidia-smi` once per iteration to record the
+clock; that call takes about 35 ms against 2.6 ms of GPU work, so the card sat
+idle between samples at 38 W and never heated. I had built an instrument that
+reported the absence of an effect it was preventing.
+
+Sampling the clock on a timer instead fixes it, and the third attempt is the
+experiment I wanted:
+
+<figure>
+{{svg:thermal}}
+<figcaption>53,909 timings of one unchanged 2048³ bf16 matmul over 780 seconds,
+GPU pinned at its 80 W cap and 87 °C. The clock falls from 2490 to 1965 MHz and
+the same function slows <b>14%</b>. Timed sequentially — reference first, then
+candidate — that drift becomes a <b>12.2% error</b> on a ratio whose true value
+is 1.000. Interleaved, it is 0.0%.</figcaption>
+</figure>
+
+So the rule stands, and it is worth its 12.2%. What did not stand is the reason
+I had been giving for it and the size I had been claiming. Thermal drift on this
+card is a 12% effect that needs thirteen minutes of saturation to develop, not a
+372% one that appears in a minute — and the measurement I had been citing as its
+consequence was caused by something else entirely.
+
+The uncomfortable part is not the error. It is that this is a post about making
+measurements carry their evidence, and the most-repeated claim in the project
+carried none. `3105 → 1200` propagated through nine files because it was
+memorable and directionally true, and nothing in my process distinguishes a
+number I measured from a number I wrote down. The records in §10 exist so that
+*speedups* cannot do this. The prose around them still can.
+
+## 12. The lies, caught automatically
 
 The demonstration. Same kernel, same GPU, same afternoon — only the harness
 differs:
@@ -258,7 +376,7 @@ That last sentence is the whole argument for doing this. If the harness is worth
 of free reward available that has nothing to do with the kernel — and gradient
 descent, or an LLM, will find it.
 
-## 12. And a real claim, passing
+## 13. And a real claim, passing
 
 The other half of a useful gate is that it lets good work through.
 
@@ -272,7 +390,7 @@ Part 3 measured by hand — which is the result I wanted, because the library wa
 built to reproduce that discipline, not to improve on it.</figcaption>
 </figure>
 
-## 13. One rule that is not universal
+## 14. One rule that is not universal
 
 Every rule above is stated as if it always applies. One of them does not, and
 the exception took me until the FlashAttention post to notice.
@@ -288,7 +406,7 @@ So the library flags `CACHED` rather than refusing, and the flag text says so:
 question is never "does my benchmark reuse data". It is "does the real workload
 reuse it", and for two tensors in the same model the answers differ.
 
-## 14. What it cannot do
+## 15. What it cannot do
 
 Being clear about the edges, since the point of the thing is honesty.
 
@@ -298,12 +416,23 @@ inside a model — produces no flags at all. Both measurements are clean. They a
 measurements of different things, and no amount of harness rigour inside one of
 them detects that. The only fix is to also measure the real workload.
 
+That gap deserves a sentence more, because it is the one I would most like to
+close and cannot. Every rule in this post makes a measurement more faithful *to
+the thing it measures*. None of them has any opinion about whether that thing
+resembles the deployment. A tight loop over one shape with warm caches, perfect
+clocks, no other kernels competing for L2 and no scheduler contention is a
+beautifully rigorous measurement of a situation that never occurs. The flags
+will all be clear. The number will still be wrong by 40%, in the direction that
+flatters you, and the only instrument that detects it is running the model.
+
 **It cannot fix your test matrix.** A `cp.async` race that was correct below 600
 blocks and wrong at 1187 is not a measurement problem; it is a coverage problem.
+`attest` verifies the shapes it is handed. Choosing them is still a human
+judgement, and mine was wrong by a factor of two.
 
 **It cannot catch a single bad element**, per §6, and does not claim to.
 
-## 15. Why this matters more with an agent in the loop
+## 16. Why this matters more with an agent in the loop
 
 Autoresearch's guardrail is a fixed five-minute budget, and that is a good
 guardrail — it closes the most obvious exploit. But it says nothing about
@@ -315,6 +444,28 @@ An agent running 100 a night does not squint, and a loop that keeps whatever
 improves the metric will find the 1.6× that lives in the harness before it finds
 the 1.6× that lives in the kernel. That is not a hypothetical failure of
 alignment; it is the cheapest available gradient.
+
+And it is worth being concrete about what "in the harness" means, because none
+of these require the agent to do anything adversarial. Every one of them is a
+locally sensible edit that a hill-climb on wall-clock time would accept:
+
+- **Shrink the tile** until the working set fits in L2. Perfectly reasonable
+  tuning move, and it buys 1.7× of cache rather than kernel.
+- **Reduce the rotation** to one buffer, because allocating sixteen is slow and
+  the code looks cleaner. Same effect, arrived at by tidying.
+- **Cut the warmup**, because warmup is dead time in a five-minute budget. This
+  is the thermal lie, and a budget-constrained agent is *positively incentivised*
+  toward it.
+- **Loosen the tolerance** on the correctness check until the candidate passes.
+  One constant, and the diff reads like calibration.
+- **Reorder** so the candidate runs after the reference in a single pass, which
+  is what any straightforward benchmark script does anyway.
+
+Not one of those is a lie the model tells. They are all lies the *protocol*
+tells, and the model simply keeps whichever one scores. Which is why the fix
+cannot be a better-behaved model: the record has to make the conditions part of
+the result, so that "this ran with rotation=1" is data the accept condition sees
+rather than an invisible property of how the experiment happened to be written.
 
 Concretely, an autoresearch-shaped loop with this in it changes in one place.
 Instead of
