@@ -14,6 +14,8 @@
   .container{max-width:none;margin:0;padding:0;min-height:0;display:block}
   .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;box-sizing:border-box}
   section{position:relative}
+  .cap{font-size:.76rem;color:#98a0aa;margin:.55rem 0 0;letter-spacing:.01em}
+  .cap b{color:#6b7480;font-weight:600}
   h2.sec{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
          color:#8a9099;font-weight:600;margin:0 0 1.4rem}
 
@@ -39,9 +41,8 @@
   .fcard span{font-size:.86rem;color:#667;line-height:1.5}
   /* the memory hierarchy sits BEHIND the three cards rather than beside them,
      so the cards get the full width and the object gets the full height */
-  #anim-focus{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.62}
-  .focus .wrap{position:relative;z-index:1}
-  .fcard{background:rgba(255,255,255,.92);backdrop-filter:blur(2px)}
+  #anim-focus{position:relative;width:100%;height:190px;margin:0 0 1.9rem}
+  @media(min-width:760px){#anim-focus{height:250px}}
 
   /* ---- writing ---- */
   .writing{padding:3.4rem 0}
@@ -55,10 +56,9 @@
   #blogs-container li{padding:.55rem 0;border-bottom:1px solid #f1f4f6}
 
   /* ---- footer ---- */
-  footer.big{position:relative;border-top:1px solid #eef1f3;padding:4.2rem 0 4.6rem;
+  footer.big{position:relative;border-top:1px solid #eef1f3;padding:2.8rem 0 3rem;
              margin-top:1rem;overflow:hidden}
-  #anim-foot{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.6}
-  footer.big .wrap{position:relative;z-index:1}
+  #anim-foot{position:relative;width:100%;height:230px;margin-bottom:1.4rem}
   footer.big p{font-size:.82rem;color:#7b828a;margin:0;text-align:center}
 </style>
 </head>
@@ -80,20 +80,26 @@
         <a href="https://x.com/shashwat023" target="_blank" rel="noopener noreferrer">Twitter</a>
       </div>
     </div>
-    <div id="anim-hero" aria-hidden="true"></div>
+    <div>
+      <div id="anim-hero" aria-hidden="true"></div>
+      <p class="cap"><b>Block tiling.</b> A thread block claims a tile of the output
+        matrix and walks it.</p>
+    </div>
   </div>
 </section>
 
 <section class="focus">
   <div class="wrap">
     <h2 class="sec">What I work on</h2>
+      <div id="anim-focus" aria-hidden="true"></div>
+      <p class="cap" style="margin:0 0 1.6rem"><b>A wavefront crossing a compute grid.</b>
+        Work moves diagonally; each cell fires once its inputs arrive.</p>
       <div class="focus-grid">
         <div class="fcard"><b>Kernels</b><span>CUDA and Triton GEMM and attention kernels, tuned for the shapes a model actually issues.</span></div>
         <div class="fcard"><b>Compilers</b><span>Reading what Triton, MLIR and LLVM generate, and where the decisions actually get made.</span></div>
         <div class="fcard"><b>Inference</b><span>Quantization and serving work measured end to end, in vLLM rather than in a microbenchmark.</span></div>
       </div>
   </div>
-  <div id="anim-focus" aria-hidden="true"></div>
 </section>
 
 <!--
@@ -125,15 +131,19 @@
   <div class="wrap">
     <h2 class="sec">Writing</h2>
     <div class="writing-inner">
-      <div id="anim-blog" aria-hidden="true"></div>
+      <div>
+        <div id="anim-blog" aria-hidden="true"></div>
+        <p class="cap"><b>Interference on a lattice.</b> The surface every
+          performance model is drawn on.</p>
+      </div>
       <div class="container"><div id="blogs-container"></div></div>
     </div>
   </div>
 </section>
 
 <footer class="big">
-  <div id="anim-foot" aria-hidden="true"></div>
   <div class="wrap">
+    <div id="anim-foot" aria-hidden="true"></div>
     <p>&copy; 2026 Shashwat Pandey. Content licensed under
       <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.</p>
   </div>
@@ -147,19 +157,17 @@
 import { mount } from './anim/scene.js';
 import { ALL } from './anim/designs.js';
 
-// Four objects, each chosen for the section it sits in rather than for variety:
-//   hero    the block tile sweeping an output matrix -- the signature image
-//   focus   the memory hierarchy, which is what "hardware-aware" means here
-//   writing the roofline, which is what the series argues from
-//   footer  a drifting point field, ambient and quiet
+// Four abstract objects. No text lives inside the WebGL scenes: sprite labels
+// render at world scale, which lands around 6px on a phone and overlaps itself.
+// The captions are plain DOM instead -- crisp at any size, selectable, and
+// styleable.
 const PLACED = [
-  // zoom multiplies the framed radius, so values BELOW 1 make the object
-  // larger in frame. They were all above 1, which is why everything looked
-  // like a postage stamp in the middle of its section.
-  ['anim-hero',  'tile-sweep',  { zoom: 0.80 }],
-  ['anim-focus', 'systolic',    { zoom: 0.72, elev: 0.72 }],
-  ['anim-blog',  'roofline',    { zoom: 0.86 }],
-  ['anim-foot',  'point-field', { zoom: 0.62, elev: 0.16 }],
+  // zoom below 1 enlarges; these are tuned so each object fills its band
+  // instead of floating in white space.
+  ['anim-hero',  'tile-sweep',  { zoom: 0.66 }],
+  ['anim-focus', 'systolic',    { zoom: 0.50, elev: 0.62 }],
+  ['anim-blog',  'ripple-grid', { zoom: 0.66 }],
+  ['anim-foot',  'point-field', { zoom: 0.70, elev: 0.18 }],
 ];
 
 // Mount on a rect check rather than IntersectionObserver: IO does not fire

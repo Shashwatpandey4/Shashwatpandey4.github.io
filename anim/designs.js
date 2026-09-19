@@ -15,9 +15,9 @@ function plates(T, group, n, gap, y = 0) {
   const off = i => (i - (n - 1) / 2) * gap;
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
     const m = new T.Mesh(geo, new T.MeshBasicMaterial(
-      { color: C(T, PAL.idle), transparent: true, opacity: 0.15 }));
+      { color: C(T, PAL.idle), transparent: true, opacity: 0.26 }));
     const e = new T.LineSegments(eg, new T.LineBasicMaterial(
-      { color: C(T, PAL.idle), transparent: true, opacity: 0.4 }));
+      { color: C(T, PAL.idle), transparent: true, opacity: 0.62 }));
     m.position.set(off(c), y, off(r)); e.position.copy(m.position);
     group.add(m, e); out.push({ m, e, r, c, y });
   }
@@ -38,8 +38,8 @@ export const tileSweep = {
       for (const c of cells) {
         const on = c.r >= br && c.r < br + BM && c.c >= bc && c.c < bc + BM;
         const done = c.r < br || (c.r < br + BM && c.c < bc);
-        lerpMat(c.m.material, on ? blue : done ? rust : idle, on ? .95 : done ? .26 : .13);
-        lerpMat(c.e.material, on ? blue : done ? rust : idle, on ? 1 : .4);
+        lerpMat(c.m.material, on ? blue : done ? rust : idle, on ? .95 : done ? .40 : .22);
+        lerpMat(c.e.material, on ? blue : done ? rust : idle, on ? 1 : done ? .70 : .55);
         c.m.position.y += ((on ? .55 : 0) - c.m.position.y) * .14;
         c.e.position.y = c.m.position.y;
       }
@@ -158,7 +158,7 @@ export const rippleGrid = {
     const geo = new T.PlaneGeometry(SZ, SZ, SEG, SEG);
     geo.rotateX(-Math.PI / 2);
     const mesh = new T.Mesh(geo, new T.MeshBasicMaterial(
-      { color: C(T, PAL.blue), wireframe: true, transparent: true, opacity: .34 }));
+      { color: C(T, PAL.blue), wireframe: true, transparent: true, opacity: .46 }));
     g.add(mesh);
     const pos = geo.attributes.position, base = pos.array.slice();
     return { group: g, update(t) {
@@ -207,7 +207,7 @@ export const pointField = {
     const geo = new T.BufferGeometry();
     geo.setAttribute('position', new T.BufferAttribute(pos, 3));
     g.add(new T.Points(geo, new T.PointsMaterial(
-      { color: C(T, PAL.blue), size: .12, transparent: true, opacity: .75, sizeAttenuation: true })));
+      { color: C(T, PAL.blue), size: .14, transparent: true, opacity: .85, sizeAttenuation: true })));
     return { group: g, update(t) {
       g.rotation.y = t * .09;
       for (let i = 0; i < N; i++) {
@@ -230,8 +230,8 @@ export const systolic = {
       for (const c of cells) {
         const d = c.r + c.c, k = Math.max(0, 1 - Math.abs(d - front) * .55);
         const col = k > .5 ? blue : k > .12 ? teal : idle;
-        lerpMat(c.m.material, col, .12 + k * .8, .25);
-        lerpMat(c.e.material, col, .32 + k * .65, .25);
+        lerpMat(c.m.material, col, .20 + k * .75, .25);
+        lerpMat(c.e.material, col, .52 + k * .45, .25);
         c.m.position.y += (k * .7 - c.m.position.y) * .25;
         c.e.position.y = c.m.position.y;
       }
