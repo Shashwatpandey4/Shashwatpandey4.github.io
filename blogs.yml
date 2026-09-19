@@ -18,3 +18,7 @@ blogs:
   - title: "Implementing FlashAttention in Triton"
     url: "blog.html?post=flashattention_triton"
     date: "September 13, 2026"
+
+  - title: "A Speedup Is a Claim: Making a Kernel Benchmark Carry Its Evidence"
+    url: "blog.html?post=attest_harness"
+    date: "September 16, 2026"
