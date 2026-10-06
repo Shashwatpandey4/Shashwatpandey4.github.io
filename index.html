@@ -1,119 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shashwat Pandey</title>
-<link rel="icon" href="images/img.png">
-<link rel="stylesheet" href="styles.css">
-<style>
-  /* ---- redesign layer. Same identity as the current site (Poppins, white,
-         the blue link colour) but with structure the animations can live in
-         instead of being painted behind a single column. ---- */
-  body{margin:0}
-  .container{max-width:none;margin:0;padding:0;min-height:0;display:block}
-  .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;box-sizing:border-box}
-  section{position:relative}
-  .cap{font-size:.76rem;color:#98a0aa;margin:.55rem 0 0;letter-spacing:.01em}
-  .cap b{color:#6b7480;font-weight:600}
-  h2.sec{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
-         color:#8a9099;font-weight:600;margin:0 0 1.4rem}
-
-  /* ---- hero ---- */
-  .hero{padding:4.5rem 0 3.5rem}
-  .hero-grid{display:grid;gap:2rem;align-items:center;grid-template-columns:1fr}
-  .hero h1{font-size:2.5rem;line-height:1.1;margin:.4rem 0 .9rem}
-  .hero .bio{font-size:1.02rem;line-height:1.6;color:#333;margin:0 0 1.1rem;max-width:34rem}
-  .hero .links a{margin-right:1.1rem;font-size:.92rem}
-  .avatar{width:74px;height:74px;border-radius:50%;object-fit:cover}
-  #anim-hero{position:relative;width:100%;height:240px;order:-1}
-  @media(min-width:900px){
-    .hero-grid{grid-template-columns:1.05fr .95fr;gap:1.5rem}
-    #anim-hero{height:430px;order:0;margin-right:-3rem}
-  }
-
-  /* ---- focus strip ---- */
-  .focus{padding:4.6rem 0;border-top:1px solid #eef1f3;background:#fcfdfe;overflow:hidden}
-  .focus-grid{display:grid;gap:1.1rem;grid-template-columns:1fr}
-  @media(min-width:760px){.focus-grid{grid-template-columns:repeat(3,1fr)}}
-  .fcard{border:1px solid #e9edf0;border-radius:10px;padding:1.1rem 1.2rem;background:#fff}
-  .fcard b{display:block;font-size:.98rem;margin-bottom:.3rem}
-  .fcard span{font-size:.86rem;color:#667;line-height:1.5}
-  /* the memory hierarchy sits BEHIND the three cards rather than beside them,
-     so the cards get the full width and the object gets the full height */
-  #anim-focus{position:relative;width:100%;height:190px;margin:0 0 1.9rem}
-  @media(min-width:760px){#anim-focus{height:250px}}
-
-  /* ---- writing ---- */
-  .writing{padding:3.4rem 0}
-  .writing-inner{display:grid;gap:1.5rem;grid-template-columns:1fr}
-  #anim-blog{position:relative;width:100%;height:210px}
-  @media(min-width:900px){
-    .writing-inner{grid-template-columns:.8fr 1.2fr;gap:2.5rem;align-items:start}
-    #anim-blog{height:360px;position:sticky;top:3rem}
-  }
-  #blogs-container ul{margin:0}
-  #blogs-container li{padding:.55rem 0;border-bottom:1px solid #f1f4f6}
-
-  /* ---- footer ---- */
-  footer.big{position:relative;border-top:1px solid #eef1f3;padding:2.8rem 0 3rem;
-             margin-top:1rem;overflow:hidden}
-  #anim-foot{position:relative;width:100%;height:230px;margin-bottom:1.4rem}
-  footer.big p{font-size:.82rem;color:#7b828a;margin:0;text-align:center}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shashwat Pandey</title>
+    <link rel="icon" href="images/img.png">
+    <link rel="stylesheet" href="styles.css?v=2">
 </head>
+
 <body>
+    <div class="container">
+        <div class="intro">
+            <img src="images/img.png" alt="Shashwat Pandey">
+            <div class="intro-text">
+                <h1>Shashwat Pandey</h1>
+                <div class="links">
+                    <a href="https://github.com/Shashwatpandey4" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="mailto:spande90@asu.edu">Email</a>
+                    <a href="https://www.linkedin.com/in/shashwat023/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://scholar.google.com/citations?hl=en&user=oZBrVWYAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+                    <a href="https://x.com/shashwat023" target="_blank" rel="noopener noreferrer">Twitter</a>
+                </div>
+            </div>
+        </div>
 
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <img class="avatar" src="images/img.png" alt="Shashwat Pandey">
-      <h1>Shashwat Pandey</h1>
-      <p class="bio">I work on making AI systems fast &mdash; through compilers, kernels,
-        and hardware-aware design. Graduate researcher at
-        <a href="https://labs.engineering.asu.edu/mps-lab/" target="_blank" rel="noopener noreferrer">MPS Lab</a>, ASU.</p>
-      <div class="links">
-        <a href="https://github.com/Shashwatpandey4" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="mailto:spande90@asu.edu">Email</a>
-        <a href="https://www.linkedin.com/in/shashwat023/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://scholar.google.com/citations?hl=en&user=oZBrVWYAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
-        <a href="https://x.com/shashwat023" target="_blank" rel="noopener noreferrer">Twitter</a>
-      </div>
-    </div>
-    <div>
-      <div id="anim-hero" aria-hidden="true"></div>
-      <p class="cap"><b>Block tiling.</b> A thread block claims a tile of the output
-        matrix and walks it.</p>
-    </div>
-  </div>
-</section>
-
-<section class="focus">
-  <div class="wrap">
-    <h2 class="sec">What I work on</h2>
-      <div id="anim-focus" aria-hidden="true"></div>
-      <p class="cap" style="margin:0 0 1.6rem"><b>A wavefront crossing a compute grid.</b>
-        Work moves diagonally; each cell fires once its inputs arrive.</p>
-      <div class="focus-grid">
-        <div class="fcard"><b>Kernels</b><span>CUDA and Triton GEMM and attention kernels, tuned for the shapes a model actually issues.</span></div>
-        <div class="fcard"><b>Compilers</b><span>Reading what Triton, MLIR and LLVM generate, and where the decisions actually get made.</span></div>
-        <div class="fcard"><b>Inference</b><span>Quantization and serving work measured end to end, in vLLM rather than in a microbenchmark.</span></div>
-      </div>
-  </div>
-</section>
-
-<!--
         <hr>
 
-        <h2>Research</h2>
+        <section aria-labelledby="about-heading">
+            <h2 id="about-heading">About Me</h2>
+            <p class="bio">I'm a Member of Technical Staff at AGI, Inc., building AI infrastructure across the systems stack.</p>
+            <p class="bio">My interests lie at the intersection of compilers, high-performance kernels, inference optimization, and distributed systems. I work on compiler and kernel development for CPU, GPU, and NPU architectures, backend infrastructure, and runtime systems that enable efficient large-scale AI workloads.</p>
+            <p class="bio">Previously, I conducted research in ML systems and compilers at Arizona State University and worked as a Data Engineer, building high-throughput distributed systems.</p>
+            <p class="bio">Core Technologies: C++, CUDA, LLVM/MLIR, Triton, Python, Distributed Systems, GPU Performance Optimization, AI Inference.</p>
+        </section>
+
+        <hr>
+
+        <h2>Blog</h2>
+        <div id="blogs-container"></div>
+
+        <hr>
+
+        <h2>Publications</h2>
         <ul class="publication-list">
             <li>
-                <a href="https://arxiv.org/abs/2505.06279" target="_blank" rel="noopener noreferrer">Interpretable
-                    Learning Dynamics in Unsupervised Reinforcement Learning</a> <span class="publication-status">(pre-print)</span>
+                <a href="https://scholar.google.com/citations?view_op=view_citation&amp;user=oZBrVWYAAAAJ&amp;citation_for_view=oZBrVWYAAAAJ:9yKSN-GCB0IC" target="_blank" rel="noopener noreferrer">HELM: Compiler-Guided Heterogeneous Execution for Large Language Models on Memory-Constrained Systems</a>
+                <div class="publication-authors">Atharva Khedkar*, Shashwat Pandey*, A. Shrivastava</div>
+                <div class="publication-status">IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems, 2026</div>
+            </li>
+            <li>
+                <a href="https://scholar.google.com/citations?view_op=view_citation&amp;user=oZBrVWYAAAAJ&amp;citation_for_view=oZBrVWYAAAAJ:d1gkVwhDpl0C" target="_blank" rel="noopener noreferrer">HELM: Compiler-Guided Heterogeneous Execution for Large Language Models on Memory-Constrained Systems</a>
                 <div class="publication-authors">Shashwat Pandey</div>
+                <div class="publication-status">Master’s thesis, Arizona State University, 2026</div>
             </li>
         </ul>
 
+        <!--
         <hr>
 
         <h2>Projects</h2>
@@ -127,69 +70,12 @@
         </ul>
         -->
 
-<section class="writing">
-  <div class="wrap">
-    <h2 class="sec">Writing</h2>
-    <div class="writing-inner">
-      <div>
-        <div id="anim-blog" aria-hidden="true"></div>
-        <p class="cap"><b>Interference on a lattice.</b> The surface every
-          performance model is drawn on.</p>
-      </div>
-      <div class="container"><div id="blogs-container"></div></div>
+        <div class="footer">
+            &copy; 2026 Shashwat Pandey. Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"
+                target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.
+        </div>
     </div>
-  </div>
-</section>
-
-<footer class="big">
-  <div class="wrap">
-    <div id="anim-foot" aria-hidden="true"></div>
-    <p>&copy; 2026 Shashwat Pandey. Content licensed under
-      <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.</p>
-  </div>
-</footer>
-
-<script src="script.js"></script>
-<script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
-</script>
-<script type="module">
-import { mount } from './anim/scene.js';
-import { ALL } from './anim/designs.js';
-
-// Four abstract objects. No text lives inside the WebGL scenes: sprite labels
-// render at world scale, which lands around 6px on a phone and overlaps itself.
-// The captions are plain DOM instead -- crisp at any size, selectable, and
-// styleable.
-const PLACED = [
-  // zoom below 1 enlarges; these are tuned so each object fills its band
-  // instead of floating in white space.
-  ['anim-hero',  'tile-sweep',  { zoom: 0.66 }],
-  ['anim-focus', 'systolic',    { zoom: 0.50, elev: 0.62 }],
-  ['anim-blog',  'ripple-grid', { zoom: 0.66 }],
-  ['anim-foot',  'point-field', { zoom: 0.70, elev: 0.18 }],
-];
-
-// Mount on a rect check rather than IntersectionObserver: IO does not fire
-// under headless virtual-time, and a silent no-op looks identical to a broken
-// renderer. scene.js still uses IO afterwards to pause each render loop.
-const queue = PLACED.map(([id, key, opts]) => [document.getElementById(id), key, opts])
-                    .filter(([host]) => host);
-function sweep() {
-  const vh = innerHeight + 260;
-  for (let i = queue.length - 1; i >= 0; i--) {
-    const [host, key, opts] = queue[i];
-    const r = host.getBoundingClientRect();
-    if (r.top > vh || r.bottom < -260) continue;
-    queue.splice(i, 1);
-    try { mount(host, ALL[key].d, opts); }
-    catch (e) { console.error('mount failed', key, e); }
-  }
-  if (queue.length) requestAnimationFrame(sweep);
-}
-addEventListener('scroll', sweep, { passive: true });
-addEventListener('resize', sweep);
-sweep();
-</script>
+    <script src="script.js"></script>
 </body>
+
 </html>
